@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="images/Euro2016.ico">
+    <title>Signin</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="dist/css/bootstrap-theme.min.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="/css/signin.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    
+
+<!-- The following snippet of code will give the basic version of the SDK where the options are set to their most common defaults. You should insert it directly after the opening <body> tag on each page you want to load it: -->
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '431754037010597',
+            xfbml      : true,
+            version    : 'v2.5'
+          });
+        };
+
+        (function(d, s, id){
+           var js, fjs = d.getElementsByTagName(s)[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement(s); js.id = id;
+           js.src = "//connect.facebook.net/en_US/sdk.js";
+           fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+      </script>
+
+<div class="container">
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <form id="formSignin" class="form-signin" role="form">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <div class="form-group" id="colorLogin">
+              <input type="text" class="form-control" placeholder="Login" id="formLogin" required autofocus>
+              </br>
+              <input type="password" class="form-control" placeholder="Password" id="formPassword" required>
+            </div>
+            <label class="checkbox">
+              <input type="checkbox" value="remember-me" id="formRememberMe"> Remember me
+            </label>
+            <div id="signinAjaxLoader">
+    	         <button class="btn btn-lg btn-primary btn-block" type="submit" id="signinButton" >Sign in</button>
+              <div id="signinError" class="text-danger"></div>
+            </div>
+          </form>
+
+          <form class="form-signin" role="form">
+              <button class="btn btn-lg btn-warning btn-block" type="button" data-toggle="modal" data-target=".modal-reg" onclick="test_function()">Sign up</button>
+          </form>
+
+        </div>
+      </div>
+
+      <!-- Modal pour le register-->
+          <div class="modal fade modal-reg" id="formSignup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title" id="myModalLabel">Registration</h4>
+                    </div>
+
+                  <div class="modal-body">
+                    <form class="form row" role="form" id="register_formulaire">
+
+                      <div class="form-group col-md-6">
+                        <label class="" for="register_name">Enter your pseudo:</label>
+                        <input type="texte" class="form-control" id="register_name" placeholder="Pseudo" required>
+                      </div>
+
+                      <div class="form-group col-md-12">
+                        <label class="" for="register_email">Enter your Email:</label>
+                        <input type="email" class="form-control" id="register_email" placeholder="Email" required>
+                      </div>
+
+                      <div class="col-md-12">
+                        <hr>
+                      </div> 
+
+                      <div class="form-group col-md-4">
+                        <label for="register_birthdate_day">Day</label>
+                        <select class="form-control" id="register_birthdate_day">
+                          <option value="na">Day</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label for="register_birthdate_month">Month</label>
+                        <select class="form-control" id="register_birthdate_month">
+                        <option value="na">Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                      </select>
+                     </div>
+
+                     <div class="form-group col-md-4">
+                        <label for="register_birthdate_year">Year</label>
+                        <select class="form-control" id="register_birthdate_year">
+                          <option value="na">Year</option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-12">
+                        <hr>
+                      </div>
+
+                      <div id="problem_confirm_pwd" class="col-md-12 text-danger"></div>
+
+                      <div class="form-group col-md-6" id="couleur_register_pwd">
+                        <label class="" for="register_password">Enter a password:</label>
+                        <input type="password" class="form-control" id="register_password" placeholder="Password" required>
+                      </div>
+
+                      <div class="form-group col-md-6" id="couleur_register_confirm_pwd">
+                        <label class="" for="register_confirm_password">Confirm your password:</label>
+                        <input type="password" class="form-control" id="register_confirm_password" placeholder="Confirm Password" required>
+                      </div>
+
+                      <div class="col-md-12">
+                        <hr>
+                      </div>  
+
+                      <div class="form-group col-md-12">
+                      <div class="col-md-4" id="signupButtonAjaxLoader">
+                        <button id="signupButton" class="btn btn-primary" type="submit">Register Now !</button>
+                      </div>
+
+                      <div class="col-md-4">
+                        <input type="button" id="close-reg" class="btn btn-default" data-dismiss="modal" value="Close"/>
+                      </div>
+
+                    </div>
+                  </form>
+                    
+                  </div>
+                
+                </div>
+              </div>
+          </div>
+          <!-- fin du modal -->     
+    
+
+      <!-- Now that you've got the SDK setup, you can use it to perform a few common tasks. Social Plugins such as the Like Button and Comments Plugin can be inserted into HTML pages using the JavaScript SDK.
+      Let's try adding a Like button, just copy and paste the line of code below anywhere inside the <body> of your page: -->
+      <div
+        class="fb-like"
+        data-share="true"
+        data-width="450"
+        data-show-faces="true">
+      </div> 
+
+    </div> <!-- /container -->
+
+
+
+    <!-- Custom JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="/js/index.js"> </script>
+
+    <script>
+      function test_function() {
+        console.log('This is some text');
+      }
+    </script>
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script  type="text/javascript"  src="dist/js/jquery.js"></script>
+    <script  type="text/javascript"  src="dist/js/bootstrap.min.js"> </script>
+
+  </body>
+</html>
