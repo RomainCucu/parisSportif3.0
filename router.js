@@ -10,6 +10,8 @@ var url = require("url");
 var fs = require("fs");
 var db = require("./private/db.js");
 
+var chatRoomArray = [];
+
 /**
 * This method is used to process the request * @param req (Object) the request object
 * @param resp (Object) the response object */
@@ -126,12 +128,13 @@ cb_cookie:
 			if (b.action == 'FORMCHECKSYMBOL'){
 				stock.getStock(this, "coursActuel");
 				return;
-			}else if(b.action == "GETCHATROOM"){							
-				db.getChatRoom(this.resp);
+			}else if(b.action == "GETCHATROOM"){											
+				this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"GETCHATROOM", data:chatRoomArray}));
 			}else if(b.action == "SENDMESSCHATROOM"){
 				var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
-				verificationFormulaireSendMessChatRoom(objDb,b);								
-				db.sendMessChatRoom(objDb, this.resp, this.req.headers.cookie);
+				verificationFormulaireSendMessChatRoom(objDb,b);
+				chatRoomArray.push(["routeur", objDb.date, objDb.message]);					
+				this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
 			}else{
 				util.log("INFO - Action not found : " + b.ac);
 				this.resp.end(JSON.stringify({message:"action not found"}));

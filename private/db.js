@@ -6,7 +6,9 @@ var MongoClient = require('mongodb').MongoClient
     , format = require('util').format;
 
 
-var ID_MONGO = process.env.DATABASE_URL;
+//var ID_MONGO = process.env.DATABASE_URL;
+var ID_MONGO = "mongodb://userdev:pwduserdev@dogen.mongohq.com:10036/ProjetEsme";
+
 
 //collections
 var COLLECTIONNAME = 'pronosSportif';//il y a deja une collection

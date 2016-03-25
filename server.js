@@ -3,7 +3,7 @@ var util = require("util");
 var db = require("./private/db.js");
 
 var server = {}; //Server object. This object is use to stock everything owned by the server.
-server.r = require("./router.js"); server.port = (process.env.PORT || 8080);
+server.r = require("./router.js"); server.port = (process.env.PORT || 5000);
 server.address = "0.0.0.0";
 
 

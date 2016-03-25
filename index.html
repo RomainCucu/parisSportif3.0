@@ -15,45 +15,11 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/signin.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
-
   <body>
-
-    
-
-<!-- The following snippet of code will give the basic version of the SDK where the options are set to their most common defaults. You should insert it directly after the opening <body> tag on each page you want to load it: -->
-      <script>
-        window.fbAsyncInit = function() {
-          FB.init({
-            appId      : '431754037010597',
-            xfbml      : true,
-            version    : 'v2.5'
-          });
-        };
-
-        (function(d, s, id){
-           var js, fjs = d.getElementsByTagName(s)[0];
-           if (d.getElementById(id)) {return;}
-           js = d.createElement(s); js.id = id;
-           js.src = "//connect.facebook.net/en_US/sdk.js";
-           fjs.parentNode.insertBefore(js, fjs);
-         }(document, 'script', 'facebook-jssdk'));
-      </script>
-
 <div class="container">
-
       <div class="row">
         <div class="col-md-12">
-
           <form id="formSignin" class="form-signin" role="form">
             <h2 class="form-signin-heading">Please sign in</h2>
             <div class="form-group" id="colorLogin">
@@ -69,11 +35,9 @@
               <div id="signinError" class="text-danger"></div>
             </div>
           </form>
-
           <form class="form-signin" role="form">
               <button class="btn btn-lg btn-warning btn-block" type="button" data-toggle="modal" data-target=".modal-reg" onclick="test_function()">Sign up</button>
           </form>
-
         </div>
       </div>
 
@@ -175,17 +139,6 @@
               </div>
           </div>
           <!-- fin du modal -->     
-    
-
-      <!-- Now that you've got the SDK setup, you can use it to perform a few common tasks. Social Plugins such as the Like Button and Comments Plugin can be inserted into HTML pages using the JavaScript SDK.
-      Let's try adding a Like button, just copy and paste the line of code below anywhere inside the <body> of your page: -->
-      <div
-        class="fb-like"
-        data-share="true"
-        data-width="450"
-        data-show-faces="true">
-      </div> 
-
     </div> <!-- /container -->
 
 
@@ -194,14 +147,6 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="/js/index.js"> </script>
-
-    <script>
-      function test_function() {
-        console.log('This is some text');
-      }
-    </script>
-
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
