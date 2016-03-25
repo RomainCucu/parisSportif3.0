@@ -241,3 +241,31 @@ getPseudoViaCookie = function(c, fct){
 });
 };
 //fin RCU 25/12/2015
+
+/**
+* RCU 25/12/2015 - recuperation pseudo via cookie c
+*/
+
+exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
+	var NOM_METHODE = "GETPSEUDOVIACOOKIE";	
+	MongoClient.connect(ID_MONGO, function(err, db) {
+	    if(err){
+	    	throw err;
+	    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
+	    }else{	
+			var collection = db.collection(COLLECTIONNAME);
+			c = c.split("cookieName=");//car cookieName=rom19282839" par excemple donc on eneleve le cookieName		
+			collection.find({cookieValue: c[1]}).toArray(function(err, results) {
+			if (err){		 	
+				obj[fct]("false");	 
+			}else if (results[0]){	
+				var pseudo = results[0].pseudo;				
+				obj[fct](pseudo, objDb);	 
+			}else if (!results[0]){		 	
+				obj[fct]("false");	 
+			}
+		})
+		}//else
+});
+};
+//fin RCU 25/12/2015

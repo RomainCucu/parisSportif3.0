@@ -133,8 +133,7 @@ cb_cookie:
 			}else if(b.action == "SENDMESSCHATROOM"){
 				var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
 				verificationFormulaireSendMessChatRoom(objDb,b);
-				chatRoomArray.push(["routeur", objDb.date, objDb.message]);					
-				this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
+				db.getPseudoViaCookieForRooter(this.req.headers.cookie, this, "pseudoSendMessager", objDb);				
 			}else{
 				util.log("INFO - Action not found : " + b.ac);
 				this.resp.end(JSON.stringify({message:"action not found"}));
@@ -144,7 +143,14 @@ cb_cookie:
 		}			
 	},
 
-
+pseudoSendMessager : function(pseudo, objDb){
+	if(!pseudo){
+		this.resp.end(JSON.stringify({categorie:"ERROR",suc_methode:"SENDMESSCHATROOM"}));
+	}else{
+		chatRoomArray.push([pseudo,objDb.date,objDb.message]);
+		this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
+	}
+},
 
 read_file:
 function () {	
