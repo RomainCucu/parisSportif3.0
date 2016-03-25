@@ -5,6 +5,7 @@
 var MongoClient = require('mongodb').MongoClient
     , format = require('util').format;
 
+
 var ID_MONGO = process.env.DATABASE_URL;
 
 //collections
