@@ -53,7 +53,7 @@ obj.formSignup = function(){
 		data.email = document.getElementById('register_email').value;
 		data.pwd = document.getElementById('register_password').value;
 		data.c_pwd = document.getElementById('register_confirm_password').value;
-		data.gender = document.getElementById('register_gender').value;
+		data.gender = document.getElementById('register_gender').value;				
 
 		if(data.pwd != data.c_pwd){ //si pwd != confirm pwd
 			document.getElementById('problem_confirm_pwd').innerHTML="<strong>You have entered different passwords!</strong>";//on affiche le message d'erreur

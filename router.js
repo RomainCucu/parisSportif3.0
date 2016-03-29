@@ -212,6 +212,8 @@ var verificationFormulaireRegister = function(obj1,obj2){
 	obj1.BDjj = obj2.register_birthdate_day
 	obj1.BDmm = obj2.register_birthdate_month
 	obj1.BDyy = obj2.register_birthdate_year
+	obj1.gender = obj2.gender;
+	obj1.avatar = obj2.avatar;
 	//date creation
 	obj1.dateCreation = new Date().getTime();
 	obj1.dateDerniereConnexion = new Date().getTime();
