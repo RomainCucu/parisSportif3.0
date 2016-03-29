@@ -77,8 +77,7 @@ exports.signin = function(data, res){//fonction pour ajouter un USER
 							var cookieExpire = new Date(new Date().getTime()+ 365*24*60*60*1000).toUTCString();//si la case rememberme est cochée, 1 an
 						}else{
 							var cookieExpire = new Date(new Date().getTime()+15*60*1000).toUTCString();//si rememberme pas cochee, 15min
-						}	
-						console.log(cookieExpire);		
+						}								
 						collection.update(
 							{pseudo:data.formLogin, pwd:data.formPassword},
 							{$set:
