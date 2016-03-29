@@ -31,7 +31,7 @@ exports.signup = function(b,res){
 		res.writeHead(200, {"Content-Type": "application/json" });
 		var collection = db.collection(COLLECTIONNAME);
 		var cookieValue =  b.pseudo.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName
-		cookieValue = pad('20',cookieValue,'0');
+		cookieValue = pad(20,cookieValue,'0');
 		var cookieExpire = new Date(new Date().getTime()+900000).toUTCString();//si rememberme pas cochee, 15min
 		b.cookieValue =cookieValue;
 		b.rememberme = false;
@@ -72,7 +72,7 @@ exports.signin = function(data, res){//fonction pour ajouter un USER
 				}else{
 					if (results[0]){//si on trouve bien le login et le PW associé dans la base de donnée 						
 						var cookieValue =  data.formLogin.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName
-						cookieValue = pad('20',cookieValue,'0');
+						cookieValue = pad(20,cookieValue,'0');
 						if (data.formRememberMe == true){
 							var cookieExpire = new Date(new Date().getTime()+ 365*24*60*60*1000).toUTCString();//si la case rememberme est cochée, 1 an
 						}else{
