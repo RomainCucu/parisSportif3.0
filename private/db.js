@@ -30,7 +30,8 @@ exports.signup = function(b,res){
 	}else{
 		res.writeHead(200, {"Content-Type": "application/json" });
 		var collection = db.collection(COLLECTIONNAME);
-		var cookieValue =  b.pseudo.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName	
+		var cookieValue =  b.pseudo.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName
+		cookieValue = pad('20',cookieValue,'0');
 		var cookieExpire = new Date(new Date().getTime()+900000).toUTCString();//si rememberme pas cochee, 15min
 		b.cookieValue =cookieValue;
 		b.rememberme = false;
@@ -71,6 +72,7 @@ exports.signin = function(data, res){//fonction pour ajouter un USER
 				}else{
 					if (results[0]){//si on trouve bien le login et le PW associé dans la base de donnée 						
 						var cookieValue =  data.formLogin.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName
+						cookieValue = pad('20',cookieValue,'0');
 						if (data.formRememberMe == true){
 							var cookieExpire = new Date(new Date().getTime()+ 365*24*60*60*1000).toUTCString();//si la case rememberme est cochée, 1 an
 						}else{
@@ -120,8 +122,10 @@ exports.valid_cookie = function(c, obj, fct){
 	    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "71", err_message:ERR_CONNECTION_BASE}));
 	    }	
 		var collection = db.collection(COLLECTIONNAME);
-		c = c.split("cookieName=");//car cookieName=rom19282839" par excemple donc on eneleve le cookieName		
-		 collection.find({cookieValue: c[1]}).toArray(function(err, results) {
+		c = c.split("cookieName=");//car cookieName=rom19282839;azeaze" par excemple donc on eneleve le cookieName
+		c = c[1];
+		c = c.substr(0,20);		
+		 collection.find({cookieValue: c}).toArray(function(err, results) {
 		 if (err){		 	
 		 	obj[fct](false);	 
 		 }else if (results[0]){		 	
@@ -226,8 +230,10 @@ getPseudoViaCookie = function(c, fct){
 	    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
 	    }else{	
 			var collection = db.collection(COLLECTIONNAME);
-			c = c.split("cookieName=");//car cookieName=rom19282839" par excemple donc on eneleve le cookieName		
-			collection.find({cookieValue: c[1]}).toArray(function(err, results) {
+			c = c.split("cookieName=");//car cookieName=rom19282839" par excemple donc on eneleve le cookieName
+			c = c[1];
+			c = c.substr(0,20);
+			collection.find({cookieValue: c}).toArray(function(err, results) {
 			if (err){		 	
 				fct("false");	 
 			}else if (results[0]){	
@@ -254,8 +260,10 @@ exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
 	    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
 	    }else{	
 			var collection = db.collection(COLLECTIONNAME);
-			c = c.split("cookieName=");//car cookieName=rom19282839" par excemple donc on eneleve le cookieName		
-			collection.find({cookieValue: c[1]}).toArray(function(err, results) {
+			c = c.split("cookieName=");//car cookieName=rom19282839;azeaze" par excemple donc on eneleve le cookieName
+			c = c[1];
+			c = c.substr(0,20);
+			collection.find({cookieValue: c}).toArray(function(err, results) {
 			if (err){		 	
 				obj[fct]("false");	 
 			}else if (results[0]){	
@@ -269,3 +277,10 @@ exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
 });
 };
 //fin RCU 25/12/2015
+
+//RCU 29/03/2016
+// ajout fonction pad pour que les cookies aient tous la même longueur
+function pad(width, string, padding) { 
+  return (width <= string.length) ? string : pad(width, padding + string, padding)
+}
+//fin RCU 29/03/2016
