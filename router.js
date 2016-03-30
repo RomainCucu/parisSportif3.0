@@ -3,7 +3,7 @@ var url = require("url");
 var fs = require("fs");
 var db = require("./private/db.js");
 
-var chatRoomArray = [];//tableau qui comprend la conversation chatroom
+var chatRoomArray = [];//array with wchatroom conv
 
 /**
 * This method is used to process the request * @param req (Object) the request object
@@ -221,6 +221,6 @@ var verificationFormulaireSendMessChatRoom = function(obj1, obj2){
 	obj1.date = (new Date()).getTime();
 	obj1.message = obj2.message;
 	obj1.pseudo = "null";
-	obj1.gender = obj2.gender;
-	obj1.avatar = obj2.avatar;
+	obj1.gender = "man";//by default
+	obj1.avatar = "man1";//by default
 };
