@@ -65,13 +65,15 @@ obj.remplirChatRoom = function(tab){
 	if(document.getElementById("loadStatutId")){//pour enlever le chargement....
 		document.getElementById("chatRoomId").innerHTML = "";
 	}
+	var gender = getParameterByName('gender');
+	var avatar = getParameterByName('avatar');
 	var string = "";
 	var stringTmp = "";
 	for(var i = 0; i < tab.length; i++){			
 		if(i%2 == 0){
 			string = '<li class="left clearfix" id="messageIdNumero_'+i+'">'
 			+'<span class="chat-img pull-left">'
-			+'<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">'
+			+'<img src="../images/avatar/'+gender+'/'+avatar+'.png" alt="User Avatar" class="img-circle">'
 			+'</span>'
 			+'<div class="chat-body clearfix">'
 			+'<div class="header">'
@@ -89,7 +91,7 @@ obj.remplirChatRoom = function(tab){
 		else{
 			string = '<li class="right clearfix" id="messageIdNumero_'+i+'">'
 			+'<span class="chat-img pull-right">'
-			+'<img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle">'
+			+'<img src="../images/avatar/'+gender+'/'+avatar+'.png" alt="User Avatar" class="img-circle">'
 			+'</span>'
 			+'<div class="chat-body clearfix">'
 			+'<div class="header">'
@@ -164,3 +166,14 @@ timeSince = function(date) {
 };
 
 obj.start();
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    url = url.toLowerCase(); // This is just to avoid case sensitiveness  
+    name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
