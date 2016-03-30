@@ -138,12 +138,8 @@ cb_cookie:
 	},
 
 pseudoSendMessager : function(objDb){
-	if(!pseudo){
-		this.resp.end(JSON.stringify({categorie:"ERROR",suc_methode:"SENDMESSCHATROOM"}));
-	}else{
-		chatRoomArray.push([pseudo,objDb.date,objDb.message,objDb.gender,objDb.avatar]);
-		this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
-	}
+	chatRoomArray.push([pseudo,objDb.date,objDb.message,objDb.gender,objDb.avatar]);
+	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
 },
 
 read_file:
