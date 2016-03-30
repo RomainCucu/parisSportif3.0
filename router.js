@@ -68,6 +68,7 @@ get_method:
 		this.pathname = u.pathname.split(regexp);
 		this.pathname = this.pathname.splice(1, this.pathname.length - 1); this.filetype = this.pathname[this.pathname.length - 1].split(".");
 		this.filetype = this.filetype[this.filetype.length - 1];
+		this.filtype = this.filetype.split('?')[0];
 		this.path = "." + u.path; //the website is one directory upper than the node server
 		if (this.pathname[0] == "html")//pour voir dans quel page on va
 			{
