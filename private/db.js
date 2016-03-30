@@ -266,8 +266,10 @@ exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
 			if (err){		 	
 				obj[fct]("false");	 
 			}else if (results[0]){	
-				var pseudo = results[0].pseudo;				
-				obj[fct](pseudo, objDb);	 
+				objDb.pseudo = results[0].pseudo;
+				objDb.gender = results[0].gender;
+				objDb.avatar = results[0].avatar;
+				obj[fct](objDb);	 
 			}else if (!results[0]){		 	
 				obj[fct]("false");	 
 			}
