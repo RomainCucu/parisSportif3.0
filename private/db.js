@@ -93,7 +93,7 @@ exports.signin = function(data, res){//fonction pour ajouter un USER
 							} console.log("doc: " + doc);
 						}); // fin update
 						res.writeHead(200, {"Content-Type": "'text/plain'", "Set-Cookie" : 'cookieName='+cookieValue+';expires='+cookieExpire});//on ecrit le cookie chez le client					
-						res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE,data:result[0]}));
+						res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE,data:results[0]}));
 					}else{
 						res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "4", err_message:'Login or password are false !'}));
 					}
