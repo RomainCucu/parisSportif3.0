@@ -1,16 +1,9 @@
-// tmpazeazeazeeazeeromain
-
-// alexandre
-
-
-// test 3
-
 var util = require("util"); 
 var url = require("url"); 
 var fs = require("fs");
 var db = require("./private/db.js");
 
-var chatRoomArray = [];
+var chatRoomArray = [];//tableau qui comprend la conversation chatroom
 
 /**
 * This method is used to process the request * @param req (Object) the request object
