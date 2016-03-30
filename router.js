@@ -138,7 +138,7 @@ cb_cookie:
 	},
 
 pseudoSendMessager : function(objDb){
-	chatRoomArray.push([pseudo,objDb.date,objDb.message,objDb.gender,objDb.avatar]);
+	chatRoomArray.push([objDb.pseudo,objDb.date,objDb.message,objDb.gender,objDb.avatar]);
 	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
 },
 
