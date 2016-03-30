@@ -137,7 +137,7 @@ cb_cookie:
 		}			
 	},
 
-pseudoSendMessager : function(pseudo, objDb){
+pseudoSendMessager : function(objDb){
 	if(!pseudo){
 		this.resp.end(JSON.stringify({categorie:"ERROR",suc_methode:"SENDMESSCHATROOM"}));
 	}else{
