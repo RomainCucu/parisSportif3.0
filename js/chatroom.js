@@ -18,6 +18,8 @@ obj.envoyerMessageChatRoomFormId = function(){
 		//obj.replace_content_by_animation_GIF_loader('btnChatAjaxLoaderId');
 		data.action = "SENDMESSCHATROOM"
 		data.message = document.getElementById('btn-input').value;
+		data.avatar = getParameterByName('avatar');
+		data.gender = getParameterByName('gender');
 		obj.post(data, obj.log_callback);
 		event.preventDefault();
 	};
@@ -65,15 +67,13 @@ obj.remplirChatRoom = function(tab){
 	if(document.getElementById("loadStatutId")){//pour enlever le chargement....
 		document.getElementById("chatRoomId").innerHTML = "";
 	}
-	var gender = getParameterByName('gender');
-	var avatar = getParameterByName('avatar');
 	var string = "";
 	var stringTmp = "";
 	for(var i = 0; i < tab.length; i++){			
 		if(i%2 == 0){
 			string = '<li class="left clearfix" id="messageIdNumero_'+i+'">'
 			+'<span class="chat-img pull-left">'
-			+'<img src="../images/avatar/'+gender+'/'+avatar+'.png" alt="User Avatar" class="img-circle">'
+			+'<img src="../images/avatar/'+tab[i][3]+'/'+tab[i][4]+'.png" alt="User Avatar" class="img-circle">'
 			+'</span>'
 			+'<div class="chat-body clearfix">'
 			+'<div class="header">'
@@ -91,7 +91,7 @@ obj.remplirChatRoom = function(tab){
 		else{
 			string = '<li class="right clearfix" id="messageIdNumero_'+i+'">'
 			+'<span class="chat-img pull-right">'
-			+'<img src="../images/avatar/'+gender+'/'+avatar+'.png" alt="User Avatar" class="img-circle">'
+			+'<img src="../images/avatar/'+tab[i][3]+'/'+tab[i][4]+'.png" alt="User Avatar" class="img-circle">'
 			+'</span>'
 			+'<div class="chat-body clearfix">'
 			+'<div class="header">'
