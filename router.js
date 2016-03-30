@@ -148,7 +148,7 @@ pseudoSendMessager : function(pseudo, objDb){
 	if(!pseudo){
 		this.resp.end(JSON.stringify({categorie:"ERROR",suc_methode:"SENDMESSCHATROOM"}));
 	}else{
-		chatRoomArray.push([pseudo,objDb.date,objDb.message]);
+		chatRoomArray.push([pseudo,objDb.date,objDb.message,objDb.gender,objDb.avatar]);
 		this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
 	}
 },
@@ -228,4 +228,6 @@ var verificationFormulaireSendMessChatRoom = function(obj1, obj2){
 	obj1.date = (new Date()).getTime();
 	obj1.message = obj2.message;
 	obj1.pseudo = "null";
+	obj1.gender = obj2.gender;
+	obj1.avatar = obj2.avatar;
 };
