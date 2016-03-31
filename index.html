@@ -19,7 +19,7 @@
     <script  type="text/javascript"  src="dist/js/angular.min.js"></script>
   </head>
   <body>
-<div class="container">
+<div class="container" ng-app="">
       <div class="row">
         <div class="col-md-12">
           <form id="formSignin" class="form-signin" role="form">
@@ -54,7 +54,7 @@
                     </div>
 
                   <div class="modal-body">
-                    <form class="form row" role="form" id="register_formulaire">
+                    <form class="form row" role="form" id="register_formulaire" name="formRegister">
                       
                       <div class="form-group col-md-12">
                         <label class="" for="register_name">Enter your pseudo:</label>
@@ -73,7 +73,9 @@
 
                       <div class="form-group col-md-12">
                         <label class="" for="register_email">Enter your Email:</label>
-                        <input type="email" class="form-control" id="register_email" placeholder="Email" required>
+                        <input type="email" class="form-control" id="register_email" placeholder="Email" name="inputEmailRegister" ng-model="inputEmailRegister" required>
+                        <span ng-show="formRegister.inputEmailRegister.$touched && formRegister.inputEmailRegister.$invalid">The email is required.</span>
+                        
                       </div>
 
                       <div class="col-md-12">
