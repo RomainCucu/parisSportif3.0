@@ -74,8 +74,8 @@
                       <div class="form-group col-md-12">
                         <label class="" for="register_email">Enter your Email:</label>
                         <input type="email" class="form-control" id="register_email" placeholder="Email" name="inputEmailRegister" ng-model="inputEmailRegister" required>
-                        <span class="text-danger" ng-show="formRegister.inputEmailRegister.dirty && formRegister.inputEmailRegister.$invalid">The email is incorrect.</span>
-                        <span class="text-success" ng-show="formRegister.inputEmailRegister.dirty && formRegister.inputEmailRegister.$valid">The email is correct.</span>
+                        <span  ng-show="formRegister.inputEmailRegister.dirty && formRegister.inputEmailRegister.$invalid">The email is incorrect.</span>
+                        <span  ng-show="formRegister.inputEmailRegister.dirty && formRegister.inputEmailRegister.$valid">The email is correct.</span>
                         
                       </div>
 
