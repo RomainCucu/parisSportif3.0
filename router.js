@@ -77,7 +77,7 @@ check_cookie:
 		if (ret) {				
 			this.read_file();			
 		}else{			
-			this.resp.writeHead(301, {Location: '../index.html'});
+			this.resp.writeHead(301, {Location: '../index.html?err=cookieNotFound'});
 			this.resp.end();	
 		}
 	},
