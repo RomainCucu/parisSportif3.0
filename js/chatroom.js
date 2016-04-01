@@ -4,7 +4,7 @@ var contenuHTML = {} // Contient le code html pour remplacer le gif annimé
 
 obj.start = function(){
 	obj.flagScroll = 0;
-	setInterval(obj.getMessageChatRoom, 2000);
+	//setInterval(obj.getMessageChatRoom, 2000);
 	obj.envoyerMessageChatRoomFormId();
 };
 
