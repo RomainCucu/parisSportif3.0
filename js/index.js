@@ -6,6 +6,7 @@ obj.start = function(){
 	obj.remplirDateFormulaire();
 	obj.formSignin();
 	obj.formSignup();
+	obj.remplirChampAvatar("man");
 };
 
 obj.remplirDateFormulaire = function(){
@@ -33,8 +34,8 @@ obj.formSignin = function(){
 	document.getElementById('formSignin').onsubmit = function(event){
 		obj.replace_content_by_animation_GIF_loader('signinAjaxLoader');
 		data.action = "signin"
-		data.formLogin = document.getElementById('formLogin').value.toLowerCase();
-		data.formPassword = document.getElementById('formPassword').value;
+		data.formLogin = document.getElementById('formLogin').value.toUpperCase().trim();
+		data.formPassword = document.getElementById('formPassword').value.trim();
 		data.formRememberMe = document.getElementById('formRememberMe').checked;
 		obj.post(data, obj.log_callback);
 		event.preventDefault();
@@ -43,14 +44,11 @@ obj.formSignin = function(){
 
 obj.formSignup = function(){
 	document.getElementById('formSignup').onsubmit = function(event){
-		data.action = "signup"; // action a traité pour le routeur
-		data.pseudo = document.getElementById('register_name').value;
-		//data.firstname = document.getElementById('register_firstname').value;
+		data.action = "SIGNUP"; // action a traité pour le routeur
+		data.pseudo = document.getElementById('register_name').value;		
 		data.register_birthdate_day = document.getElementById('register_birthdate_day').value;
 		data.register_birthdate_month = document.getElementById('register_birthdate_month').value;
-		data.register_birthdate_year = document.getElementById('register_birthdate_year').value;
-		//data.male = document.getElementById("register_male").checked;
-		data.email = document.getElementById('register_email').value;
+		data.register_birthdate_year = document.getElementById('register_birthdate_year').value;			
 		data.pwd = document.getElementById('register_password').value;
 		data.c_pwd = document.getElementById('register_confirm_password').value;
 		data.gender = document.getElementById('register_gender').value;				
@@ -66,7 +64,6 @@ obj.formSignup = function(){
 			obj.replace_content_by_animation_GIF_loader("signupButtonAjaxLoader");//pour remplacer le bouton par un chargement
 			obj.post(data, obj.log_callback);
 		}
-
 		event.preventDefault();
 	};
 };
@@ -90,17 +87,20 @@ obj.log_callback = function () {
 				var gender = ""+r.data.gender;
 				var pseudo = ""+r.data.pseudo;
 				window.location = "/html/accueil.html?avatar="+avatar+"&gender="+gender+"&pseudo="+pseudo;
-			}else if(r.suc_methode == "SIGNUP"){					
+			}else if(r.suc_methode == "SIGNUP"){
+				var avatar = ""+r.avatar;
+				var gender = ""+r.gender;
+				var pseudo = ""+r.pseudo;				
 				document.getElementById(contenuHTML.id).innerHTML = contenuHTML.string;//pour remettre le bouton originel (car gif qui tourne)
-				
-				window.location = "/html/accueil.html";
+				window.location = "/html/accueil.html?avatar="+avatar+"&gender="+gender+"&pseudo="+pseudo;
 			}		
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "SIGNIN"){
 				document.getElementById(contenuHTML.id).innerHTML = contenuHTML.string;//pour remettre le bouton originel (car gif qui tourne)
 				document.getElementById("signinError").innerHTML="Your login or password are false.";
 				document.getElementById('colorLogin').className="form-group has-error"; //mettre case en rouge pwd et pseudo
-			}else if(r.err_methode == "SIGNUP"){		
+			}else if(r.err_methode == "SIGNUP"){
+				alert('user existant');
 				document.getElementById(contenuHTML.id).innerHTML = contenuHTML.string;//pour remettre le bouton originel (car gif qui tourne)
 			}		
 		}

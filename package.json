@@ -1,22 +1,22 @@
 {
-  "name": "ParisSportifsCommunautaires",
+  "name": "parisSportif",
   "version": "1.0.0",
-  "description": "ParisSportifsCommunautaires ========",
-  "main": "db.js",
+  "description": "parisSportif new",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-   "dependencies": {
-    "mongodb": "x",
-    "nedb": "^1.1.1",
-    "socket.io": "~1.4.5"
+  "dependencies": {
+    "ent": "*",
+    "mongodb": "^2.1.14",
+    "nedb": "^1.8.0",
+    "socket.io": "*"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/RomainCucu/parisSportif3.0.git"
   },
-  "author": "",
+  "author": "RCU",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/RomainCucu/parisSportif3.0/issues"

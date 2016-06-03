@@ -27,7 +27,7 @@
     <link href="../dist/css/sb-admin-2-css/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../dist/css/sb-admin-2-css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../dist/css/sb-admin-2-css/font-awesome.min.css" rel="stylesheet" type="text/css">    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -888,7 +888,9 @@
     <script src="../dist/js/sb-admin-2-js/sb-admin-2.js"></script>
 
     <!-- script chatroom -->
-    <script src="../js/chatroom.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="../js/chatroomSocket.js"></script>
+
         <script>
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -902,7 +904,6 @@
         }
         document.getElementById('imgAvatar').src = "../images/avatar/"+getParameterByName('gender')+"/"+getParameterByName('avatar')+".png";
     </script>
-
 
 </body>
 

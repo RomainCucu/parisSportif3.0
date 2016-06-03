@@ -4,7 +4,7 @@ var contenuHTML = {} // Contient le code html pour remplacer le gif annimé
 
 obj.start = function(){
 	obj.flagScroll = 0;
-	//setInterval(obj.getMessageChatRoom, 2000);
+	setInterval(obj.getMessageChatRoom, 2000);
 	obj.envoyerMessageChatRoomFormId();
 };
 
@@ -71,7 +71,7 @@ obj.remplirChatRoom = function(tab){
 		if(i%2 == 0){
 			string = '<li class="left clearfix" id="messageIdNumero_'+i+'">'
 			+'<span class="chat-img pull-left">'
-			+'<img src="../images/avatar/'+tab[i][3]+'/'+tab[i][4]+'.png" alt="User Avatar" class="img-circle">'
+			+'<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">'
 			+'</span>'
 			+'<div class="chat-body clearfix">'
 			+'<div class="header">'
@@ -89,7 +89,7 @@ obj.remplirChatRoom = function(tab){
 		else{
 			string = '<li class="right clearfix" id="messageIdNumero_'+i+'">'
 			+'<span class="chat-img pull-right">'
-			+'<img src="../images/avatar/'+tab[i][3]+'/'+tab[i][4]+'.png" alt="User Avatar" class="img-circle">'
+			+'<img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle">'
 			+'</span>'
 			+'<div class="chat-body clearfix">'
 			+'<div class="header">'

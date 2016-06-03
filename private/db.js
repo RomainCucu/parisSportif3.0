@@ -41,7 +41,7 @@ exports.signup = function(b,res){
 				db.close();
 			}else{
 				res.writeHead(200, {"Content-Type": "'text/plain'", "Set-Cookie" : 'cookieName='+cookieValue+';expires='+cookieExpire});//on ecrit le cookie chez le client					
-				res.end(JSON.stringify({categorie:CATEGORIE_OK, suc_methode: NOM_METHODE}));
+				res.end(JSON.stringify({categorie:CATEGORIE_OK, suc_methode: NOM_METHODE, avatar:b.avatar, gender:b.gender, pseudo:b.pseudo}));
 				db.close();
 			}
 		});
@@ -153,7 +153,7 @@ exports.getChatRoom = function(res){//fonction pour ajouter un USER
 	    	throw err;
 	    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
 	    }else{	
-			var collection = db.collection(COLLECTIONNAMECHATROOM);
+			var collection = db.collection(COLLECTIONNAME);
 			collection.find({name:"chatRoom"}).toArray(function(err, results){			
 				if (err) {
 					res.writeHead(503, {"Content-Type": "application/json" });

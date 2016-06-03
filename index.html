@@ -7,8 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="images/Euro2016.ico">
-        <!-- angular js -->
-    <script  type="text/javascript"  src="dist/js/angular.min.js"></script>
+        <!-- angular js -->    
     <title>Signin</title>
 
     <!-- Bootstrap core CSS -->
@@ -59,25 +58,16 @@
                       
                       <div class="form-group col-md-12">
                         <label class="" for="register_name">Enter your pseudo:</label>
-                        <input type="texte" class="form-control" id="register_name" placeholder="Pseudo" required>
+                        <input type="texte" class="form-control" id="register_name" placeholder="Pseudo" maxlength="10" minlength="3" required>
                       </div>
                     
 
                        <div class="form-group col-md-12">
                         <label for="register_gender">Select your gender:</label>
-                        <select class="form-control" id="register_gender" onchange="obj.remplirChampAvatar(this.value)">
-                          <option value="na">Select</option>
+                        <select class="form-control" id="register_gender" onchange="obj.remplirChampAvatar(this.value)">                          
                           <option value="man">Man</option>
                           <option value="woman">Woman</option>
                         </select>
-                      </div>
-
-                      <div class="form-group col-md-12">
-                        <label class="" for="register_email">Enter your Email:</label>
-                        <input type="email" class="form-control" id="register_email" placeholder="Email" name="inputEmailRegister" ng-model="inputEmailRegister" required>
-                        <span  class="text-danger" ng-show="formRegister.inputEmailRegister.$dirty && formRegister.inputEmailRegister.$invalid">The email is incorrect.</span>
-                        <span  class="text-success" ng-show="formRegister.inputEmailRegister.$dirty && formRegister.inputEmailRegister.$valid">The email is correct.</span>
-                        
                       </div>
 
                       <div class="col-md-12">
@@ -121,6 +111,13 @@
 
                       <div class="col-md-12">
                         <hr>
+                        <label for="">Select an avatar:</label>
+                      </div>
+                         <div class="col-md-12 thumb" id="display_avatar">
+                      </div>
+
+                      <div class="col-md-12">
+                        <hr>
                       </div>
 
                       <div id="problem_confirm_pwd" class="col-md-12 text-danger"></div>
@@ -134,15 +131,6 @@
                         <label class="" for="register_confirm_password">Confirm your password:</label>
                         <input type="password" class="form-control" id="register_confirm_password" placeholder="Confirm Password" required>
                       </div>
-
-                      <div class="col-md-12">
-                        <hr>
-                        <label for="">Select an avatar:</label>
-                      </div>
-
-                      <div class="col-md-12 thumb" id="display_avatar">
-                      </div>
-
                       <div class="form-group col-md-12">
                       <div class="col-md-4" id="signupButtonAjaxLoader">
                         <button id="signupButton" class="btn btn-primary" type="submit">Register Now !</button>

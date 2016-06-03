@@ -56,13 +56,13 @@ rest_method:
 get_method:
 	function () {
 		var u = url.parse(this.req.url, true, true);
-		
+		u.path = u.pathname;//pour pouvoir marcher avec paramètres
 		var regexp = new RegExp("[/]+", "g");
 		this.pathname = u.pathname.split(regexp);
 		this.pathname = this.pathname.splice(1, this.pathname.length - 1); this.filetype = this.pathname[this.pathname.length - 1].split(".");
 		this.filetype = this.filetype[this.filetype.length - 1];
-		this.filtype = this.filetype.split('?')[0];
-		this.path = "." + u.path.split('?')[0]; //the website is same directory than the node server
+		this.filtype = this.filetype;
+		this.path = "." + u.path;
 		if (this.pathname[0] == "html")//pour voir dans quel page on va
 			{
 				db.valid_cookie(this.req.headers.cookie, this, "check_cookie");
@@ -102,9 +102,9 @@ go_post:
 		this.b = b;		
 		if(b.action == "signin") {
 			db.signin(b, this.resp);
-		}else if(b.action == "signup"){			
+		}else if(b.action == "SIGNUP"){					
 			var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
-			verificationFormulaireRegister(objDb,b);			
+			verificationFormulaireRegister(objDb,b);				
 			db.signup(objDb, this.resp);
 		}else {			
 			db.valid_cookie(this.req.headers.cookie, this, "cb_cookie");
@@ -196,9 +196,8 @@ function () {
 var a = {a: "arg1" , b: 3 }; 
 
 var verificationFormulaireRegister = function(obj1,obj2){
-	obj1.pseudo = obj2.pseudo;
-	obj1.email = obj2.email;
-	obj1.pwd = obj2.pwd;
+	obj1.pseudo = obj2.pseudo.toUpperCase().trim();	
+	obj1.pwd = obj2.pwd.trim();
 	obj1.BDjj = obj2.register_birthdate_day
 	obj1.BDmm = obj2.register_birthdate_month
 	obj1.BDyy = obj2.register_birthdate_year
@@ -209,9 +208,9 @@ var verificationFormulaireRegister = function(obj1,obj2){
 	obj1.dateDerniereConnexion = new Date().getTime();
 	obj1.cd_langue = "fr";//pour le moment, sinon à faire en fonction du navigateur
 	obj1.cd_profil = "user";
-	obj1.dateLock = -1;
-	obj1.flagLock = 0;//non bloqué
-	obj1.nombreTentative = 0;
+	obj1.dateLock = -1;//date de blockage
+	obj1.flagLock = 0;//non bloque
+	obj1.nombreTentative = 0;//tentative MDP
 };
 var verificationFormulaireSendMessChatRoom = function(obj1, obj2){
 	obj1.date = (new Date()).getTime();
