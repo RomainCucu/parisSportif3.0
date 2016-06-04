@@ -20,18 +20,20 @@ var io = require('socket.io')(app);
 app.listen(server.port);
 
 //http.createServer(server.receive_request).listen(server.port, server.address);
-
+var chatroomArr = new Array ();
 io.sockets.on('connection', function (socket, pseudo) {
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket.on('nouveau_client', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
-        socket.broadcast.emit('nouveau_client', pseudo);
+        socket.broadcast.emit('nouveau_client', {pseudo: pseudo, chatroomArr: chatroomArr});
     });
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {
         message = ent.encode(message);
+        chatroomArr.push({pseudo: socket.pseudo, message: message});
+        if(chatroomArr.length > 100) chatroomArr = new Array();
         socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
     }); 
 });
