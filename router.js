@@ -116,11 +116,8 @@ cb_cookie:
 	function (ret) {	
 		var b = this.b;
 		if (ret) {
-			var cookie = this.req.headers.cookie;
-			var cookieExpire = new Date(new Date().getTime()+900000).toUTCString();//
-			this.resp.writeHead(200, {"Set-Cookie" : ""+cookie+";expires="+cookieExpire});//on  remet à jour la date d'expiration du cookie
-			if (b.action == 'FORMCHECKSYMBOL'){
-				stock.getStock(this, "coursActuel");
+			if (b.action == 'CHECKCOOKIE'){
+				db.checkCookie(this.req.headers.cookie, this.resp);
 				return;
 			}else if(b.action == "GETCHATROOM"){											
 				this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"GETCHATROOM", data:chatRoomArray}));
@@ -198,9 +195,9 @@ var a = {a: "arg1" , b: 3 };
 var verificationFormulaireRegister = function(obj1,obj2){
 	obj1.pseudo = obj2.pseudo.toUpperCase().trim();	
 	obj1.pwd = obj2.pwd.trim();
-	obj1.BDjj = obj2.register_birthdate_day
-	obj1.BDmm = obj2.register_birthdate_month
-	obj1.BDyy = obj2.register_birthdate_year
+	obj1.BDjj = obj2.register_birthdate_day;
+	obj1.BDmm = obj2.register_birthdate_month;
+	obj1.BDyy = obj2.register_birthdate_year;
 	obj1.gender = obj2.gender;
 	obj1.avatar = obj2.avatar;
 	//date creation

@@ -32,7 +32,7 @@ exports.signup = function(b,res){
 		var collection = db.collection(COLLECTIONNAME);
 		var cookieValue =  b.pseudo.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName
 		cookieValue = pad(20,cookieValue,'0');
-		var cookieExpire = new Date(new Date().getTime()+900000).toUTCString();//si rememberme pas cochee, 15min
+		var cookieExpire = new Date(new Date().getTime()+ 365*24*60*60*1000).toUTCString();//si rememberme pas cochee, 15min
 		b.cookieValue =cookieValue;
 		b.rememberme = false;
 		collection.insert(b,function(err, doc){
@@ -221,8 +221,8 @@ exports.sendMessChatRoom = function(data, res, cookie){
 * RCU 25/12/2015 - recuperation pseudo via cookie c
 */
 
-getPseudoViaCookie = function(c, fct){
-	var NOM_METHODE = "GETPSEUDOVIACOOKIE";	
+exports.checkCookie = function(c, res){
+	var NOM_METHODE = "CHECKCOOKIE";	
 	MongoClient.connect(ID_MONGO, function(err, db) {
 	    if(err){
 	    	throw err;
@@ -233,13 +233,16 @@ getPseudoViaCookie = function(c, fct){
 			c = c[1];
 			c = c.substr(0,20);
 			collection.find({cookieValue: c}).toArray(function(err, results) {
-			if (err){		 	
-				fct("false");	 
+			if (err){
+				res.writeHead(503, {"Content-Type": "application/json" });	
+				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:"erreur find"}));	 								
 			}else if (results[0]){	
-				var pseudo = results[0].pseudo;
-				fct(pseudo);	 
-			}else if (!results[0]){		 	
-				fct("false");	 
+				var r = results[0];
+				res.writeHead(200, {"Content-Type": "application/json" });
+				res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode: NOM_METHODE, data:r}));
+			}else if (!results[0]){	 	
+				res.writeHead(503, {"Content-Type": "application/json" });	
+				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "3", err_message:"pas de cookie"}));
 			}
 		})
 		}//else

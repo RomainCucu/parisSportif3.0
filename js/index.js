@@ -2,11 +2,13 @@ var obj = {};
 var data = {} //objet transmis au routeur
 var contenuHTML = {} // Contient le code html pour remplacer le gif annimé
 
+data.avatar = 'man1';//par défaut
+
 obj.start = function(){
-	obj.remplirDateFormulaire();
-	obj.formSignin();
-	obj.formSignup();
-	obj.remplirChampAvatar("man");
+	obj.remplirDateFormulaire();//on rempli les dates au chargement
+	obj.formSignin();//fonction pour se connecter
+	obj.formSignup();//fonction pour s'enregistrer
+	obj.remplirChampAvatar("man");//fonction pour afficher les images d'avatar
 };
 
 obj.remplirDateFormulaire = function(){
@@ -113,6 +115,4 @@ obj.replace_content_by_animation_GIF_loader = function(id){
 	document.getElementById(id).innerHTML = '<img src="./images/ajax-loader-mid.gif" style="height:auto width:auto" >';
 };
 
-window.onload = function(){
-	obj.start();
-};
+obj.start();
