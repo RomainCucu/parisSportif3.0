@@ -120,7 +120,7 @@ cb_cookie:
 				db.checkCookie(this.req.headers.cookie, this.resp);
 				return;
 			}else if(b.action == "VOTER1EURO"){											
-				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b.pays);
+				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "SENDMESSCHATROOM"){
 				var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
 				verificationFormulaireSendMessChatRoom(objDb,b);
