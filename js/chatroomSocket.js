@@ -42,6 +42,7 @@ $('#envoyerMessageChatRoomFormId').submit(function () {
 // Ajoute un message dans la page
 function insereMessage(pseudo, gender, avatar, message, d) {	
 	var imageAvatar = "../images/avatar/"+gender+"/"+avatar+".png";
+	if (message.length <1) return;//on affiche pas si vide
 	if(compteur%2 == 0){
 		var str = '<li class="left clearfix" >'
 		+'<span class="chat-img pull-left">'
