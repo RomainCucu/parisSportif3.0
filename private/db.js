@@ -206,7 +206,7 @@ exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
 };
 //fin RCU 25/12/2015
 
-exports.voterVainqueurEuro = function(res, c, pays){
+exports.voterVainqueurEuro = function(res, c, b){
 	var NOM_METHODE = "VOTER1EURO";	
 	MongoClient.connect(ID_MONGO, function(err, db) {
 	    if(err){
@@ -220,7 +220,9 @@ exports.voterVainqueurEuro = function(res, c, pays){
 		collection.update({cookieValue:c},
 			{$set:
 				{					 					 
-				 VOTER1EURO: pays
+				 VOTER1EURO: b.pays1,
+				 VOTER2EURO: b.pays2,
+				 VOTER3EURO: b.pays3
 				}
 			},
 			{upsert: false}, function(err, doc){
