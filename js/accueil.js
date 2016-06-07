@@ -3,12 +3,9 @@ var obj = {};
 var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
 
 for(var i in arrPaysEuro){
-  document.getElementById('VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
+  document.getElementById('SELECT_VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
 }
-document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
-  console.log('a voter '+ document.getElementById('VOTER1EURO').value);
-  return false;
-}
+
 obj.post = function (data, callback) {	
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/");
@@ -23,7 +20,6 @@ obj.log_callback = function () {
 		if (r.categorie == "SUCCESS"){
 			if(r.suc_methode == "VOTER1EURO"){				
 				console.log(r);
-				obj.remplirChatRoom(r.data);
 			}else if(r.suc_methode == "VOTER2EURO"){
 				console.log(r);				
 				document.getElementById('btn-input').value = "";
@@ -39,4 +35,11 @@ obj.log_callback = function () {
 			}
 		}
 	}
+};
+
+document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
+  var pays = document.getElementById('SELECT_VOTER1EURO').value;
+  console.log('à voter '+ pays);
+  obj.post({action=VOTER1EURO, pays:pays}, obj.log_callback);
+  return false;
 };
