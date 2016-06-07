@@ -4,6 +4,8 @@ var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique",
 
 for(var i in arrPaysEuro){
   document.getElementById('SELECT_VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
+  document.getElementById('SELECT_VOTER2EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
+  document.getElementById('SELECT_VOTER3EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
 }
 
 obj.post = function (data, callback) {	
@@ -38,8 +40,9 @@ obj.log_callback = function () {
 };
 
 document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
-  var pays = document.getElementById('SELECT_VOTER1EURO').value;
-  console.log('à voter '+ pays);
-  obj.post({action:'VOTER1EURO', pays:pays}, obj.log_callback);
+  var pays1 = document.getElementById('SELECT_VOTER1EURO').value;
+  var pays2 = document.getElementById('SELECT_VOTER2EURO').value;
+  var pays3 = document.getElementById('SELECT_VOTER3EURO').value;
+  obj.post({action:'VOTER1EURO', pays1:pays1, pays2:pays2, pays3:pays3}, obj.log_callback);
   return false;
 };
