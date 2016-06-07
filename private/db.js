@@ -282,6 +282,35 @@ exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
 };
 //fin RCU 25/12/2015
 
+exports.voterVainqueurEuro = function(res, c, pays){
+	var NOM_METHODE = "VOTER1EURO";	
+	MongoClient.connect(ID_MONGO, function(err, db) {
+	    if(err){
+	    	throw err;
+	    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
+	    }else{
+	    	var collection = db.collection(COLLECTIONNAME);
+		c = c.split("cookieName=");//car cookieName=rom19282839;azeaze" par excemple donc on eneleve le cookieName
+		c = c[1];
+		c = c.substr(0,20);
+		collection.update({cookieValue:c},
+			{$set:
+				{					 					 
+				 VOTER1EURO: pays
+				}
+			},
+			{upsert: false}, function(err, doc){
+			if (err){
+				throw err;
+				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:'erreur methode update inconnue'}));
+			}
+		}); // fin update
+		res.writeHead(200, {"Content-Type": "'text/plain'"});					
+		res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE}));
+	    }
+	});
+};
+
 //RCU 29/03/2016
 // ajout fonction pad pour que les cookies aient tous la même longueur
 function pad(width, string, padding) { 
