@@ -41,7 +41,9 @@
         }
       }
     };
-    onload.post({action:'CHECKCOOKIE'}, onload.log_callback);
+    if(document.cookie.indexOf('cookieName') != -1){
+      onload.post({action:'CHECKCOOKIE'}, onload.log_callback);
+    }
    </script>
 
   </head>
