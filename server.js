@@ -44,8 +44,9 @@ io.sockets.on('connection', function (socket, pseudo) {
         message = ent.encode(message);
         var d = new Date();//date du message
         d = d.getTime();
-      	//chatRoom.splice(0,0,{pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date:d});
-      	//chatRoom.length = 20;
+      	if(chatRoom.length > 20){
+      		chatRoom.slice(1);
+      	}
       	chatRoom.push({pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date:d});
         socket.broadcast.emit('message', {pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date: d});
     }); 
