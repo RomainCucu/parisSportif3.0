@@ -31,8 +31,12 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.pseudo = pseudo;
         socket.gender = gender;
         socket.avatar = avatar;
-        socket.emit('nouveau_client', {pseudo: pseudo, chatRoom: chatRoom});
+        socket.broadcast.emit('nouveau_client', {pseudo: pseudo});
     });
+    
+    socket.on('getChatRoom', function(data){
+    	socket.broadcast.emit('getChatRoom', {chatRoom: chatRoom});
+    })
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {
