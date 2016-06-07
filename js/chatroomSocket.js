@@ -24,7 +24,8 @@ socket.on('message', function(data) {
 
 // Quand un nouveau client se connecte, on affiche l'information
 socket.on('nouveau_client', function(obj) {
-	$('#chatRoomId').prepend('<p><em>' + obj.pseudo + ' a rejoint le Chat !</em></p>');
+	$('#chatRoomId').append('<p><em>' + obj.pseudo + ' a rejoint le Chat !</em></p>');	
+	$('#scrollElementChat').animate({scrollTop: $('#scrollElementChat').prop("scrollHeight")}, 500);
 
 })
 
@@ -78,7 +79,8 @@ function insereMessage(pseudo, gender, avatar, message, d) {
 		+'</li>';
 	}
 	//on insere le message dans le chat
-	$('#chatRoomId').prepend(str);
+	$('#chatRoomId').append(str);
+	$('#scrollElementChat').animate({scrollTop: $('#scrollElementChat').prop("scrollHeight")}, 500);	
 	compteur++;
 };
 
