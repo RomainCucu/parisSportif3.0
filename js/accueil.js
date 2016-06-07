@@ -6,7 +6,7 @@ for(var i in arrPaysEuro){
   document.getElementById('VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
 }
 document.getElementById('BTN_VOTER1EURO').onsubmit = function(event){
-  console.log('a voter '+ document.getElementById('VOTER1EURO').value();
+  console.log('a voter '+ document.getElementById('VOTER1EURO').value());
   event.preventDefault();
 }
 obj.post = function (data, callback) {	
