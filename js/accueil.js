@@ -40,6 +40,6 @@ obj.log_callback = function () {
 document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   var pays = document.getElementById('SELECT_VOTER1EURO').value;
   console.log('à voter '+ pays);
-  obj.post({action=VOTER1EURO, pays:pays}, obj.log_callback);
+  obj.post({action:'VOTER1EURO', pays:pays}, obj.log_callback);
   return false;
 };
