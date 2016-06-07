@@ -14,7 +14,7 @@ socket.emit('getChatRoom', {});
 socket.on('getChatRoom', function(data){
 	var arr = data.chatRoom;
 	for(i in arr){
-		insereMessage(arr[i].pseudo, arr[i].gender, arr[i].avatar, arr[i].message);
+		insereMessage(arr[i].pseudo, arr[i].gender, arr[i].avatar, arr[i].message, arr[i].date);
 	}
 })
 // Quand on reçoit un message, on l'insère dans la page
