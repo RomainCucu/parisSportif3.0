@@ -6,8 +6,8 @@ for(var i in arrPaysEuro){
   document.getElementById('VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
 }
 document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
-  console.log('a voter '+ document.getElementById('VOTER1EURO').value;
-  event.preventDefault();
+  console.log('a voter '+ document.getElementById('VOTER1EURO').value);
+  return false;
 }
 obj.post = function (data, callback) {	
     var xhr = new XMLHttpRequest();
