@@ -39,7 +39,6 @@ io.sockets.on('connection', function (socket, pseudo) {
         message = ent.encode(message);
       //  chatRoom.push({pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message});
         socket.broadcast.emit('message', {pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message});
-        compteur = !compteur;//on change le compte de statut
     }); 
 });
 
