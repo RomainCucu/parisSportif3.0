@@ -5,7 +5,7 @@ var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique",
 for(var i in arrPaysEuro){
   document.getElementById('VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
 }
-document.getElementById('BTN_VOTER1EURO').onsubmit = function(event){
+document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   console.log('a voter '+ document.getElementById('VOTER1EURO').value());
   event.preventDefault();
 }
