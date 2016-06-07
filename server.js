@@ -35,7 +35,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
     
     socket.on('getChatRoom', function(data){
-    	socket.broadcast.emit('getChatRoom', {chatRoom: chatRoom});
+    	socket.emit('getChatRoom', {chatRoom: chatRoom});
     })
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
