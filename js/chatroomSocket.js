@@ -8,9 +8,10 @@ var avatar = ""+getParameterByName('avatar');
 var compteur = 0;
 
 socket.emit('nouveau_client', {pseudo:pseudo, gender:gender, avatar:avatar});
+socket.emit('getChatRoom', {});
 
 // Quand on se connecte, on reçoit le tableau
-socket.on('load_chatroom', function(data){
+socket.on('getChatRoom', function(data){
 	var arr = data.chatRoom;
 	for(i in arr){
 		insereMessage(arr[i].pseudo, arr[i].gender, arr[i].avatar, arr[i].message);
@@ -23,14 +24,8 @@ socket.on('message', function(data) {
 
 // Quand un nouveau client se connecte, on affiche l'information
 socket.on('nouveau_client', function(obj) {
-	if(obj.pseudo != pseudo){
-		$('#chatRoomId').prepend('<p><em>' + obj.pseudo + ' a rejoint le Chat !</em></p>');
-	}else{
-		var arr = obj.chatRoom;
-		for(i in arr){
-			insereMessage(arr[i].pseudo, arr[i].gender, arr[i].avatar, arr[i].message);
-		}
-	}
+	$('#chatRoomId').prepend('<p><em>' + obj.pseudo + ' a rejoint le Chat !</em></p>');
+
 })
 
 // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
