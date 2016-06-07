@@ -304,9 +304,13 @@ exports.voterVainqueurEuro = function(res, c, pays){
 				throw err;
 				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:'erreur methode update inconnue'}));
 			}
+			else if (doc){
+				res.writeHead(200, {"Content-Type": "'text/plain'"});					
+				res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE, data: doc}));
+			}else{
+				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "3", err_message:'erreur methode update inconnue'}));
+			}
 		}); // fin update
-		res.writeHead(200, {"Content-Type": "'text/plain'"});					
-		res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE}));
 	    }
 	});
 };
