@@ -9,6 +9,13 @@ var compteur = 0;
 
 socket.emit('nouveau_client', {pseudo:pseudo, gender:gender, avatar:avatar});
 
+// Quand on se connecte, on reçoit le tableau
+socket.on('load_chatroom', function(data){
+	var arr = data.chatRoom;
+	for(i in arr){
+		insereMessage(arr[i].pseudo, arr[i].gender, arr[i].avatar, arr[i].message);
+	}
+})
 // Quand on reçoit un message, on l'insère dans la page
 socket.on('message', function(data) {	
 	insereMessage(data.pseudo, data.gender, data.avatar, data.message);	
