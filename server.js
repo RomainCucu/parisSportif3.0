@@ -20,9 +20,10 @@ var io = require('socket.io')(app);
 app.listen(server.port);
 
 //http.createServer(server.receive_request).listen(server.port, server.address);
-var compteur = true;//pour afficher les messages correctement
+var chatRoom = new Array();
 io.sockets.on('connection', function (socket, pseudo) {
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+    socket.emit('load_chatroom',{chatRoom: chatRoom});
     socket.on('nouveau_client', function(data) {
         pseudo = ent.encode(data.pseudo);
         gender = ent.encode(data.gender);
@@ -35,8 +36,9 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {
-        message = ent.encode(message);        
-        socket.broadcast.emit('message', {pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, compteur: compteur});
+        message = ent.encode(message);
+        chatRoom.push({pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message});
+        socket.broadcast.emit('message', {pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message});
         compteur = !compteur;//on change le compte de statut
     }); 
 });
