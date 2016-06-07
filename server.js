@@ -21,7 +21,7 @@ app.listen(server.port);
 
 //http.createServer(server.receive_request).listen(server.port, server.address);
 var chatRoom = new Array();
-chatRoom.length = 20;
+//chatRoom.length = 20;
 io.sockets.on('connection', function (socket, pseudo) {
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     // socket.broadcast.to(socket.id).emit('load_chatroom', {chatRoom: chatRoom});//pour le mec qui vient de se connecter
@@ -44,8 +44,9 @@ io.sockets.on('connection', function (socket, pseudo) {
         message = ent.encode(message);
         var d = new Date();//date du message
         d = d.getTime();
-      	chatRoom.splice(0,0,{pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date:d});
-      	chatRoom.length = 20;
+      	//chatRoom.splice(0,0,{pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date:d});
+      	//chatRoom.length = 20;
+      	chatRoom.push({pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date:d});
         socket.broadcast.emit('message', {pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date: d});
     }); 
 });
