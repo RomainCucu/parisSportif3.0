@@ -23,7 +23,14 @@ socket.on('message', function(data) {
 
 // Quand un nouveau client se connecte, on affiche l'information
 socket.on('nouveau_client', function(obj) {
-	$('#chatRoomId').prepend('<p><em>' + obj.pseudo + ' a rejoint le Chat !</em></p>');
+	if(obj.pseudo != pseudo){
+		$('#chatRoomId').prepend('<p><em>' + obj.pseudo + ' a rejoint le Chat !</em></p>');
+	}else{
+		var arr = obj.chatRoom;
+		for(i in arr){
+			insereMessage(arr[i].pseudo, arr[i].gender, arr[i].avatar, arr[i].message);
+		}
+	}
 })
 
 // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
