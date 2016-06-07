@@ -45,7 +45,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         var d = new Date();//date du message
         d = d.getTime();
       	if(chatRoom.length > 20){
-      		chatRoom.slice(1);
+      		chatRoom = chatRoom.slice(1);
       	}
       	chatRoom.push({pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date:d});
         socket.broadcast.emit('message', {pseudo: socket.pseudo, gender:socket.gender, avatar:socket.avatar, message: message, date: d});
