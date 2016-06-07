@@ -23,7 +23,7 @@ app.listen(server.port);
 var chatRoom = new Array();
 io.sockets.on('connection', function (socket, pseudo) {
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
-    socket.broadcast.to(socket.id).emit('load_chatroom', {chatRoom: chatRoom});//pour le mec qui vient de se connecter
+    // socket.broadcast.to(socket.id).emit('load_chatroom', {chatRoom: chatRoom});//pour le mec qui vient de se connecter
     socket.on('nouveau_client', function(data) {
         pseudo = ent.encode(data.pseudo);
         gender = ent.encode(data.gender);
@@ -31,7 +31,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.pseudo = pseudo;
         socket.gender = gender;
         socket.avatar = avatar;
-        socket.broadcast.emit('nouveau_client', {pseudo: pseudo});
+        socket.emit('nouveau_client', {pseudo: pseudo, chatRoom: chatRoom});
     });
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
