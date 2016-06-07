@@ -121,10 +121,9 @@ cb_cookie:
 				return;
 			}else if(b.action == "VOTER1EURO"){											
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
-			}else if(b.action == "SENDMESSCHATROOM"){
-				var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
-				verificationFormulaireSendMessChatRoom(objDb,b);
-				db.getPseudoViaCookieForRooter(this.req.headers.cookie, this, "pseudoSendMessager", objDb);				
+			}else if(b.action == "RECUPERERINFOS"){
+				var objDb = {};			
+				db.getInfosViaCookieForRooter(this.req.headers.cookie, this, "RECUPERERINFOS", objDb);				
 			}else{
 				util.log("INFO - Action not found : " + b.ac);
 				this.resp.end(JSON.stringify({message:"action not found"}));
@@ -134,9 +133,8 @@ cb_cookie:
 		}			
 	},
 
-pseudoSendMessager : function(objDb){
-	chatRoomArray.push([objDb.pseudo,objDb.date,objDb.message,objDb.gender,objDb.avatar]);
-	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"SENDMESSCHATROOM", data:chatRoomArray}));
+RECUPERERINFOS : function(objDb){	
+	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", data:objDb}));
 },
 
 read_file:

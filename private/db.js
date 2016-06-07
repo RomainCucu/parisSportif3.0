@@ -114,7 +114,7 @@ exports.signin = function(data, res){//fonction pour ajouter un USER
 */
 exports.valid_cookie = function(c, obj, fct){
 	var NOM_METHODE = 'valid_cookie';
-	if (c){
+	if (c && c.indexOf("cookieName=") != -1){
 		MongoClient.connect(ID_MONGO, function(err, db) {
 		if(err){
 	    	throw err;
@@ -178,8 +178,8 @@ exports.checkCookie = function(c, res){
 * RCU 25/12/2015 - recuperation pseudo via cookie c
 */
 
-exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
-	var NOM_METHODE = "GETPSEUDOVIACOOKIE";	
+exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
+	var NOM_METHODE = "GETINFOSVIACOOKIEFORROOTER";	
 	MongoClient.connect(ID_MONGO, function(err, db) {
 	    if(err){
 	    	throw err;
@@ -192,10 +192,10 @@ exports.getPseudoViaCookieForRooter = function(c, obj, fct, objDb){
 			collection.find({cookieValue: c}).toArray(function(err, results) {
 			if (err){		 	
 				obj[fct]("false");	 
-			}else if (results[0]){	
-				objDb.pseudo = results[0].pseudo;
-				objDb.gender = results[0].gender;
-				objDb.avatar = results[0].avatar;
+			}else if (results[0]){				
+				objDb.pays1 = results[0].VOTER1EURO;
+				objDb.pays2 = results[0].VOTER2EURO;
+				objDb.pays3 = results[0].VOTER3EURO;
 				obj[fct](objDb);	 
 			}else if (!results[0]){		 	
 				obj[fct]("false");	 
