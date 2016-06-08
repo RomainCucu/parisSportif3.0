@@ -191,21 +191,21 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 			c = c.substr(0,20);
 			collection.find({cookieValue: c}).toArray(function(err, results) {
 			if (err){		 	
-				obj[fct]("false");	 
+				obj[fct]("false 1");	 
 			}else if (results[0]){
 				var query =  { pseudo:'parisVainqueursEuro2016', $exists : {} };
 				query.$exists[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = true;
 				collection.find(query).toArray(function(err, results) {
 				if (err){		 	
-					obj[fct]("false");	 
+					obj[fct]("false 2");	 
 				}else if (results[0]){
 					obj[fct](results[0]);
 				}else{		 	
-					obj[fct]("false");	 
+					obj[fct]("false 3");	 
 				}
 				});//deuxieme find
 			}else if (!results[0]){		 	
-				obj[fct]("false");	 
+				obj[fct]("false 4");	 
 			}
 		})
 		}//else
