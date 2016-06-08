@@ -102,9 +102,12 @@ obj.log_callback = function () {
 				document.getElementById("signinError").innerHTML="Your login or password are false.";
 				document.getElementById('colorLogin').className="form-group has-error"; //mettre case en rouge pwd et pseudo
 			}else if(r.err_methode == "SIGNUP"){
-				alert('user existant');
+				alert('pseudo deja existant');
 				document.getElementById(contenuHTML.id).innerHTML = contenuHTML.string;//pour remettre le bouton originel (car gif qui tourne)
 			}		
+		}else if(r.etat == "signupKO"){
+			alert(r.message);
+			document.getElementById(contenuHTML.id).innerHTML = contenuHTML.string;//pour remettre le bouton originel (car gif qui tourne)
 		}
 	}
 };

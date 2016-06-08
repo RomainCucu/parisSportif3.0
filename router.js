@@ -103,9 +103,10 @@ go_post:
 		if(b.action == "signin") {
 			db.signin(b, this.resp);
 		}else if(b.action == "SIGNUP"){					
-			var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
-			verificationFormulaireRegister(objDb,b);				
-			db.signup(objDb, this.resp);
+			//var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
+			//verificationFormulaireRegister(objDb,b);				
+			//db.signup(objDb, this.resp);
+			this.resp.end(JSON.stringify({etat:"signupKO",message:"fonction non activée"}));
 		}else {			
 			db.valid_cookie(this.req.headers.cookie, this, "cb_cookie");
 		}	
