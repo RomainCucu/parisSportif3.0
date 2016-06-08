@@ -41,7 +41,10 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   var pays1 = document.getElementById('SELECT_VOTER1EURO').value;
   var pays2 = document.getElementById('SELECT_VOTER2EURO').value;
   var pays3 = document.getElementById('SELECT_VOTER3EURO').value;
-  
+  if(pays1 == pays2 || pays1== pays 3 || pays2 == pays 3){
+  	afficher('voteVainqueursKOdoublon');
+  	return false;
+  }
   remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
   afficherMasquer('voteVainqueursGIF','BTN_VOTER1EURO');
   obj.post({action:'VOTER1EURO', pays1:pays1, pays2:pays2, pays3:pays3}, obj.log_callback);
