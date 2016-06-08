@@ -409,7 +409,7 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
         document.getElementById('imgAvatar').src = "../images/avatar/"+getParameterByName('gender')+"/"+getParameterByName('avatar')+".png";
-        document.getElementById('pseudo_id').innerHTML = getParameterByName('pseudo');
+        document.getElementById('pseudo_id').innerHTML = getParameterByName('pseudo').toUpperCase();
         
     </script>
     <script src="../js/chatroomSocket.js"></script>
