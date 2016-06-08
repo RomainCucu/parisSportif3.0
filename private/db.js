@@ -195,16 +195,19 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 			}else if (results[0]){
 				var query =  { pseudo:'parisVainqueursEuro2016' };
 				query[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = {'$exists' : true};
-				collection.find(query).toArray(function(err, results) {
+				collection.find(query).toArray(function(err, results2) {
 				if (err){		 	
 					obj[fct]("false 2");	 
-				}else if (results[0]){
-					obj[fct](results[0]);
+				}else if (results2[0]){
+					var obj = {};
+					var pseudo = results[0].pseudo;
+					obj.mesVotes = results2[0][pseudo].VAINQUEURSEURO2016;
+					obj[fct](obj);
 				}else{		 	
 					obj[fct](query);	 
 				}
 				});//deuxieme find
-			}else if (!results[0]){		 	
+			}else{		 	
 				obj[fct]("false 4");	 
 			}
 		})
