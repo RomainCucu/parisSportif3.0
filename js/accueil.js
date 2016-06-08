@@ -56,19 +56,19 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
-	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>getParameterByName('pseudo')</td>";
+	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+getParameterByName('pseudo')+"</td>";
 	if(data.VOTER1EURO){
 		afficher('SELECT_VOTER1EURO_VOTED');
 		document.getElementById('SELECT_VOTER1EURO').value = data.VOTER1EURO;
-		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>arrPaysEuro[parseInt(data.VOTER1EURO)]</td>";
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(data.VOTER1EURO)]+"</td>";
 	}if(data.VOTER2EURO){
 		afficher('SELECT_VOTER2EURO_VOTED');
 		document.getElementById('SELECT_VOTER2EURO').value = data.VOTER2EURO;
-		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>arrPaysEuro[parseInt(data.VOTER2EURO)]</td>";
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(data.VOTER2EURO)]+"</td>";
 	}if(data.VOTER3EURO){
 		afficher('SELECT_VOTER3EURO_VOTED');
 		document.getElementById('SELECT_VOTER3EURO').value = data.VOTER3EURO;
-		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>arrPaysEuro[parseInt(data.VOTER3EURO)]</td>";
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(data.VOTER3EURO)]+"</td>";
 	}
 	afficher('SELECT_VOTER1EURO');
 	afficher('SELECT_VOTER2EURO');
