@@ -55,13 +55,13 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';	
 	}	
-	if(data.pays1){
+	if(data.VOTER1EURO){
 		afficher('SELECT_VOTER1EURO_VOTED');
 		document.getElementById('SELECT_VOTER1EURO').value = data.pays1;
-	}if(data.pays2){
+	}if(data.VOTER2EURO){
 		afficher('SELECT_VOTER2EURO_VOTED');
 		document.getElementById('SELECT_VOTER2EURO').value = data.pays2;
-	}if(data.pays3){
+	}if(data.VOTER3EURO){
 		afficher('SELECT_VOTER3EURO_VOTED');
 		document.getElementById('SELECT_VOTER3EURO').value = data.pays3;
 	}
