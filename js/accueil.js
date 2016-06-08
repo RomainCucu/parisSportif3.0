@@ -51,9 +51,9 @@ obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 
 var remplirChoix = function(data){
 	for (var i in arrPaysEuro){
-		document.getElementById('SELECT_VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
-  		document.getElementById('SELECT_VOTER2EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
-  		document.getElementById('SELECT_VOTER3EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';	
+		document.getElementById('SELECT_VOTER1EURO').innerHTML += "<option value="+arrPaysEuro[i]+">"+arrPaysEuro[i]+"</option>";
+  		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+arrPaysEuro[i]+">"+arrPaysEuro[i]+"</option>";
+  		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+arrPaysEuro[i]+">"+arrPaysEuro[i]+"</option>";	
 	}	
 	if(data.VOTER1EURO){
 		afficher('SELECT_VOTER1EURO_VOTED');
