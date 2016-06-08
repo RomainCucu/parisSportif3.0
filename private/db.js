@@ -221,13 +221,11 @@ exports.voterVainqueurEuro = function(res, c, b){
 			if (err){		 	
 				throw err;
 				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:'erreur methode update inconnue'}));	 
-			}else if (results[0]){				
+			}else if (results[0]){
+				var update = { $set : {} };
+				update.$set['' + results[0].pseudo] = {VOTER1EURO: b.pays1,	VOTER2EURO: b.pays2, VOTER3EURO: b.pays3};
 				collection.update({pseudo:"parisVainqueursEuro2016"},
-				{$set:{
-				//	results[0].pseudo:{VOTER1EURO: b.pays1,	VOTER2EURO: b.pays2, VOTER3EURO: b.pays3}
-					update:"ok"
-					}
-				},
+				update,
 				{upsert: false}, function(err, doc){
 				if (err){
 					throw err;
