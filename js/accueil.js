@@ -75,9 +75,9 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj){
 	var str = "";
 	Object.keys(autresVotesObj).forEach(function(key) {
 		var pseudo = key;
-    		var vote1 = autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO;
-    		var vote2 = autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO;
-    		var vote3 = autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO;
+    		var vote1 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)];
+    		var vote2 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)];
+    		var vote3 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)];
     		str += '<tr><td>'+pseudo+'</td><td>'+vote1+'</td><td>'+vote2+'</td><td>'+vote3+'</td></tr>'
 	});
 	document.getElementById('tableClassementVainqueursEuro').innerHTML += str;
