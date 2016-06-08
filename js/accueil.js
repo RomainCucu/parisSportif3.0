@@ -17,6 +17,7 @@ obj.log_callback = function () {
 			if(r.suc_methode == "VOTER1EURO"){	
 				afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
 				afficher('voteVainqueursOK');
+				//obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 				console.log(r);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				console.log(r);
@@ -55,7 +56,6 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   return false;
 };
 
-obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 
 var remplirChoix = function(data){
 	for (var i in arrPaysEuro){
@@ -84,6 +84,7 @@ var remplirChoix = function(data){
 var remplirTableauVoteVainqueurs = function (autresVotesObj){
 	var str = "";
 	var i = 0;
+	//document.getElementById('tableClassementVainqueursEuro').innerHTML = "";
 	Object.keys(autresVotesObj).forEach(function(key) {
 		var pseudo = key;
     		var vote1 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)];
@@ -143,7 +144,7 @@ var compterMeilleurVoteVainqueurEuro2016 = function(data, autresVotesObj){
 	});
 	if(objVotesGlobaux.votePremier != -1){
 		document.getElementById('progress_bar_id_vainqueur_euro_2016').style.width = ""+objVotesGlobaux.pourcentage+"%";
-		document.getElementById('progress_bar_id_vainqueur_euro_2016').innerHTML = "Pays en tête de course : "+arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" "+objVotesGlobaux.pourcentage+" %";
+		document.getElementById('progress_bar_id_vainqueur_euro_2016').innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" "+objVotesGlobaux.pourcentage+" %";
 	}
 	console.log(objVotesGlobaux);
 };
@@ -166,4 +167,7 @@ var eraseCookie= function(){
 	document.location.href="../index.html";
 };
 
+
+//-------AU DEMARRAGE
+obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 
