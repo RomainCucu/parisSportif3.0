@@ -193,8 +193,8 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 			if (err){		 	
 				obj[fct]("false 1");	 
 			}else if (results[0]){
-				var query =  { pseudo:'parisVainqueursEuro2016', $exists : {} };
-				query.$exists[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = true;
+				var query =  { pseudo:'parisVainqueursEuro2016' };
+				query[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = {'$exists' : true};
 				collection.find(query).toArray(function(err, results) {
 				if (err){		 	
 					obj[fct]("false 2");	 
