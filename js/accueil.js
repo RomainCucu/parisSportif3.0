@@ -139,7 +139,7 @@ var compterMeilleurVoteVainqueurEuro2016 = function(data, autresVotesObj){
 	Object.keys(objVotesGlobaux).forEach(function(key) {
 		if(Number.isInteger(parseInt(key)) && objVotesGlobaux.votePremier < objVotesGlobaux[key]){
 			objVotesGlobaux.votePremier = key;
-			objVotesGlobaux.pourcentage = Math.floor(key/(objVotesGlobaux.voteTotal)*100);
+			objVotesGlobaux.pourcentage = Math.floor(objVotesGlobaux[key]/(objVotesGlobaux.voteTotal)*100);
 		}
 	});
 	if(objVotesGlobaux.votePremier != -1){
