@@ -21,7 +21,7 @@ obj.log_callback = function () {
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				console.log(r);
 				remplirChoix(r.mesVotesVainqueursEuro2016);
-				remplirProgressBar(r.mesVotesVainqueursEuro2016);
+				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
@@ -71,7 +71,7 @@ var remplirChoix = function(data){
 	afficher('SELECT_VOTER3EURO');
 };
 
-var remplirProgressBar = function (autresVotesObj){
+var remplirTableauVoteVainqueurs = function (autresVotesObj){
 	var str = "";
 	Object.keys(autresVotesObj).forEach(function(key) {
 		var pseudo = key;
@@ -80,6 +80,7 @@ var remplirProgressBar = function (autresVotesObj){
     		var vote3 = autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO;
     		str += '<tr><td>'+pseudo+'</td><td>'+vote1+'</td><td>'+vote2+'</td><td>'+vote3+'</td></tr>'
 	});
+	document.getElementById('tableClassementVainqueursEuro').innerHTML += str;
 };
 
 var afficherMasquer = function(afficherEl, masquerEl){
