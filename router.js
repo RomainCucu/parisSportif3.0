@@ -219,7 +219,7 @@ var verificationFormulaireSendMessChatRoom = function(obj1, obj2){
 	obj1.avatar = "man1";//by default
 };
 
-var verifPaysListeEURO(arrPays, paysParam){
+var verifPaysListeEURO = function(arrPays, paysParam){
 	if(arrPays.indexOf(paysParam) == -1){
 		return false;
 	}else{
