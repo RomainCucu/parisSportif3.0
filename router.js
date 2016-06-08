@@ -138,7 +138,7 @@ cb_cookie:
 	},
 
 RECUPERERINFOS : function(objDb){	
-	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", mesVotes:objDb.mesVotes}));
+	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", mesVotesVainqueursEuro2016:objDb.mesVotesVainqueursEuro2016, autresVotesVainqueursEuro2016 :autresVotesVainqueursEuro2016 }));
 },
 
 read_file:
