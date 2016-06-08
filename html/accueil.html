@@ -62,7 +62,7 @@
     </nav>
         <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Hello there ! </h1>
+                    <h1 class="page-header">Hello <span id='pseudo_id'></span> ! </h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -204,7 +204,7 @@
         }
         document.getElementById('imgAvatar').src = "../images/avatar/"+getParameterByName('gender')+"/"+getParameterByName('avatar')+".png";
         document.getElementById('pseudo_id').innerHTML = getParameterByName('pseudo').toUpperCase();
-        document.getElementById('pseudo_id').href = document.location.href;
+        document.getElementById('imgAvatar').href = document.location.href;
         
     </script>
     <script src="../js/chatroomSocket.js"></script>
