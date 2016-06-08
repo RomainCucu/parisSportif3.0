@@ -127,4 +127,9 @@ var masquerEl = function(el){
 	document.getElementById(el).style.display = 'none';	
 };
 
+var eraseCookie= function(){
+	document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+	document.location.href="../index.html";
+};
+
 

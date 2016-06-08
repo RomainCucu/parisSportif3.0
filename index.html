@@ -177,6 +177,8 @@
     };
     if(document.cookie.indexOf('cookieName') != -1){
       onload.post({action:'CHECKCOOKIE'}, onload.log_callback);
+    }else{
+      document.getElementById('signinButton').disabled = false;
     }
    </script>
 
