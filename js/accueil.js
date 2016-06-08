@@ -97,13 +97,13 @@ var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
 	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML = '';
 	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+pseudo.toUpperCase()+"</td>";
 	if(pays1){
-		var img1 = '&nbsp<img src="../images/flags/'+parseInt(pays1)+'.png" alt="Smiley face" height="20" width="30">';
+		var img1 = '<img src="../images/flags/'+parseInt(pays1)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
 		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img1+arrPaysEuro[parseInt(pays1)]+"</td>";
 	}if(pays2){
-		var img2 = '&nbsp<img src="../images/flags/'+parseInt(pays2)+'.png" alt="Smiley face" height="20" width="30">';
+		var img2 = '<img src="../images/flags/'+parseInt(pays2)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
 		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img2+arrPaysEuro[parseInt(pays2)]+"</td>";
 	}if(pays3){
-		var img3 = '&nbsp<img src="../images/flags/'+parseInt(pays3)+'.png" alt="Smiley face" height="20" width="30">';
+		var img3 = '<img src="../images/flags/'+parseInt(pays3)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
 		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img3+arrPaysEuro[parseInt(pays3)]+"</td>";
 	}
 };
