@@ -56,7 +56,7 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
-	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+getParameterByName('pseudo')+"</td>";
+	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+getParameterByName('pseudo').toUpperCase()+"</td>";
 	if(data.VOTER1EURO){
 		afficher('SELECT_VOTER1EURO_VOTED');
 		document.getElementById('SELECT_VOTER1EURO').value = data.VOTER1EURO;
