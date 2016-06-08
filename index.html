@@ -33,7 +33,7 @@
               <input type="checkbox" value="remember-me" id="formRememberMe"> Remember me
             </label>
             <div id="signinAjaxLoader">
-    	         <button class="btn btn-lg btn-primary btn-block" type="submit" id="signinButton" >Sign in</button>
+    	         <button class="btn btn-lg btn-primary btn-block" type="submit" id="signinButton" disabled >Sign in</button>
               <div id="signinError" class="text-danger"></div>
             </div>
           </form>
@@ -169,8 +169,8 @@
             data = r.data;
             window.location.href = './html/accueil.html?avatar='+data.avatar+'&gender='+data.gender+'&pseudo='+data.pseudo+'';
           }     
-        }else if(r.message == "erreurCookie"){
-          console.log("pas de cookie en DB");
+        }else {
+          document.getElementById('signinButton').disabled = false;
           return;
         }
       }
