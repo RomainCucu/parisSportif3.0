@@ -81,7 +81,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj){
     		var vote2 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)];
     		var vote3 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)];
     		if(i%2 == 0){
-    			str += '<tr class="danger"><td>'+pseudo+'</td><td>'+vote1+'</td><td>'+vote2+'</td><td>'+vote3+'</td></tr>'
+    			str += '<tr class="success"><td>'+pseudo+'</td><td>'+vote1+'</td><td>'+vote2+'</td><td>'+vote3+'</td></tr>'
     		}else{
     			str += '<tr class="info"><td>'+pseudo+'</td><td>'+vote1+'</td><td>'+vote2+'</td><td>'+vote3+'</td></tr>'	
     		}
