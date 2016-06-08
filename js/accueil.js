@@ -22,6 +22,7 @@ obj.log_callback = function () {
 				console.log(r);
 				remplirChoix(r.mesVotesVainqueursEuro2016);
 				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016);
+				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
@@ -114,6 +115,37 @@ var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
 		var img3 = '<img src="../images/flags/'+parseInt(pays3)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
 		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img3+arrPaysEuro[parseInt(pays3)]+"</td>";
 	}
+};
+
+var compterMeilleurVoteVainqueurEuro2016 = function(data, autresVotesObj){
+	var objVotesGlobaux = {};
+	objVotesGlobaux.voteTotal = 0;//pour savoir le nombre de votes
+	objVotesGlobaux.votePremier = -1;//pour savoir le vainqueur
+	objVotesGlobaux.pourcentage = 100;
+	if(data){//si j'ai des votes
+		objVotesGlobaux[data.VOTER1EURO] = 1; //mon vote vainqueur
+		objVotesGlobaux.voteTotal += 1;//on ajoute une voix
+	}
+	if(autresVotesObj){//si d'autres votes
+		Object.keys(autresVotesObj).forEach(function(key) {
+			if(objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO])
+				objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] += 1;
+			else
+				objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] = 1;
+				objVotesGlobaux.voteTotal += 1;//on ajoute une voix
+		});
+	}
+	Object.keys(objVotesGlobaux).forEach(function(key) {
+		if(Number.isInteger(parseInt(key)) && objVotesGlobaux.votePremier < objVotesGlobaux[key]){
+			objVotesGlobaux.votePremier = key;
+			objVotesGlobaux.pourcentage = Math.floor(key/(objVotesGlobaux.voteTotal)*100);
+		}
+	});
+	if(objVotesGlobaux.votePremier != -1){
+		document.getElementById('progress_bar_id_vainqueur_euro_2016').style.width = ""+objVotesGlobaux.pourcentage+"%";
+		document.getElementById('progress_bar_id_vainqueur_euro_2016').innerHTML = "Pays en tête de course : "+arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" "+objVotesGlobaux.pourcentage+" %";
+	}
+	console.log(objVotesGlobaux);
 };
 
 var afficherMasquer = function(afficherEl, masquerEl){
