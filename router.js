@@ -121,9 +121,9 @@ cb_cookie:
 				db.checkCookie(this.req.headers.cookie, this.resp);
 				return;
 			}else if(b.action == "VOTER1EURO"){
-				if(!verifPaysListeEURO(arrPaysEuro, b.pays1)) b.pays1 = 'Albanie';
-				if(!verifPaysListeEURO(arrPaysEuro, b.pays2)) b.pays2 = 'Albanie';
-				if(!verifPaysListeEURO(arrPaysEuro, b.pays3)) b.pays3 = 'Albanie';
+				if(!verifPaysListeEURO(b.pays1)) b.pays1 = 1;
+				if(!verifPaysListeEURO(b.pays2)) b.pays2 = 1;
+				if(!verifPaysListeEURO(b.pays3)) b.pays3 = 1;
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "RECUPERERINFOS"){
 				var objDb = {};			
@@ -219,8 +219,8 @@ var verificationFormulaireSendMessChatRoom = function(obj1, obj2){
 	obj1.avatar = "man1";//by default
 };
 
-var verifPaysListeEURO = function(arrPays, paysParam){
-	if(arrPays.indexOf(paysParam) == -1){
+var verifPaysListeEURO = function(paysParam){
+	if(paysParam < 0 && paysParam >23 ){
 		return false;
 	}else{
 		return true;
