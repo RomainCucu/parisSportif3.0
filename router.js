@@ -134,7 +134,7 @@ cb_cookie:
 	},
 
 RECUPERERINFOS : function(objDb){	
-	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", data:objDb}));
+	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", mesVotes:objDb.mesVotes}));
 },
 
 read_file:
