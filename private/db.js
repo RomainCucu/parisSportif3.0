@@ -201,7 +201,7 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 				}else if (results[0]){
 					obj[fct](results[0]);
 				}else{		 	
-					obj[fct]("false 3");	 
+					obj[fct]("false 3: "+query);	 
 				}
 				});//deuxieme find
 			}else if (!results[0]){		 	
