@@ -203,9 +203,9 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 					var pseudo = results[0].pseudo;
 					objDb.mesVotesVainqueursEuro2016 = results2[0][pseudo].VAINQUEURSEURO2016;
 					objDb.autresVotesVainqueursEuro2016 = results2[0];
-					delete objDb.autresVotesVainqueursEuro2016[pseudo];
-					delete objDb.autresVotesVainqueursEuro2016['_id'];
-					delete objDb.autresVotesVainqueursEuro2016['pseudo'];
+					//delete objDb.autresVotesVainqueursEuro2016[pseudo];
+					//delete objDb.autresVotesVainqueursEuro2016['_id'];
+					//delete objDb.autresVotesVainqueursEuro2016['pseudo'];
 					obj[fct](objDb);
 				}else{		 	
 					obj[fct](query);	 
