@@ -85,7 +85,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj){
 };
 
 var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
-	document.getElementById('ligneMesVotesVainqueursEuro').innerHTM = '';
+	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML = '';
 	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+pseudo.toUpperCase()+"</td>";
 	if(pays1)
 		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(pays1)]+"</td>";
