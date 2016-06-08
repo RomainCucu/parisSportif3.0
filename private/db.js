@@ -191,14 +191,28 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 			c = c.substr(0,20);
 			collection.find({cookieValue: c}).toArray(function(err, results) {
 			if (err){		 	
-				obj[fct]("false");	 
-			}else if (results[0]){				
-				objDb.pays1 = results[0].VOTER1EURO;
-				objDb.pays2 = results[0].VOTER2EURO;
-				objDb.pays3 = results[0].VOTER3EURO;
-				obj[fct](objDb);	 
-			}else if (!results[0]){		 	
-				obj[fct]("false");	 
+				obj[fct]("false 1");	 
+			}else if (results[0]){
+				var query =  { pseudo:'parisVainqueursEuro2016' };
+				//query[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = {'$exists' : true};
+				collection.find(query).toArray(function(err, results2) {
+				if (err){		 	
+					obj[fct]("false 2");	 
+				}else if (results2[0]){
+					var pseudo = results[0].pseudo;
+					if(results2[0][pseudo])
+						objDb.mesVotesVainqueursEuro2016 = results2[0][pseudo].VAINQUEURSEURO2016;
+					objDb.autresVotesVainqueursEuro2016 = results2[0];
+					delete objDb.autresVotesVainqueursEuro2016[pseudo];
+					delete objDb.autresVotesVainqueursEuro2016['_id'];
+					delete objDb.autresVotesVainqueursEuro2016['pseudo'];
+					obj[fct](objDb);
+				}else{		 	
+					obj[fct](query);	 
+				}
+				});//deuxieme find
+			}else{		 	
+				obj[fct]("false 4");	 
 			}
 		})
 		}//else
@@ -217,26 +231,32 @@ exports.voterVainqueurEuro = function(res, c, b){
 		c = c.split("cookieName=");//car cookieName=rom19282839;azeaze" par excemple donc on eneleve le cookieName
 		c = c[1];
 		c = c.substr(0,20);
-		collection.update({cookieValue:c},
-			{$set:
-				{					 					 
-				 VOTER1EURO: b.pays1,
-				 VOTER2EURO: b.pays2,
-				 VOTER3EURO: b.pays3
-				}
-			},
-			{upsert: false}, function(err, doc){
-			if (err){
+		collection.find({cookieValue: c}).toArray(function(err, results) {//pour trouver le pseudo
+			if (err){		 	
 				throw err;
-				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:'erreur methode update inconnue'}));
+				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:'erreur methode update inconnue'}));	 
+			}else if (results[0]){//on update le champ
+				var update = { $set : {} };
+				update.$set['' + results[0].pseudo +'.VAINQUEURSEURO2016'] = {VOTER1EURO: b.pays1,	VOTER2EURO: b.pays2, VOTER3EURO: b.pays3};
+				collection.update({pseudo:"parisVainqueursEuro2016"},
+				update,
+				{upsert: false}, function(err, doc){
+				if (err){
+					throw err;
+					res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "3", err_message:'erreur methode update inconnue'}));
+				}
+				else if (doc){
+					res.writeHead(200, {"Content-Type": "'text/plain'"});					
+					res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE, data: doc}));
+				}else{
+					res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "4", err_message:'erreur methode update inconnue'}));
+				}
+				}); // fin update
+			}else if (!results[0]){		 	
+				throw err;
+				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "5", err_message:'erreur no cookie'}));	 
 			}
-			else if (doc){
-				res.writeHead(200, {"Content-Type": "'text/plain'"});					
-				res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE, data: doc}));
-			}else{
-				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "3", err_message:'erreur methode update inconnue'}));
-			}
-		}); // fin update
+		});//find
 	    }
 	});
 };

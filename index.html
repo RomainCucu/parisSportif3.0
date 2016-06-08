@@ -16,36 +16,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/signin.css" rel="stylesheet">
-    <script>
-    var onload = {};
-    onload.post = function (data, callback) { 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/");
-        xhr.onreadystatechange = callback;
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(JSON.stringify(data));
-    };
-    onload.log_callback = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var r = JSON.parse(this.responseText);
-        console.log(r) ;
-        if (r.categorie == "SUCCESS"){
-          if(r.suc_methode == "CHECKCOOKIE"){
-            console.log('connected !');
-            data = r.data;
-            window.location.href = './html/accueil.html?avatar='+data.avatar+'&gender='+data.gender+'&pseudo='+data.pseudo+'';
-          }     
-        }else if(r.message == "erreurCookie"){
-          console.log("pas de cookie en DB");
-          return;
-        }
-      }
-    };
-    if(document.cookie.indexOf('cookieName') != -1){
-      onload.post({action:'CHECKCOOKIE'}, onload.log_callback);
-    }
-   </script>
-
+   
   </head>
   <body>
 <div class="container" ng-app="">
@@ -62,7 +33,7 @@
               <input type="checkbox" value="remember-me" id="formRememberMe"> Remember me
             </label>
             <div id="signinAjaxLoader">
-    	         <button class="btn btn-lg btn-primary btn-block" type="submit" id="signinButton" >Sign in</button>
+    	         <button class="btn btn-lg btn-primary btn-block" type="submit" id="signinButton" disabled >Sign in</button>
               <div id="signinError" class="text-danger"></div>
             </div>
           </form>
@@ -179,6 +150,37 @@
           </div>
           <!-- fin du modal -->     
     </div> <!-- /container -->
+     <script>
+    var onload = {};
+    onload.post = function (data, callback) { 
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/");
+        xhr.onreadystatechange = callback;
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(data));
+    };
+    onload.log_callback = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var r = JSON.parse(this.responseText);
+        console.log(r) ;
+        if (r.categorie == "SUCCESS"){
+          if(r.suc_methode == "CHECKCOOKIE"){
+            console.log('connected !');
+            data = r.data;
+            window.location.href = './html/accueil.html?avatar='+data.avatar+'&gender='+data.gender+'&pseudo='+data.pseudo+'';
+          }     
+        }else {
+          document.getElementById('signinButton').disabled = false;
+          return;
+        }
+      }
+    };
+    if(document.cookie.indexOf('cookieName') != -1){
+      onload.post({action:'CHECKCOOKIE'}, onload.log_callback);
+    }else{
+      document.getElementById('signinButton').disabled = false;
+    }
+   </script>
 
 
 

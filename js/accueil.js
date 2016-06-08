@@ -20,7 +20,8 @@ obj.log_callback = function () {
 				console.log(r);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				console.log(r);
-				remplirChoix(r.data);											
+				remplirChoix(r.mesVotesVainqueursEuro2016);
+				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
@@ -37,11 +38,17 @@ obj.log_callback = function () {
 };
 
 document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
+  masquerEl('voteVainqueursKOdoublon');
+  masquerEl('voteVainqueursKO');
+  masquerEl('voteVainqueursOK');
   var pays1 = document.getElementById('SELECT_VOTER1EURO').value;
   var pays2 = document.getElementById('SELECT_VOTER2EURO').value;
   var pays3 = document.getElementById('SELECT_VOTER3EURO').value;
-  
-  
+  if(pays1 == pays2 || pays1== pays3 || pays2 == pays3){
+  	afficher('voteVainqueursKOdoublon');
+  	return false;
+  }
+  remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
   afficherMasquer('voteVainqueursGIF','BTN_VOTER1EURO');
   obj.post({action:'VOTER1EURO', pays1:pays1, pays2:pays2, pays3:pays3}, obj.log_callback);
   return false;
@@ -51,23 +58,62 @@ obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 
 var remplirChoix = function(data){
 	for (var i in arrPaysEuro){
-		document.getElementById('SELECT_VOTER1EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
-  		document.getElementById('SELECT_VOTER2EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';
-  		document.getElementById('SELECT_VOTER3EURO').innerHTML += '<option value='+arrPaysEuro[i]+'>'+arrPaysEuro[i]+'</option>';	
-	}	
-	if(data.pays1){
-		afficher('SELECT_VOTER1EURO_VOTED');
-		document.getElementById('SELECT_VOTER1EURO').value = data.pays1;
-	}if(data.pays2){
-		afficher('SELECT_VOTER2EURO_VOTED');
-		document.getElementById('SELECT_VOTER2EURO').value = data.pays2;
-	}if(data.pays3){
-		afficher('SELECT_VOTER3EURO_VOTED');
-		document.getElementById('SELECT_VOTER3EURO').value = data.pays3;
+		document.getElementById('SELECT_VOTER1EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
+  		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
+  		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
+	}
+	if(data){
+			remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VOTER1EURO, data.VOTER2EURO, data.VOTER3EURO);
+		if(data.VOTER1EURO){
+			afficher('SELECT_VOTER1EURO_VOTED');
+			document.getElementById('SELECT_VOTER1EURO').value = data.VOTER1EURO;
+		}if(data.VOTER2EURO){
+			afficher('SELECT_VOTER2EURO_VOTED');
+			document.getElementById('SELECT_VOTER2EURO').value = data.VOTER2EURO;
+		}if(data.VOTER3EURO){
+			afficher('SELECT_VOTER3EURO_VOTED');
+			document.getElementById('SELECT_VOTER3EURO').value = data.VOTER3EURO;
+		}
 	}
 	afficher('SELECT_VOTER1EURO');
 	afficher('SELECT_VOTER2EURO');
 	afficher('SELECT_VOTER3EURO');
+};
+
+var remplirTableauVoteVainqueurs = function (autresVotesObj){
+	var str = "";
+	var i = 0;
+	Object.keys(autresVotesObj).forEach(function(key) {
+		var pseudo = key;
+    		var vote1 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)];
+    		var vote2 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)];
+    		var vote3 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)];
+    		var img1 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+    		var img2 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+    		var img3 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+    		if(i%2 == 0){
+    			str += '<tr class="success"><td>'+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'
+    		}else{
+    			str += '<tr class="info"><td>'+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'	
+    		}
+    		i++;
+	});
+	document.getElementById('tableClassementVainqueursEuro').innerHTML += str;
+};
+
+var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
+	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML = '';
+	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+pseudo.toUpperCase()+"</td>";
+	if(pays1){
+		var img1 = '<img src="../images/flags/'+parseInt(pays1)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img1+arrPaysEuro[parseInt(pays1)]+"</td>";
+	}if(pays2){
+		var img2 = '<img src="../images/flags/'+parseInt(pays2)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img2+arrPaysEuro[parseInt(pays2)]+"</td>";
+	}if(pays3){
+		var img3 = '<img src="../images/flags/'+parseInt(pays3)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img3+arrPaysEuro[parseInt(pays3)]+"</td>";
+	}
 };
 
 var afficherMasquer = function(afficherEl, masquerEl){
@@ -77,6 +123,15 @@ var afficherMasquer = function(afficherEl, masquerEl){
 
 var afficher = function(afficherEl){
 	document.getElementById(afficherEl).style.display = 'inline';	
+};
+
+var masquerEl = function(el){
+	document.getElementById(el).style.display = 'none';	
+};
+
+var eraseCookie= function(){
+	document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+	document.location.href="../index.html";
 };
 
 
