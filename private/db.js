@@ -194,13 +194,14 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 				obj[fct]("false 1");	 
 			}else if (results[0]){
 				var query =  { pseudo:'parisVainqueursEuro2016' };
-				query[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = {'$exists' : true};
+				//query[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = {'$exists' : true};
 				collection.find(query).toArray(function(err, results2) {
 				if (err){		 	
 					obj[fct]("false 2");	 
 				}else if (results2[0]){
 					var pseudo = results[0].pseudo;
-					objDb.mesVotesVainqueursEuro2016 = results2[0][pseudo].VAINQUEURSEURO2016;
+					if(results2[0][pseudo])
+						objDb.mesVotesVainqueursEuro2016 = results2[0][pseudo].VAINQUEURSEURO2016;
 					objDb.autresVotesVainqueursEuro2016 = results2[0];
 					delete objDb.autresVotesVainqueursEuro2016[pseudo];
 					delete objDb.autresVotesVainqueursEuro2016['_id'];
