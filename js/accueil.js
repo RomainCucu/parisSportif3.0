@@ -42,7 +42,7 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   var pays2 = document.getElementById('SELECT_VOTER2EURO').value;
   var pays3 = document.getElementById('SELECT_VOTER3EURO').value;
   
-  
+  remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
   afficherMasquer('voteVainqueursGIF','BTN_VOTER1EURO');
   obj.post({action:'VOTER1EURO', pays1:pays1, pays2:pays2, pays3:pays3}, obj.log_callback);
   return false;
@@ -56,19 +56,16 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
-	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+getParameterByName('pseudo').toUpperCase()+"</td>";
+	remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VOTER1EURO, data.VOTER2EURO, data.VOTER3EURO);
 	if(data.VOTER1EURO){
 		afficher('SELECT_VOTER1EURO_VOTED');
 		document.getElementById('SELECT_VOTER1EURO').value = data.VOTER1EURO;
-		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(data.VOTER1EURO)]+"</td>";
 	}if(data.VOTER2EURO){
 		afficher('SELECT_VOTER2EURO_VOTED');
 		document.getElementById('SELECT_VOTER2EURO').value = data.VOTER2EURO;
-		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(data.VOTER2EURO)]+"</td>";
 	}if(data.VOTER3EURO){
 		afficher('SELECT_VOTER3EURO_VOTED');
 		document.getElementById('SELECT_VOTER3EURO').value = data.VOTER3EURO;
-		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(data.VOTER3EURO)]+"</td>";
 	}
 	afficher('SELECT_VOTER1EURO');
 	afficher('SELECT_VOTER2EURO');
@@ -85,6 +82,16 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj){
     		str += '<tr><td>'+pseudo+'</td><td>'+vote1+'</td><td>'+vote2+'</td><td>'+vote3+'</td></tr>'
 	});
 	document.getElementById('tableClassementVainqueursEuro').innerHTML += str;
+};
+
+var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
+	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+pseudo.toUpperCase()+"</td>";
+	if(pays1)
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(pays1)]+"</td>";
+	if(pays2)
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(pays2)]+"</td>";
+	if(pays3)
+		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+arrPaysEuro[parseInt(pays3)]+"</td>";
 };
 
 var afficherMasquer = function(afficherEl, masquerEl){
