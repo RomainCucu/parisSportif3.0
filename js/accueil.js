@@ -85,6 +85,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj){
     		}else{
     			str += '<tr class="info"><td>'+pseudo+'</td><td>'+vote1+'</td><td>'+vote2+'</td><td>'+vote3+'</td></tr>'	
     		}
+    		i++;
 	});
 	document.getElementById('tableClassementVainqueursEuro').innerHTML += str;
 };
