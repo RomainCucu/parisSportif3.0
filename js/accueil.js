@@ -124,7 +124,7 @@ var afficher = function(afficherEl){
 };
 
 var masquerEl = function(el){
-	document.getElementById(afficherEl).style.display = 'none';	
+	document.getElementById(el).style.display = 'none';	
 };
 
 
