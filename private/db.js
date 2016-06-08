@@ -199,10 +199,7 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 				if (err){		 	
 					obj[fct]("false");	 
 				}else if (results[0]){
-					objDb.pays1 = results[0].VOTER1EURO;
-					objDb.pays2 = results[0].VOTER2EURO;
-					objDb.pays3 = results[0].VOTER3EURO;
-					obj[fct](objDb);
+					obj[fct](results[0]);
 				}else{		 	
 					obj[fct]("false");	 
 				}
