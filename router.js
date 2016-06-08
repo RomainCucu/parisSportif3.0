@@ -4,6 +4,7 @@ var fs = require("fs");
 var db = require("./private/db.js");
 
 var chatRoomArray = [];//array with wchatroom conv
+var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
 
 /**
 * This method is used to process the request * @param req (Object) the request object
@@ -119,7 +120,10 @@ cb_cookie:
 			if (b.action == 'CHECKCOOKIE'){
 				db.checkCookie(this.req.headers.cookie, this.resp);
 				return;
-			}else if(b.action == "VOTER1EURO"){											
+			}else if(b.action == "VOTER1EURO"){
+				if(!verifPaysListeEURO(arrPaysEuro, b.pays1)) b.pays1 = 'Albanie';
+				if(!verifPaysListeEURO(arrPaysEuro, b.pays2)) b.pays2 = 'Albanie';
+				if(!verifPaysListeEURO(arrPaysEuro, b.pays3)) b.pays3 = 'Albanie';
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "RECUPERERINFOS"){
 				var objDb = {};			
@@ -213,4 +217,12 @@ var verificationFormulaireSendMessChatRoom = function(obj1, obj2){
 	obj1.pseudo = "null";
 	obj1.gender = "man";//by default
 	obj1.avatar = "man1";//by default
+};
+
+var verifPaysListeEURO(arrPays, paysParam){
+	if(arrPays.indexOf(paysParam) == -1){
+		return false;
+	}else{
+		return true;
+	}
 };
