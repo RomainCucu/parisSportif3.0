@@ -20,7 +20,7 @@ obj.log_callback = function () {
 				console.log(r);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				console.log(r);
-				remplirChoix(r.data);											
+				remplirChoix(r.mesVotes);											
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
