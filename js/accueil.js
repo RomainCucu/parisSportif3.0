@@ -38,6 +38,9 @@ obj.log_callback = function () {
 };
 
 document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
+  masquerEl('voteVainqueursKOdoublon');
+  masquerEl('voteVainqueursKO');
+  masquerEl('voteVainqueursOK');
   var pays1 = document.getElementById('SELECT_VOTER1EURO').value;
   var pays2 = document.getElementById('SELECT_VOTER2EURO').value;
   var pays3 = document.getElementById('SELECT_VOTER3EURO').value;
@@ -118,6 +121,10 @@ var afficherMasquer = function(afficherEl, masquerEl){
 
 var afficher = function(afficherEl){
 	document.getElementById(afficherEl).style.display = 'inline';	
+};
+
+var masquerEl = function(el){
+	document.getElementById(afficherEl).style.display = 'none';	
 };
 
 
