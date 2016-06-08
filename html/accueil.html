@@ -410,6 +410,7 @@
         }
         document.getElementById('imgAvatar').src = "../images/avatar/"+getParameterByName('gender')+"/"+getParameterByName('avatar')+".png";
         document.getElementById('pseudo_id').innerHTML = getParameterByName('pseudo').toUpperCase();
+        document.getElementById('pseudo_id').href = document.location.href;
         
     </script>
     <script src="../js/chatroomSocket.js"></script>
