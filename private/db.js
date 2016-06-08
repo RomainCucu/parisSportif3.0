@@ -224,7 +224,8 @@ exports.voterVainqueurEuro = function(res, c, b){
 			}else if (results[0]){				
 				collection.update({pseudo:"parisVainqueursEuro2016"},
 				{$set:{
-					results[0].pseudo:{VOTER1EURO: b.pays1,	VOTER2EURO: b.pays2, VOTER3EURO: b.pays3}
+				//	results[0].pseudo:{VOTER1EURO: b.pays1,	VOTER2EURO: b.pays2, VOTER3EURO: b.pays3}
+					update:"ok"
 					}
 				},
 				{upsert: false}, function(err, doc){
