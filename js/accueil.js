@@ -41,7 +41,7 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   var pays1 = document.getElementById('SELECT_VOTER1EURO').value;
   var pays2 = document.getElementById('SELECT_VOTER2EURO').value;
   var pays3 = document.getElementById('SELECT_VOTER3EURO').value;
-  if(pays1 == pays2 || pays1== pays 3 || pays2 == pays 3){
+  if(pays1 == pays2 || pays1== pays3 || pays2 == pays3){
   	afficher('voteVainqueursKOdoublon');
   	return false;
   }
