@@ -201,7 +201,7 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 				}else if (results2[0]){
 					var pseudo = results[0].pseudo;
 					if(results2[0][pseudo])
-						objDb.mesVotesVainqueursEuro2016 = results2[0][pseudo].VAINQUEURSEURO2016;
+						objDb.mesVotesVainqueursEuro2016 = results2[0][pseudo];
 					objDb.autresVotesVainqueursEuro2016 = results2[0];
 					delete objDb.autresVotesVainqueursEuro2016[pseudo];
 					delete objDb.autresVotesVainqueursEuro2016['_id'];
