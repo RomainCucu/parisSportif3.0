@@ -125,6 +125,14 @@ cb_cookie:
 				if(!verifPaysListeEURO(b.pays1)) b.pays1 = 1;
 				if(!verifPaysListeEURO(b.pays2)) b.pays2 = 1;
 				if(!verifPaysListeEURO(b.pays3)) b.pays3 = 1;
+				b.destinationVote = 'VAINQUEURSEURO2016';
+				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2, VOTER3EURO: b.pays3};
+				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
+			}else if(b.action == "VOTERGROUPEEURO"){
+				if(!verifPaysListeGroupeEURO(b.pays1)) b.pays1 = 1;
+				if(!verifPaysListeGroupeEURO(b.pays2)) b.pays2 = 1;
+				b.destinationVote = 'GROUPEEURO2016';
+				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2};
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "RECUPERERINFOS"){
 				var objDb = {};			
@@ -227,3 +235,12 @@ var verifPaysListeEURO = function(paysParam){
 		return true;
 	}
 };
+
+var verifPaysListeGroupeEURO = function(paysParam){
+	if(paysParam < 0 && paysParam >3){
+		return false;
+	}else{
+		return true;
+	}
+};
+
