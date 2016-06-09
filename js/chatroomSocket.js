@@ -23,7 +23,7 @@ socket.on('message', function(data) {
 })
 
 // Quand un nouveau client se connecte, on affiche l'information
-socket.on('nouveau_client', function(obj) {
+socket.on('nouveau_client', function(obj) {	
 	$('#chatRoomId').append('<p><em>' + obj.pseudo + ' a rejoint le Chat !</em></p>');	
 	$('#scrollElementChat').animate({scrollTop: $('#scrollElementChat').prop("scrollHeight")}, 500);
 

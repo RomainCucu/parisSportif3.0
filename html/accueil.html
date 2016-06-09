@@ -63,14 +63,79 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-        <div class="row">
+            <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header text-center">Hello <span id='pseudo_id'></span> ! </h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <div class="row"><!-- row chat -->
+                <div class="col-md-5">
+                    <div class="chat-panel panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-comments fa-fw"></i>
+                            Chat                            
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" id="scrollElementChat">
+                            <ul class="chat" id="chatRoomId">                              
+                            </ul>
+                        </div>
+                        <!-- /.panel-body -->
+                        <form id="envoyerMessageChatRoomFormId">
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="btn-input" type="text" minlength=1 maxlength=100 class="form-control input-sm" placeholder="Type your message here..." style="font-size: 16px;"/>
+                                <span class="input-group-btn" id="btnChatAjaxLoaderId">
+                                    <button class="btn btn-warning btn-sm" id="btn-chat">
+                                        Send
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        </form>
+                        <!-- /.panel-footer -->
+                    </div><!-- TOUT LE CHAT --><!-- /.panel .chat-panel -->
+                </div>
+                <div class="col-lg-7">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Votes des joueurs :
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" style="max-height: 376px;overflow-y: scroll;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p>Pays en tête :</p>
+                                    <div class="progress">
+                                      <div id="progress_bar_id_vainqueur_euro_2016"class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">
+                                          Pas de votes suffisant
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <table id='' class="table table-bordered">
+                                        <tr>
+                                            <th>Pseudo</th>
+                                            <th>Vainqueur</th> 
+                                            <th>1er Dauphin</th>
+                                            <th>2èm Dauphin</th>
+                                         </tr>
+                                            <tr id="ligneMesVotesVainqueursEuro" class="info">
+                                          </tr>
+                                          <tr id="tableClassementVainqueursEuro" >
+                                          </tr>
+                                      </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /.col-lg-8 -->
+                </div>
+            </div>
+            <!-- /.row -->            
             <div class="row"><!-- row paris vainqueurs -->
-                <div class="col-lg-5">
+                <div class="col-lg-8 col-lg-offset-2">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Vainqueurs de l'Euro?
@@ -111,74 +176,10 @@
                         <!-- /.panel-body -->
                     </div>
                 </div>
-                 <div class="col-lg-7">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Votes des joueurs :
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body" style="max-height: 376px;overflow-y: scroll;">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p>Pays en tête :</p>
-                                    <div class="progress">
-                                      <div id="progress_bar_id_vainqueur_euro_2016"class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">
-                                          Pas de votes suffisant
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <table id='' class="table table-bordered">
-                                        <tr>
-                                            <th>Pseudo</th>
-                                            <th>Vainqueur</th> 
-                                            <th>1er Dauphin</th>
-                                            <th>2èm Dauphin</th>
-                                         </tr>
-                                            <tr id="ligneMesVotesVainqueursEuro" class="info">
-                                          </tr>
-                                          <tr id="tableClassementVainqueursEuro" >
-                                          </tr>
-                                      </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <!-- /.col-lg-8 -->
-                </div>
+                 
             </div>
             <div class="row" id='remplirPoule'><!-- row poule -->
             </div><!-- row poules-->
-            <div class="row"><!-- row chat -->
-                <div class="col-md-5 col-md-offset-3">
-                    <div class="chat-panel panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-comments fa-fw"></i>
-                            Chat                            
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body" id="scrollElementChat">
-                            <ul class="chat" id="chatRoomId">                              
-                            </ul>
-                        </div>
-                        <!-- /.panel-body -->
-                        <form id="envoyerMessageChatRoomFormId">
-                        <div class="panel-footer">
-                            <div class="input-group">
-                                <input id="btn-input" type="text" minlength=1 maxlength=100 class="form-control input-sm" placeholder="Type your message here..." style="font-size: 16px;"/>
-                                <span class="input-group-btn" id="btnChatAjaxLoaderId">
-                                    <button class="btn btn-warning btn-sm" id="btn-chat">
-                                        Send
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                        </form>
-                        <!-- /.panel-footer -->
-                    </div><!-- TOUT LE CHAT --><!-- /.panel .chat-panel -->
-                </div>
-            </div>
-            <!-- /.row -->
         
         <!-- /#page-wrapper -->
 
