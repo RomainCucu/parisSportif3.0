@@ -144,14 +144,11 @@ var remplirChoix = function(data){
 	if(data.VAINQUEURSEURO2016){//vainqueur 3 premiers euros
 		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VAINQUEURSEURO2016.VOTER1EURO, data.VAINQUEURSEURO2016.VOTER2EURO, data.VAINQUEURSEURO2016.VOTER3EURO);
 		if(data.VAINQUEURSEURO2016.VOTER1EURO){
-			afficher('SELECT_VOTER1EURO_VOTED');
-			document.getElementById('SELECT_VOTER1EURO').value = data.VAINQUEURSEURO2016.VOTER1EURO;
+			afficherSelectReceptionVote('SELECT_VOTER1EURO',data.VAINQUEURSEURO2016.VOTER1EURO, 'SELECT_VOTER1EURO_VOTED');
 		}if(data.VAINQUEURSEURO2016.VOTER2EURO){
-			afficher('SELECT_VOTER2EURO_VOTED');
-			document.getElementById('SELECT_VOTER2EURO').value = data.VAINQUEURSEURO2016.VOTER2EURO;
+			afficherSelectReceptionVote('SELECT_VOTER2EURO',data.VAINQUEURSEURO2016.VOTER2EURO, 'SELECT_VOTER2EURO_VOTED');
 		}if(data.VAINQUEURSEURO2016.VOTER3EURO){
-			afficher('SELECT_VOTER3EURO_VOTED');
-			document.getElementById('SELECT_VOTER3EURO').value = data.VAINQUEURSEURO2016.VOTER3EURO;
+			afficherSelectReceptionVote('SELECT_VOTER3EURO',data.VAINQUEURSEURO2016.VOTER3EURO, 'SELECT_VOTER3EURO_VOTED');
 		}
 	}
 	afficher('SELECT_VOTER1EURO');
@@ -242,6 +239,11 @@ var masquerEl = function(el){
 var eraseCookie= function(){
 	document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
 	document.location.href="../index.html";
+};
+// on met le valeur dans le select et on affiche 'vous avez voté'
+var afficherSelectReceptionVote = function(idSelect, value, spanPhraseVote){
+	afficher(spanPhraseVote);
+	document.getElementById(idSelect).value = value;
 };
 
 //recupere les votes et autres
