@@ -4,7 +4,17 @@ var fs = require("fs");
 var db = require("./private/db.js");
 
 var chatRoomArray = [];//array with wchatroom conv
+//variables globales
 var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
+//tous les groupes
+var groupesEuro = ['A','B','C','D','E','F'];
+var groupeA = ["France", "Roumanie", "Albanie",   "Suisse"];
+var groupeB = ["Angleterre", "Russie", "Pays de Galles",   "Slovaquie"];
+var groupeC = ["Allemagne", "Ukraine", "Pologne",   "Irlande du Nord"];
+var groupeD = ["Espagne", "République tchèque", "Turquie",   "Croatie"];
+var groupeE = ["Belgique", "Italie", "Irlande",   "Suède"];
+var groupeF = ["Portugal", "Islande", "Autriche",   "Hongrie"];
+ 
 
 /**
 * This method is used to process the request * @param req (Object) the request object
@@ -129,9 +139,15 @@ cb_cookie:
 				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2, VOTER3EURO: b.pays3};
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "VOTERGROUPEEURO"){
+				//on verifie que les pays existent
 				if(!verifPaysListeGroupeEURO(b.pays1)) b.pays1 = 1;
 				if(!verifPaysListeGroupeEURO(b.pays2)) b.pays2 = 1;
-				b.destinationVote = 'GROUPEEURO2016';
+				//on vérifie que le groupe existe sinon on annule
+				if(!verifPaysListeGroupeEUROValide(b.groupe)){
+					this.resp.end(JSON.stringify({message:"action not found"}));
+					return;
+				}
+				b.destinationVote = 'GROUPEEURO2016_'+b.groupe;
 				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2};
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "RECUPERERINFOS"){
@@ -238,6 +254,14 @@ var verifPaysListeEURO = function(paysParam){
 
 var verifPaysListeGroupeEURO = function(paysParam){
 	if(paysParam < 0 && paysParam >3){
+		return false;
+	}else{
+		return true;
+	}
+};
+
+var verifPaysListeGroupeEUROValide = function(char){
+	if(groupesEuro.indexOf(char) == -1){
 		return false;
 	}else{
 		return true;
