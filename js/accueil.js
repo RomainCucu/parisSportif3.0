@@ -142,7 +142,7 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
 	if(data.VAINQUEURSEURO2016){//vainqueur 3 premiers euros
-		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VOTER1EURO, data.VOTER2EURO, data.VOTER3EURO);
+		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VAINQUEURSEURO2016.VOTER1EURO, data.VAINQUEURSEURO2016.VOTER2EURO, data.VAINQUEURSEURO2016.VOTER3EURO);
 		if(data.VAINQUEURSEURO2016.VOTER1EURO){
 			afficher('SELECT_VOTER1EURO_VOTED');
 			document.getElementById('SELECT_VOTER1EURO').value = data.VAINQUEURSEURO2016.VOTER1EURO;
