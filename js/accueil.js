@@ -244,7 +244,7 @@ var compterMeilleurVoteVainqueurEuro2016 = function(mesVotes, autresVotesObj){
 	});
 	if(objVotesGlobaux.votePremier != -1){
 		document.getElementById('progress_bar_id_vainqueur_euro_2016').style.width = ""+objVotesGlobaux.pourcentage+"%";
-		document.getElementById('progress_bar_id_vainqueur_euro_2016').innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" "+objVotesGlobaux.pourcentage+" %";
+		document.getElementById('progress_bar_id_vainqueur_euro_2016').innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" avec "+objVotesGlobaux.pourcentage+" % des votes !";
 	}
 	console.log(objVotesGlobaux);
 };
