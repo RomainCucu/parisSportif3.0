@@ -14,7 +14,11 @@ obj.log_callback = function () {
 	if (this.readyState == 4 && this.status == 200) {
 		var r = JSON.parse(this.responseText);			
 		if (r.categorie == "SUCCESS"){
-			if(r.suc_methode == "VOTER1EURO"){	
+			if(r.suc_methode == "VOTER1EURO"){
+				if(r.data.groupe){
+					console.log('ok');
+					return;
+				}
 				afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
 				afficher('voteVainqueursOK');
 				//obj.post({action:'RECUPERERINFOS'},obj.log_callback);
