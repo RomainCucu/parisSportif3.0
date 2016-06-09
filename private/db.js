@@ -237,7 +237,7 @@ exports.voterVainqueurEuro = function(res, c, b){
 				res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:'erreur methode update inconnue'}));	 
 			}else if (results[0]){//on update le champ
 				var update = { $set : {} };
-				update.$set['' + results[0].pseudo +'.VAINQUEURSEURO2016'] = {VOTER1EURO: b.pays1,	VOTER2EURO: b.pays2, VOTER3EURO: b.pays3};
+				update.$set['' + results[0].pseudo +'.'+b.destinationVote] = b.stockVote;
 				collection.update({pseudo:"parisVainqueursEuro2016"},
 				update,
 				{upsert: false}, function(err, doc){
