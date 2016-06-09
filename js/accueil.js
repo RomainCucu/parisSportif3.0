@@ -22,7 +22,7 @@ obj.log_callback = function () {
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				console.log(r);
 				remplirChoix(r.mesVotesVainqueursEuro2016);
-				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016);
+				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016
 				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
 			}	
 		}else if(r.categorie == "ERROR"){
@@ -64,7 +64,7 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
 	if(data){
-			remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VOTER1EURO, data.VOTER2EURO, data.VOTER3EURO);
+		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VOTER1EURO, data.VOTER2EURO, data.VOTER3EURO);
 		if(data.VOTER1EURO){
 			afficher('SELECT_VOTER1EURO_VOTED');
 			document.getElementById('SELECT_VOTER1EURO').value = data.VOTER1EURO;
@@ -81,10 +81,9 @@ var remplirChoix = function(data){
 	afficher('SELECT_VOTER3EURO');
 };
 
-var remplirTableauVoteVainqueurs = function (autresVotesObj){
+var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
 	var str = "";
 	var i = 0;
-	//document.getElementById('tableClassementVainqueursEuro').innerHTML = "";
 	Object.keys(autresVotesObj).forEach(function(key) {
 		var pseudo = key;
     		var vote1 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)];
@@ -100,7 +99,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj){
     		}
     		i++;
 	});
-	document.getElementById('tableClassementVainqueursEuro').innerHTML += str;
+	document.getElementById(""+documentID.innerHTML += str;
 };
 
 var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
