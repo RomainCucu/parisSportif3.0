@@ -235,8 +235,10 @@ var remplirPoule = function(){
 		document.getElementById('remplirPoule').innerHTML += '<div class="col-md-4"><div class="chat-panel panel panel-default"><div class="panel-heading"><i class="fa fa-comments fa-fw"></i>Groupe '+i+'</div><!-- /.panel-heading --><div class="panel-body"><div class="row"><div class="col-lg-12"><form id="groupe_'+i+'_form_id"><div class="form-group"><label for="groupe_'+i+'_select_id_1">Sélectionner le premier du groupe A:</label><p class="text-primary col-md-12" id="groupe_'+i+'_select_voted_1" style="display:none">Vous avez voté :</p><select class="form-control" id="groupe_'+i+'_select_id_1" style=""></select></div><div class="form-group"><label for="groupe_'+i+'_select_id_2">Sélectionner le second du groupe A:</label><p class="text-primary col-md-12" id="groupe_'+i+'_select_voted_2" style="display:none">Vous avez voté :</p><select class="form-control" id="groupe_'+i+'_select_id_2" style=""></select></div><button type="submit" class="btn btn-default" id="groupe_'+i+'_btn_id">Submit</button><img id="groupe_'+i+'_gif_submit" src="../images/ajax-loader-mid.gif" style="height:auto; width:auto; display:none;"><p class="text-success" id="groupe_'+i+'_submit_OK" style="height:auto; width:auto; display:none;"> Vote Envoyé !</p><p class="text-danger" id="groupe_'+i+'_submit_KO" style="height:auto; width:auto; display:none;"> Vote NON Envoyé ! rééssayez plus tard !</p><p class="text-warning" id="groupe_'+i+'_submit_KO_doublon" style="height:auto; width:auto; display:none;"> Vote NON Envoyé ! Choisir une équipe différente pour chaque classement !</p></form></div></div></div></div></div>';
 		//on rempli les select
 		for (var z in groupesEuro){
-			document.getElementById('groupe_'+i+'_select_id_1').innerHTML += "<option value="+z+">"+groupeTmp[z]+"</option>";
-	  		document.getElementById('groupe_'+i+'_select_id_2').innerHTML += "<option value="+z+">"+groupeTmp[z]+"</option>";
+			if(z <4){
+				document.getElementById('groupe_'+i+'_select_id_1').innerHTML += "<option value="+z+">"+groupeTmp[z]+"</option>";
+	  			document.getElementById('groupe_'+i+'_select_id_2').innerHTML += "<option value="+z+">"+groupeTmp[z]+"</option>";
+			}
 		}
 	}
 };
