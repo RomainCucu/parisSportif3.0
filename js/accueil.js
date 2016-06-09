@@ -81,7 +81,7 @@ obj.log_callback = function () {
 					afficher('voteVainqueursOK');
 				}
 			}else if(r.suc_methode == "RECUPERERINFOS"){
-				remplirChoix(r.mesVotesVainqueursEuro2016.VAINQUEURSEURO2016);
+				remplirChoix(r.mesVotesVainqueursEuro2016);
 				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016
 				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016.VAINQUEURSEURO2016, r.autresVotesVainqueursEuro2016);
 			}	
@@ -141,7 +141,7 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
-	if(data){
+	if(data.VAINQUEURSEURO2016){//vainqueur 3 premiers euros
 		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VOTER1EURO, data.VOTER2EURO, data.VOTER3EURO);
 		if(data.VOTER1EURO){
 			afficher('SELECT_VOTER1EURO_VOTED');
