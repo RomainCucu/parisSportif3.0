@@ -73,13 +73,13 @@ obj.log_callback = function () {
 		if (r.categorie == "SUCCESS"){
 			if(r.suc_methode == "VOTER1EURO"){
 				if(r.data.groupe){
-					console.log(r.data);
-					return;
+					var groupe = r.data.groupe;
+					afficherMasquer('groupe_'+groupe+'_btn_id','groupe_'+groupe+'_gif_submit');
+					afficher('groupe_'+groupe+'_submit_OK');
+				}else{
+					afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
+					afficher('voteVainqueursOK');
 				}
-				afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
-				afficher('voteVainqueursOK');
-				//obj.post({action:'RECUPERERINFOS'},obj.log_callback);
-				console.log(r);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				console.log(r);
 				remplirChoix(r.mesVotesVainqueursEuro2016);
