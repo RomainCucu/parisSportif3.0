@@ -73,7 +73,7 @@ obj.log_callback = function () {
 		if (r.categorie == "SUCCESS"){
 			if(r.suc_methode == "VOTER1EURO"){
 				if(r.data.groupe){
-					console.log('ok');
+					console.log(r.data);
 					return;
 				}
 				afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
