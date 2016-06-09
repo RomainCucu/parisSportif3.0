@@ -151,27 +151,27 @@ var remplirChoix = function(data){
 			afficherSelectReceptionVote('SELECT_VOTER3EURO',data.VAINQUEURSEURO2016.VOTER3EURO, 'SELECT_VOTER3EURO_VOTED');
 		}
 	}
-	if(data.GROUPEEURO2016_A.VOTER1EURO && data.GROUPEEURO2016_A.VOTER2EURO){
+	if(data.GROUPEEURO2016_A && data.GROUPEEURO2016_A.VOTER1EURO && data.GROUPEEURO2016_A.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_A_select_id_1',data.GROUPEEURO2016_A.VOTER1EURO, 'groupe_A_select_voted_1');
 		afficherSelectReceptionVote('groupe_A_select_id_2',data.GROUPEEURO2016_A.VOTER2EURO, 'groupe_A_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_B.VOTER1EURO && data.GROUPEEURO2016_B.VOTER2EURO){
+	if(data.GROUPEEURO2016_B && data.GROUPEEURO2016_B.VOTER1EURO && data.GROUPEEURO2016_B.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_B_select_id_1',data.GROUPEEURO2016_B.VOTER1EURO, 'groupe_B_select_voted_1');
 		afficherSelectReceptionVote('groupe_B_select_id_2',data.GROUPEEURO2016_B.VOTER2EURO, 'groupe_B_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_C.VOTER1EURO && data.GROUPEEURO2016_C.VOTER2EURO){
+	if(data.GROUPEEURO2016_C && data.GROUPEEURO2016_C.VOTER1EURO && data.GROUPEEURO2016_C.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_C_select_id_1',data.GROUPEEURO2016_C.VOTER1EURO, 'groupe_C_select_voted_1');
 		afficherSelectReceptionVote('groupe_C_select_id_2',data.GROUPEEURO2016_C.VOTER2EURO, 'groupe_C_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_D.VOTER1EURO && data.GROUPEEURO2016_D.VOTER2EURO){
+	if(data.GROUPEEURO2016_D && data.GROUPEEURO2016_D.VOTER1EURO && data.GROUPEEURO2016_D.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_D_select_id_1',data.GROUPEEURO2016_D.VOTER1EURO, 'groupe_D_select_voted_1');
 		afficherSelectReceptionVote('groupe_D_select_id_2',data.GROUPEEURO2016_D.VOTER2EURO, 'groupe_D_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_E.VOTER1EURO && data.GROUPEEURO2016_E.VOTER2EURO){
+	if(data.GROUPEEURO2016_E && data.GROUPEEURO2016_E.VOTER1EURO && data.GROUPEEURO2016_E.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_E_select_id_1',data.GROUPEEURO2016_E.VOTER1EURO, 'groupe_E_select_voted_1');
 		afficherSelectReceptionVote('groupe_E_select_id_2',data.GROUPEEURO2016_E.VOTER2EURO, 'groupe_E_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_F.VOTER1EURO && data.GROUPEEURO2016_F.VOTER2EURO){
+	if(data.GROUPEEURO2016_F && data.GROUPEEURO2016_F.VOTER1EURO && data.GROUPEEURO2016_F.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_F_select_id_1',data.GROUPEEURO2016_F.VOTER1EURO, 'groupe_F_select_voted_1');
 		afficherSelectReceptionVote('groupe_F_select_id_2',data.GROUPEEURO2016_F.VOTER2EURO, 'groupe_F_select_voted_2');
 	}
