@@ -81,10 +81,9 @@ obj.log_callback = function () {
 					afficher('voteVainqueursOK');
 				}
 			}else if(r.suc_methode == "RECUPERERINFOS"){
-				console.log(r);
-				remplirChoix(r.mesVotesVainqueursEuro2016);
+				remplirChoix(r.mesVotesVainqueursEuro2016.VAINQUEURSEURO2016);
 				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016
-				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
+				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016.VAINQUEURSEURO2016, r.autresVotesVainqueursEuro2016);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
