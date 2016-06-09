@@ -247,7 +247,7 @@ exports.voterVainqueurEuro = function(res, c, b){
 				}
 				else if (doc){
 					res.writeHead(200, {"Content-Type": "'text/plain'"});					
-					res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE, data: doc}));
+					res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE, data: b}));
 				}else{
 					res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "4", err_message:'erreur methode update inconnue'}));
 				}
