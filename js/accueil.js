@@ -99,7 +99,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
     		}
     		i++;
 	});
-	document.getElementById(""+documentID.innerHTML += str;
+	document.getElementById(""+documentID).innerHTML += str;
 };
 
 var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
