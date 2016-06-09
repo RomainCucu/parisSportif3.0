@@ -79,10 +79,10 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
 
 //submit pour les groupes
 $('#groupe_A_form_id, #groupe_B_form_id, #groupe_C_form_id, #groupe_D_form_id, #groupe_E_form_id, #groupe_F_form_id').on('submit', function(event){
+	var groupe = this.id.slice(7,8);
 	masquerEl('groupe_'+groupe+'_submit_KO_doublon');
 	masquerEl('groupe_'+groupe+'_submit_KO');
 	masquerEl('groupe_'+groupe+'_submit_OK');	
-	var groupe = this.id.slice(7,8);
 	var pays1 = document.getElementById('groupe_'+groupe+'_select_id_1').value;
 	var pays2 = document.getElementById('groupe_'+groupe+'_select_id_2').value;
 	if(pays1 == pays2){
