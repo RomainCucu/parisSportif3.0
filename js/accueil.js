@@ -38,7 +38,7 @@ obj.log_callback = function () {
 		}
 	}
 };
-
+//submit des trois premiers de l'euro
 document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   masquerEl('voteVainqueursKOdoublon');
   masquerEl('voteVainqueursKO');
@@ -55,6 +55,24 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   obj.post({action:'VOTER1EURO', pays1:pays1, pays2:pays2, pays3:pays3}, obj.log_callback);
   return false;
 };
+
+//submit pour les groupes
+$('#groupe_A_form_id, #groupe_B_form_id, #groupe_C_form_id, #groupe_D_form_id, #groupe_E_form_id, #groupe_F_form_id').on('submit', function(event){
+	masquerEl('groupe_'+groupe+'_submit_KO_doublon');
+	masquerEl('groupe_'+groupe+'_submit_KO');
+	masquerEl('groupe_'+groupe+'_submit_OK');	
+	var groupe = this.id.slice(7,8);
+	var pays1 = document.getElementById('groupe_'+groupe+'_select_id_1').value;
+	var pays2 = document.getElementById('groupe_'+groupe+'_select_id_2').value;
+	if(pays1 == pays2){
+  	afficher('groupe_'+groupe+'_submit_KO_doublon');
+		return false;
+	  }
+	  //remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
+	afficherMasquer('groupe_'+groupe+'_gif_submit','groupe_'+groupe+'_btn_id');
+	obj.post({action:'VOTERGROUPEEURO', groupe: groupe, pays1:pays1, pays2:pays2}, obj.log_callback);
+	return false;
+});
 
 
 var remplirChoix = function(data){
@@ -152,20 +170,20 @@ var afficherMasquer = function(afficherEl, masquerEl){
 	document.getElementById(afficherEl).style.display = 'inline';
 	document.getElementById(masquerEl).style.display = 'none';
 };
-
+//affiche le display de l'id
 var afficher = function(afficherEl){
 	document.getElementById(afficherEl).style.display = 'inline';	
 };
-
+//mets display a none de l'id
 var masquerEl = function(el){
 	document.getElementById(el).style.display = 'none';	
 };
-
+//pour le log out
 var eraseCookie= function(){
 	document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
 	document.location.href="../index.html";
 };
-
+//pour afficher les poules
 var remplirPoule = function(){
 	var i = "";
 	for (var j = 0 ; j <6 ; j++){
@@ -175,11 +193,14 @@ var remplirPoule = function(){
 		if( j == 3 ) i = 'D';
 		if( j == 4 ) i = 'E';
 		if( j == 5 ) i = 'F';
-		document.getElementById('remplirPoule').innerHTML += '<div class="col-md-4"><div class="chat-panel panel panel-default"><div class="panel-heading"><i class="fa fa-comments fa-fw"></i>Groupe '+i+'</div><!-- /.panel-heading --><div class="panel-body"><div class="row"><div class="col-lg-12"><form id="groupe_'+i+'_form_id"><div class="form-group"><label for="groupe_'+i+'_select_id_1">Sélectionner le premier du groupe A:</label><p class="text-primary col-md-12" id="groupe_'+i+'_select_voted_1" style="display:none">Vous avez voté :</p><select class="form-control" id="groupe_'+i+'_select_id_1" style=""></select></div><div class="form-group"><label for="groupe_'+i+'_select_id_2">Sélectionner le second du groupe A:</label><p class="text-primary col-md-12" id="groupe_'+i+'_select_voted_2" style="display:none">Vous avez voté :</p><select class="form-control" id="groupe_'+i+'_select_id_2" style=""></select></div><button type="submit" class="btn btn-default" id="groupe_'+i+'_btn_id">Submit</button><img id="voteVainqueursGIF"src="../images/ajax-loader-mid.gif" style="height:auto; width:auto; display:none;"><p class="text-success" id="groupe_'+i+'_submit_OK" style="height:auto; width:auto; display:none;"> Vote Envoyé !</p><p class="text-danger" id="groupe_'+i+'_submit_KO" style="height:auto; width:auto; display:none;"> Vote NON Envoyé ! rééssayez plus tard !</p><p class="text-warning" id="groupe_'+i+'_submit_KO_doublon" style="height:auto; width:auto; display:none;"> Vote NON Envoyé ! Choisir une équipe différente pour chaque classement !</p></form></div></div></div></div></div>';
+		document.getElementById('remplirPoule').innerHTML += '<div class="col-md-4"><div class="chat-panel panel panel-default"><div class="panel-heading"><i class="fa fa-comments fa-fw"></i>Groupe '+i+'</div><!-- /.panel-heading --><div class="panel-body"><div class="row"><div class="col-lg-12"><form id="groupe_'+i+'_form_id"><div class="form-group"><label for="groupe_'+i+'_select_id_1">Sélectionner le premier du groupe A:</label><p class="text-primary col-md-12" id="groupe_'+i+'_select_voted_1" style="display:none">Vous avez voté :</p><select class="form-control" id="groupe_'+i+'_select_id_1" style=""></select></div><div class="form-group"><label for="groupe_'+i+'_select_id_2">Sélectionner le second du groupe A:</label><p class="text-primary col-md-12" id="groupe_'+i+'_select_voted_2" style="display:none">Vous avez voté :</p><select class="form-control" id="groupe_'+i+'_select_id_2" style=""></select></div><button type="submit" class="btn btn-default" id="groupe_'+i+'_btn_id">Submit</button><img id="groupe_'+i+'_gif_submit" src="../images/ajax-loader-mid.gif" style="height:auto; width:auto; display:none;"><p class="text-success" id="groupe_'+i+'_submit_OK" style="height:auto; width:auto; display:none;"> Vote Envoyé !</p><p class="text-danger" id="groupe_'+i+'_submit_KO" style="height:auto; width:auto; display:none;"> Vote NON Envoyé ! rééssayez plus tard !</p><p class="text-warning" id="groupe_'+i+'_submit_KO_doublon" style="height:auto; width:auto; display:none;"> Vote NON Envoyé ! Choisir une équipe différente pour chaque classement !</p></form></div></div></div></div></div>';
 	}
 };
 
 //-------AU DEMARRAGE
-obj.post({action:'RECUPERERINFOS'},obj.log_callback);
+//affiche le html
 remplirPoule();
+//recupere les votes et autres
+obj.post({action:'RECUPERERINFOS'},obj.log_callback);
+
 
