@@ -80,10 +80,11 @@ obj.log_callback = function () {
 					afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
 					afficher('voteVainqueursOK');
 				}
+				obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				remplirChoix(r.mesVotesVainqueursEuro2016);
-				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016
-				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016.VAINQUEURSEURO2016, r.autresVotesVainqueursEuro2016);
+				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
+				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
@@ -141,7 +142,7 @@ var remplirChoix = function(data){
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
-	if(data.VAINQUEURSEURO2016){//vainqueur 3 premiers euros
+	if(data && data.VAINQUEURSEURO2016){//vainqueur 3 premiers euros
 		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VAINQUEURSEURO2016.VOTER1EURO, data.VAINQUEURSEURO2016.VOTER2EURO, data.VAINQUEURSEURO2016.VOTER3EURO);
 		if(data.VAINQUEURSEURO2016.VOTER1EURO){
 			afficherSelectReceptionVote('SELECT_VOTER1EURO',data.VAINQUEURSEURO2016.VOTER1EURO, 'SELECT_VOTER1EURO_VOTED');
@@ -151,27 +152,27 @@ var remplirChoix = function(data){
 			afficherSelectReceptionVote('SELECT_VOTER3EURO',data.VAINQUEURSEURO2016.VOTER3EURO, 'SELECT_VOTER3EURO_VOTED');
 		}
 	}
-	if(data.GROUPEEURO2016_A && data.GROUPEEURO2016_A.VOTER1EURO && data.GROUPEEURO2016_A.VOTER2EURO){
+	if(data && data.GROUPEEURO2016_A && data.GROUPEEURO2016_A.VOTER1EURO && data.GROUPEEURO2016_A.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_A_select_id_1',data.GROUPEEURO2016_A.VOTER1EURO, 'groupe_A_select_voted_1');
 		afficherSelectReceptionVote('groupe_A_select_id_2',data.GROUPEEURO2016_A.VOTER2EURO, 'groupe_A_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_B && data.GROUPEEURO2016_B.VOTER1EURO && data.GROUPEEURO2016_B.VOTER2EURO){
+	if(data && data.GROUPEEURO2016_B && data.GROUPEEURO2016_B.VOTER1EURO && data.GROUPEEURO2016_B.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_B_select_id_1',data.GROUPEEURO2016_B.VOTER1EURO, 'groupe_B_select_voted_1');
 		afficherSelectReceptionVote('groupe_B_select_id_2',data.GROUPEEURO2016_B.VOTER2EURO, 'groupe_B_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_C && data.GROUPEEURO2016_C.VOTER1EURO && data.GROUPEEURO2016_C.VOTER2EURO){
+	if(data && data.GROUPEEURO2016_C && data.GROUPEEURO2016_C.VOTER1EURO && data.GROUPEEURO2016_C.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_C_select_id_1',data.GROUPEEURO2016_C.VOTER1EURO, 'groupe_C_select_voted_1');
 		afficherSelectReceptionVote('groupe_C_select_id_2',data.GROUPEEURO2016_C.VOTER2EURO, 'groupe_C_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_D && data.GROUPEEURO2016_D.VOTER1EURO && data.GROUPEEURO2016_D.VOTER2EURO){
+	if(data && data.GROUPEEURO2016_D && data.GROUPEEURO2016_D.VOTER1EURO && data.GROUPEEURO2016_D.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_D_select_id_1',data.GROUPEEURO2016_D.VOTER1EURO, 'groupe_D_select_voted_1');
 		afficherSelectReceptionVote('groupe_D_select_id_2',data.GROUPEEURO2016_D.VOTER2EURO, 'groupe_D_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_E && data.GROUPEEURO2016_E.VOTER1EURO && data.GROUPEEURO2016_E.VOTER2EURO){
+	if(data && data.GROUPEEURO2016_E && data.GROUPEEURO2016_E.VOTER1EURO && data.GROUPEEURO2016_E.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_E_select_id_1',data.GROUPEEURO2016_E.VOTER1EURO, 'groupe_E_select_voted_1');
 		afficherSelectReceptionVote('groupe_E_select_id_2',data.GROUPEEURO2016_E.VOTER2EURO, 'groupe_E_select_voted_2');
 	}
-	if(data.GROUPEEURO2016_F && data.GROUPEEURO2016_F.VOTER1EURO && data.GROUPEEURO2016_F.VOTER2EURO){
+	if(data && data.GROUPEEURO2016_F && data.GROUPEEURO2016_F.VOTER1EURO && data.GROUPEEURO2016_F.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_F_select_id_1',data.GROUPEEURO2016_F.VOTER1EURO, 'groupe_F_select_voted_1');
 		afficherSelectReceptionVote('groupe_F_select_id_2',data.GROUPEEURO2016_F.VOTER2EURO, 'groupe_F_select_voted_2');
 	}
@@ -198,6 +199,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
     		}
     		i++;
 	});
+	document.getElementById(""+documentID).innerHTML = "";
 	document.getElementById(""+documentID).innerHTML += str;
 };
 
@@ -216,13 +218,13 @@ var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
 	}
 };
 
-var compterMeilleurVoteVainqueurEuro2016 = function(data, autresVotesObj){
+var compterMeilleurVoteVainqueurEuro2016 = function(mesVotes, autresVotesObj){
 	var objVotesGlobaux = {};
 	objVotesGlobaux.voteTotal = 0;//pour savoir le nombre de votes
 	objVotesGlobaux.votePremier = -1;//pour savoir le vainqueur
 	objVotesGlobaux.pourcentage = 100;
-	if(data){//si j'ai des votes
-		objVotesGlobaux[data.VOTER1EURO] = 1; //mon vote vainqueur
+	if(mesVotes && mesVotes.VAINQUEURSEURO2016){//si j'ai des votes
+		objVotesGlobaux[mesVotes.VAINQUEURSEURO2016.VOTER1EURO] = 1; //mon vote vainqueur
 		objVotesGlobaux.voteTotal += 1;//on ajoute une voix
 	}
 	if(autresVotesObj){//si d'autres votes

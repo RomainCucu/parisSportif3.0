@@ -3,7 +3,8 @@ var url = require("url");
 var fs = require("fs");
 var db = require("./private/db.js");
 
-var chatRoomArray = [];//array with wchatroom conv
+var chatRoomArray = new Array();
+var keySignUp = ["170868021", "614209486", "351105936", "904305695", "220425509", "308762382", "35629449", "313038326", "937738415", "335028273", "488610600", "291507150", "477068703", "136464234", "893264933", "593100108", "43714495", "129589807", "306396163", "347728654", "350031403", "366011722", "309613262", "106801707", "551188621", "930735883", "218910524", "741871738", "961915044", "20602840", "775540887", "670030642", "374048786", "39785708", "319508659", "444971685", "239752528", "792690038", "512180504", "755239402", "800450430", "208764781", "283077851", "728897325", "323833074", "39577290", "32598842", "608604964", "695448875", "590320029", "904162418", "782598074", "318841354", "3919012", "583136915", "620300353", "13451034", "892447110", "316524258", "581396441", "444413881", "786009229", "440071757", "470016400", "626876906", "298629371", "809988282", "782738086", "783248958", "601630363", "271556321", "967418286", "231297853", "545975897", "371742640", "124065197", "40366181", "606445770", "230188739", "776619618", "880224133", "817837085", "116654985", "98288764", "33230822", "843199247", "154563034", "478778532", "649294393", "434671018", "642307463", "972979257", "803606352", "588883627", "72244798", "530889025", "972666543", "456486783", "94569284", "205350859"];
 //variables globales
 var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
 //tous les groupes
@@ -113,11 +114,15 @@ go_post:
 		this.b = b;		
 		if(b.action == "signin") {
 			db.signin(b, this.resp);
-		}else if(b.action == "SIGNUP"){					
-			//var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
-			//verificationFormulaireRegister(objDb,b);				
-			//db.signup(objDb, this.resp);
-			this.resp.end(JSON.stringify({etat:"signupKO",message:"fonction non activée"}));
+		}else if(b.action == "SIGNUP"){
+			if(b.uniqueKey && keySignUp.indexOf(b.uniqueKey) != -1){
+				keySignUp.splice(keySignUp.indexOf(b.uniqueKey) , 1);			
+				var objDb = {};//on cree nouvel objet pour etre sur qu on insere bien ce que l on veut dans la base : pseudo, mail...
+				verificationFormulaireRegister(objDb,b);				
+				db.signup(objDb, this.resp);
+			}else{
+				this.resp.end(JSON.stringify({etat:"signupKO",message:"key non trouvée"}));
+			}			
 		}else {			
 			db.valid_cookie(this.req.headers.cookie, this, "cb_cookie");
 		}	
