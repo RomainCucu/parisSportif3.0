@@ -321,6 +321,8 @@ var remplirMatchDuJour = function(data){
 			}else{
 				document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Vous avez voté pour la '+arrPaysEuro[data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO];
 			}
+		}else{
+			document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Faites un vote !';
 		}
 		compteurMatchDuJour(data.mesVotes, data.autresVotes, 'MATCHDUJOUR_'+data._id);
 	}
