@@ -331,6 +331,7 @@ var remplirMatchDuJour = function(data){
 					data.isDisabled = "disabled";					
 					document.getElementById('id_expiration_match_jour').innerHTML = "Les votes sont clôturés !";
 				}
+				document.getElementById('id_points_match_jour').innerHTML = data.listeMatchDuJour[key].points + " points";
 			}
 		});
 		var img1 = '<img src="../images/flags/'+data.pays1+'.png" alt="Smiley face" height="20" width="30">&nbsp';
@@ -367,18 +368,20 @@ var ftcVoterMatchDuJour = function(index,id, _id_match){
 var calculScoreChaquePersonne = function(mesVotes, autresVotes, listeMatchDuJour){
 	var arrMatchId = new Array();
 	var arrMatchVainqueur = new Array();
+	var arrMatchPoints = new Array();
 	var arrPseudo = new Array();
 
 	Object.keys(listeMatchDuJour).forEach(function(key) {
-		arrMatchId.push(listeMatchDuJour[key]._id);//on stocke les id des matchs
+		arrMatchId.push(listeMatchDuJour[key].id_match);//on stocke les id des matchs
 		arrMatchVainqueur.push(listeMatchDuJour[key].vainqueur);
+		arrMatchPoints.push(listeMatchDuJour[key].points);
 	});
 	//tous les autres votes
 	Object.keys(autresVotes).forEach(function(key) {
 		var score = 0;
 		for(var i in arrMatchId){
 			if(autresVotes[key]['MATCHDUJOUR_'+arrMatchId[i]] && autresVotes[key]['MATCHDUJOUR_'+arrMatchId[i]].VOTER1EURO == arrMatchVainqueur[i]){				
-				score+=20;
+				score+=arrMatchPoints[i];
 			}
 		}
 		arrPseudo.push({pseudo:key,score:score, avatar:autresVotes[key].avatar});				
@@ -389,7 +392,7 @@ var calculScoreChaquePersonne = function(mesVotes, autresVotes, listeMatchDuJour
 		var score = 0;
 		for(var i in arrMatchId){
 			if(mesVotes[key]['MATCHDUJOUR_'+arrMatchId[i]] && mesVotes[key]['MATCHDUJOUR_'+arrMatchId[i]].VOTER1EURO == arrMatchVainqueur[i]){				
-				score+=20;			
+				score+=arrMatchPoints[i];			
 			}
 		}
 		arrPseudo.push({pseudo:key,score:score, avatar:mesVotes[key].avatar});					

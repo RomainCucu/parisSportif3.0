@@ -75,12 +75,24 @@ get_method:
 		this.filetype = this.filetype[this.filetype.length - 1];
 		this.filtype = this.filetype;
 		this.path = "." + u.path;
-		if (this.pathname[0] == "html")//pour voir dans quel page on va
-			{
-				db.valid_cookie(this.req.headers.cookie, this, "check_cookie");
-			}
-		else{			
+		console.log(this.pathname)
+		if (this.pathname[1] == "admin.html")//pour voir dans quel page on va
+		{
+			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){
 				this.read_file();
+			}				
+			else{
+				this.resp.writeHead(301, {Location: '../index.html?err=cookieNotFound'});
+				this.resp.end();	
+			}
+		}
+		else if (this.pathname[0] == "html")//pour voir dans quel page on va
+		{
+			db.valid_cookie(this.req.headers.cookie, this, "check_cookie");
+		}
+		else
+		{			
+			this.read_file();
 		}
 		},
 
@@ -123,6 +135,8 @@ go_post:
 			}else{
 				this.resp.end(JSON.stringify({etat:"signupKO",message:"key non trouvée"}));
 			}			
+		}else if (b.action == "ADMINAZEQSD_ADD_MATCH_JOUR"){
+			db.addMatchDuJour(this.resp, b);
 		}else {			
 			db.valid_cookie(this.req.headers.cookie, this, "cb_cookie");
 		}	

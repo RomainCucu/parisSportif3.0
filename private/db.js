@@ -70,7 +70,14 @@ exports.signin = function(data, res){//fonction pour ajouter un USER
 					throw err;
 					res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "2", err_message:ERR_CONNECTION_BASE}));
 				}else{
-					if (results[0]){//si on trouve bien le login et le PW associé dans la base de donnée 						
+					if (results[0]){//si on trouve bien le login et le PW associé dans la base de donnée
+						if(results[0].pseudo == "ADMIN"){
+							var cookieValue =  data.formLogin.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName
+							cookieValue = pad(20,cookieValue,'0');
+							var cookieExpire = new Date(new Date().getTime()+ 365*24*60*60*1000).toUTCString();//si la case rememberme est cochée, 1 an
+							res.writeHead(200, {"Content-Type": "'text/plain'", "Set-Cookie" : 'adminazeqsd='+cookieValue+';expires='+cookieExpire});//on ecrit le cookie chez le client					
+							res.end(JSON.stringify({categorie:CATEGORIE_OK,suc_methode:NOM_METHODE,data:'admin'}));
+						}
 						var cookieValue =  data.formLogin.substring(0,3) + Math.floor(Math.random() * 100000000);//pour cookieName
 						cookieValue = pad(20,cookieValue,'0');
 						if (data.formRememberMe == true){
@@ -252,6 +259,36 @@ exports.voterVainqueurEuro = function(res, c, b){
 			}
 		});//find
 	    }
+	});
+};
+
+exports.addMatchDuJour = function(res, b){
+	var NOM_METHODE = "VOTER1EURO";	
+		MongoClient.connect(ID_MONGO, function(err, db) {
+		    if(err){
+		    	throw err;
+		    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
+		    }else{
+		    	var collection = db.collection(COLLECTIONNAME);
+		    	collection.update({pseudo:"parisVainqueursEuro2016"},
+		    		{
+		    			$push:{listeMatchDuJour:b}
+		    		},
+		    		{upsert:false},
+		    		function(err, doc){
+		    			if (err){
+							throw err;
+							res.end(JSON.stringify({data:'erreur'}));
+						}
+						else if (doc){
+							res.writeHead(200, {"Content-Type": "'text/plain'"});					
+							res.end(JSON.stringify({data:'ok'}));
+						}else{
+							res.end(JSON.stringify({data:'erreur'}));
+						}
+		    		}
+		    	);
+		}
 	});
 };
 
