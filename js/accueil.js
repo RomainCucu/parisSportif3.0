@@ -325,7 +325,7 @@ var remplirMatchDuJour = function(data){
 			if(data.listeMatchDuJour[key].affichage){
 				data.pays1 = data.listeMatchDuJour[key].pays1;
 				data.pays2 = data.listeMatchDuJour[key].pays2;
-				data._id = data.listeMatchDuJour[key]._id;
+				data._id = data.listeMatchDuJour[key].id_match;
 				data.isDisabled ="";
 				if(data.listeMatchDuJour[key].expireDate < new Date().getTime()){
 					data.isDisabled = "disabled";					
