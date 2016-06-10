@@ -210,7 +210,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
 		if(i%2 == 0){
 			str += '<tr class="success"><td>'+avatar+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'
 		}else{
-			str += '<tr class="info"><td>'+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'	
+			str += '<tr class="info"><td>'+avatar+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'	
 		}
 		i++;
 		}		
