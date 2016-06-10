@@ -83,7 +83,7 @@ obj.log_callback = function () {
 				}
 				obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
-				remplirMatchDuJour({mesVotes: r.mesVotesVainqueursEuro2016, listeMatchDuJour:r.listeMatchDuJour});
+				remplirMatchDuJour({mesVotes: r.mesVotesVainqueursEuro2016, listeMatchDuJour:r.listeMatchDuJour, autresVotes:r.autresVotesVainqueursEuro2016});
 				remplirSelectVainqueursMesVotes(r.mesVotesVainqueursEuro2016);
 				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
 				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
@@ -244,7 +244,7 @@ var compterMeilleurVoteVainqueurEuro2016 = function(mesVotes, autresVotesObj){
 				objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] += 1;
 			else
 				objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] = 1;
-				objVotesGlobaux.voteTotal += 1;//on ajoute une voix
+			objVotesGlobaux.voteTotal += 1;//on ajoute une voix
 		});
 	}
 	Object.keys(objVotesGlobaux).forEach(function(key) {
@@ -257,11 +257,46 @@ var compterMeilleurVoteVainqueurEuro2016 = function(mesVotes, autresVotesObj){
 		document.getElementById('progress_bar_id_vainqueur_euro_2016').style.width = ""+objVotesGlobaux.pourcentage+"%";
 		document.getElementById('progress_bar_id_vainqueur_euro_2016').innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" avec "+objVotesGlobaux.pourcentage+" % des votes !";
 	}
+};
+//compteur pour le match du jour
+var compteurMatchDuJour = function(mesVotes, autresVotesObj, _idMatch){
+	var objVotesGlobaux = {};
+	objVotesGlobaux.voteTotal = 0;//pour savoir le nombre de votes
+	objVotesGlobaux.votePremier = -2;//pour savoir le vainqueur
+	objVotesGlobaux.pourcentage = 100;
+	if(mesVotes && mesVotes[_idMatch]){//si j'ai des votes
+		objVotesGlobaux[mesVotes[_idMatch].VOTER1EURO] = 1; //mon vote vainqueur
+		objVotesGlobaux.voteTotal += 1;//on ajoute une voix
+	}
+	if(autresVotesObj){//si d'autres votes
+		Object.keys(autresVotesObj).forEach(function(key) {
+			if(autresVotesObj[key][_idMatch]){
+				if(objVotesGlobaux[autresVotesObj[key][_idMatch].VOTER1EURO])
+					objVotesGlobaux[autresVotesObj[key][_idMatch].VOTER1EURO] += 1;
+				else
+					objVotesGlobaux[autresVotesObj[key][_idMatch].VOTER1EURO] = 1;
+			objVotesGlobaux.voteTotal += 1;//on ajoute une voix
+			}
+		});
+	}
+	Object.keys(objVotesGlobaux).forEach(function(key) {
+		if(Number.isInteger(parseInt(key)) && objVotesGlobaux.votePremier < objVotesGlobaux[key]){
+			objVotesGlobaux.votePremier = key;
+			objVotesGlobaux.pourcentage = Math.floor(objVotesGlobaux[key]/(objVotesGlobaux.voteTotal)*100);
+		}
+	});
+	if(objVotesGlobaux.votePremier != -2){
+		document.getElementById('progress_bar_id_vainqueur_match_du_jour').style.width = ""+objVotesGlobaux.pourcentage+"%";
+		if(objVotesGlobaux.votePremier != -1)
+			document.getElementById('progress_bar_id_vainqueur_match_du_jour').innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" avec "+objVotesGlobaux.pourcentage+" % des votes !";
+		else
+			document.getElementById('progress_bar_id_vainqueur_match_du_jour').innerHTML = "Match nul avec "+objVotesGlobaux.pourcentage+" % des votes !";
+	}
 	console.log(objVotesGlobaux);
 };
 
 //on rempli le match du jour
-var remplirMatchDuJour = function(data){
+var remplirMatchDuJour = function(data){	
 	if(data && data.listeMatchDuJour){
 		Object.keys(data.listeMatchDuJour).forEach(function(key) {
 			if(data.listeMatchDuJour[key].affichage){
@@ -279,13 +314,15 @@ var remplirMatchDuJour = function(data){
 		document.getElementById('btn_matchDuJour_id_1').innerHTML = '<button type="" id="btn_voter_match_du_jour_1" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays1+',\'btn_matchDuJour_id_1\',\''+data._id+'\')">Votez !</button>';
 		document.getElementById('btn_matchDuJour_id_nul').innerHTML = '<button type="" id="btn_voter_match_du_jour_nul" class="btn btn-default" onclick="ftcVoterMatchDuJour(-1,\'btn_matchDuJour_id_nul\',\''+data._id+'\')">Votez !</button>';
 		document.getElementById('btn_matchDuJour_id_2').innerHTML = '<button type="" id="btn_voter_match_du_jour_2" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays2+', \'btn_matchDuJour_id_2\',\''+data._id+'\')">Votez !</button>';
+		//si on a voté, on affiche son vote
 		if(data.mesVotes && data.mesVotes['MATCHDUJOUR_'+data._id]){
 			if(data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO == -1){
 				document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Vous avez voté pour le match nul';
 			}else{
 				document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Vous avez voté pour la '+arrPaysEuro[data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO];
-			}			
+			}
 		}
+		compteurMatchDuJour(data.mesVotes, data.autresVotes, 'MATCHDUJOUR_'+data._id);
 	}
 };
 
