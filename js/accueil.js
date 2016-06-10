@@ -273,8 +273,8 @@ var compterMeilleurVoteVainqueurEuro2016 = function(r){
 var compteurMatchDuJour = function(mesVotes, autresVotesObj, _idMatch){
 	var objVotesGlobaux = {};
 	objVotesGlobaux.voteTotal = 0;//pour savoir le nombre de votes
-	objVotesGlobaux.votePremier = -2;//pour savoir le vainqueur
-	objVotesGlobaux.pourcentage = 100;
+	objVotesGlobaux.paysVoted = new Array();
+	objVotesGlobaux.pourcentage = new Array();
 	if(mesVotes && mesVotes[_idMatch]){//si j'ai des votes
 		objVotesGlobaux[mesVotes[_idMatch].VOTER1EURO] = 1; //mon vote vainqueur
 		objVotesGlobaux.voteTotal += 1;//on ajoute une voix
@@ -291,17 +291,26 @@ var compteurMatchDuJour = function(mesVotes, autresVotesObj, _idMatch){
 		});
 	}
 	Object.keys(objVotesGlobaux).forEach(function(key) {
-		if(Number.isInteger(parseInt(key)) && objVotesGlobaux.votePremier < objVotesGlobaux[key]){
-			objVotesGlobaux.votePremier = key;
-			objVotesGlobaux.pourcentage = Math.floor(objVotesGlobaux[key]/(objVotesGlobaux.voteTotal)*100);
+		if(Number.isInteger(parseInt(key))){
+			objVotesGlobaux.paysVoted.push(key);
+			objVotesGlobaux.pourcentage.push(Math.floor(objVotesGlobaux[key]/(objVotesGlobaux.voteTotal)*100));
 		}
 	});
-	if(objVotesGlobaux.votePremier != -2){
-		document.getElementById('progress_bar_id_vainqueur_match_du_jour').style.width = ""+objVotesGlobaux.pourcentage+"%";
-		if(objVotesGlobaux.votePremier != -1)
-			document.getElementById('progress_bar_id_vainqueur_match_du_jour').innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" avec "+objVotesGlobaux.pourcentage+" % des votes !";
-		else
-			document.getElementById('progress_bar_id_vainqueur_match_du_jour').innerHTML = "Match nul avec "+objVotesGlobaux.pourcentage+" % des votes !";
+	for (var i = 0; i< 3 ; i++){
+		var _id2 = 'display_progress_'+i;
+		document.getElementById(_id2).style.display = "none";
+	}
+	if(objVotesGlobaux.paysVoted.length>0){
+		for(var i = 0; i <objVotesGlobaux.paysVoted.length ; i++ ){
+			var _id = 'progress_bar_id_vainqueur_match_du_jour_'+i;
+			var _id2 = 'display_progress_'+i;
+			document.getElementById(_id).style.width = ""+objVotesGlobaux.pourcentage[i]+"%";
+			document.getElementById(_id2).style.display = "";
+			if(objVotesGlobaux.paysVoted[i] != -1)
+				document.getElementById(_id).innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.paysVoted[i])]+" avec "+objVotesGlobaux.pourcentage[i]+" % des votes !";
+			else
+				document.getElementById(_id).innerHTML = "Match nul avec "+objVotesGlobaux.pourcentage[i]+" % des votes !";
+		}
 	}
 	console.log(objVotesGlobaux);
 };
