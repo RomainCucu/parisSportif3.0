@@ -85,8 +85,8 @@ obj.log_callback = function () {
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				remplirMatchDuJour({mesVotes: r.mesVotesVainqueursEuro2016, listeMatchDuJour:r.listeMatchDuJour, autresVotes:r.autresVotesVainqueursEuro2016});
 				remplirSelectVainqueursMesVotes(r);
-				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
-				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
+				remplirTableauVoteVainqueurs(r, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
+				compterMeilleurVoteVainqueurEuro2016(r);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
@@ -194,7 +194,8 @@ var remplirSelectVainqueursMesVotes = function(r){
 
 };
 
-var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
+var remplirTableauVoteVainqueurs = function (r, documentID){
+	var autresVotesObj = r.autresVotesVainqueursEuro2016;
 	var str = "";
 	var i = 0;
 	Object.keys(autresVotesObj).forEach(function(key) {
@@ -235,7 +236,9 @@ var remplirSaLigneVoteVainqueur = function(pseudo, avatar, pays1, pays2, pays3){
 	}
 };
 
-var compterMeilleurVoteVainqueurEuro2016 = function(mesVotes, autresVotesObj){
+var compterMeilleurVoteVainqueurEuro2016 = function(r){
+	var mesVotes = r.mesVotesVainqueursEuro2016;
+	var autresVotesObj = r.autresVotesVainqueursEuro2016;
 	var objVotesGlobaux = {};
 	objVotesGlobaux.voteTotal = 0;//pour savoir le nombre de votes
 	objVotesGlobaux.votePremier = -1;//pour savoir le vainqueur
@@ -325,9 +328,9 @@ var remplirMatchDuJour = function(data){
 		//si on a voté, on affiche son vote
 		if(data.mesVotes && data.mesVotes['MATCHDUJOUR_'+data._id]){
 			if(data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO == -1){
-				document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Vous avez voté pour le match nul';
+				document.getElementById('votre_choix_match_du_jour_id').innerHTML = '<span class="text-success"> Vous avez voté pour le match nul </span>';
 			}else{
-				document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Vous avez voté pour la '+arrPaysEuro[data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO];
+				document.getElementById('votre_choix_match_du_jour_id').innerHTML = '<span class="text-success"> Vous avez voté pour la '+arrPaysEuro[data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO]+'</span>';
 			}
 		}else{
 			document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Faites un vote !';
