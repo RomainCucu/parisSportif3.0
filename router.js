@@ -156,8 +156,12 @@ cb_cookie:
 				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2};
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "RECUPERERINFOS"){
-				var objDb = {};			
+				var objDb = {};
 				db.getInfosViaCookieForRooter(this.req.headers.cookie, this, "RECUPERERINFOS", objDb);				
+			}else if(b.action == "VOTERMATCHDUJOUR"){				
+				b.destinationVote = 'MATCHDUJOUR_'+b._id;
+				b.stockVote = {VOTER1EURO:parseInt(b.pays1)};
+				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);		
 			}else{
 				util.log("INFO - Action not found : " + b.ac);
 				this.resp.end(JSON.stringify({message:"action not found"}));
@@ -168,7 +172,7 @@ cb_cookie:
 	},
 
 RECUPERERINFOS : function(objDb){	
-	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", mesVotesVainqueursEuro2016:objDb.mesVotesVainqueursEuro2016, autresVotesVainqueursEuro2016 :objDb.autresVotesVainqueursEuro2016 }));
+	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", mesVotesVainqueursEuro2016:objDb.mesVotesVainqueursEuro2016, autresVotesVainqueursEuro2016 :objDb.autresVotesVainqueursEuro2016, listeMatchDuJour:objDb.listeMatchDuJour }));
 },
 
 read_file:

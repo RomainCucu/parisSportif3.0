@@ -199,13 +199,18 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct, objDb){
 				if (err){		 	
 					obj[fct]("false 2");	 
 				}else if (results2[0]){
-					var pseudo = results[0].pseudo;
-					if(results2[0][pseudo])
+					var pseudo = results[0].pseudo;//on recupere le pseudo dans la premier table					
+					if(results2[0][pseudo]){//on recupere les infos de vote relative au pseudo
 						objDb.mesVotesVainqueursEuro2016 = results2[0][pseudo];
+					}if(results2[0]['listeMatchDuJour']){//on recupere les infos de vote relative au pseudo
+						objDb.listeMatchDuJour = results2[0]['listeMatchDuJour'];
+					}
+					//on fait le menage dans autres votes vainqueur
 					objDb.autresVotesVainqueursEuro2016 = results2[0];
 					delete objDb.autresVotesVainqueursEuro2016[pseudo];
 					delete objDb.autresVotesVainqueursEuro2016['_id'];
 					delete objDb.autresVotesVainqueursEuro2016['pseudo'];
+					delete objDb.autresVotesVainqueursEuro2016['listeMatchDuJour'];
 					obj[fct](objDb);
 				}else{		 	
 					obj[fct](query);	 

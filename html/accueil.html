@@ -65,10 +65,43 @@
 </nav>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header text-center">Hello <span id='pseudo_id'></span> ! </h1>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">                                                
+                        <h3 class="text-center">Match du jour : <img alt="trophy" src="../images/trophy.png" ><em style="color:grey">20 Pts</em></h3>
+                    </div>
+                    <div class="panel-body" style="max-height: 376px;overflow-y: scroll;">
+
+
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th id="matchDuJourPays1" class="text-center"></th>
+                            <th id="matchDuJourNul" class="text-center"></th>
+                            <th id="matchDuJourPays2" class="text-center"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-center" id="btn_matchDuJour_id_1"></td>
+                            <td class="text-center" id="btn_matchDuJour_id_nul"></td>
+                            <td class="text-center" id="btn_matchDuJour_id_2"></td>
+                          </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                            <td colspan="3" id="votre_choix_match_du_jour_id" class="text-center"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                      </div>
                 </div>
+                </div>                
                 <!-- /.col-lg-12 -->
             </div>
+
+            <hr>
             <div class="row"><!-- row chat -->                
                 <div class="col-lg-7">
                     <div class="panel panel-default">
@@ -225,7 +258,7 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
         document.getElementById('imgAvatar').src = "../images/avatar/"+getParameterByName('gender')+"/"+getParameterByName('avatar')+".png";
-        document.getElementById('pseudo_id').innerHTML = getParameterByName('pseudo').toUpperCase();
+       // document.getElementById('pseudo_id').innerHTML = getParameterByName('pseudo').toUpperCase();
         document.getElementById('imgAvatar').href = document.location.href;
         
     </script>

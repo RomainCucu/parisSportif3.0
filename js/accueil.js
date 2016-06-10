@@ -1,6 +1,5 @@
 var obj = {};
 
-var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
 //variables globales
 var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
 //tous les groupes
@@ -76,13 +75,16 @@ obj.log_callback = function () {
 					var groupe = r.data.groupe;
 					afficherMasquer('groupe_'+groupe+'_btn_id','groupe_'+groupe+'_gif_submit');
 					afficher('groupe_'+groupe+'_submit_OK');
+				}else if(r.data.action =="VOTERMATCHDUJOUR"){
+					
 				}else{
 					afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
 					afficher('voteVainqueursOK');
 				}
 				obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
-				remplirChoix(r.mesVotesVainqueursEuro2016);
+				remplirMatchDuJour({mesVotes: r.mesVotesVainqueursEuro2016, listeMatchDuJour:r.listeMatchDuJour});
+				remplirSelectVainqueursMesVotes(r.mesVotesVainqueursEuro2016);
 				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
 				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
 			}	
@@ -92,10 +94,12 @@ obj.log_callback = function () {
 				afficher('voteVainqueursKO');
 				console.log("error VOTER1EURO");
 			}else if(r.err_methode == "RECUPERERINFOS"){
-				remplirChoix({aze:1});
+				remplirSelectVainqueursMesVotes({aze:1});
 				console.log("error RECUPERERINFOS");
 				//document.getElementById(contenuHTML.id).innerHTML = contenuHTML.string;//pour remettre le bouton originel (car gif qui tourne)
 			}
+		}else{
+			alert('une erreur incongrue est arrivée, rechargez la page SVP');
 		}
 	}
 };
@@ -136,12 +140,13 @@ $('#groupe_A_form_id, #groupe_B_form_id, #groupe_C_form_id, #groupe_D_form_id, #
 });
 
 
-var remplirChoix = function(data){
+var remplirSelectVainqueursMesVotes = function(data){
 	for (var i in arrPaysEuro){
 		document.getElementById('SELECT_VOTER1EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER3EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";	
 	}
+	//vainqueur EURO 2016
 	if(data && data.VAINQUEURSEURO2016){//vainqueur 3 premiers euros
 		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VAINQUEURSEURO2016.VOTER1EURO, data.VAINQUEURSEURO2016.VOTER2EURO, data.VAINQUEURSEURO2016.VOTER3EURO);
 		if(data.VAINQUEURSEURO2016.VOTER1EURO){
@@ -152,6 +157,10 @@ var remplirChoix = function(data){
 			afficherSelectReceptionVote('SELECT_VOTER3EURO',data.VAINQUEURSEURO2016.VOTER3EURO, 'SELECT_VOTER3EURO_VOTED');
 		}
 	}
+	afficher('SELECT_VOTER1EURO');
+	afficher('SELECT_VOTER2EURO');
+	afficher('SELECT_VOTER3EURO');
+	//vainqueursPoules
 	if(data && data.GROUPEEURO2016_A && data.GROUPEEURO2016_A.VOTER1EURO && data.GROUPEEURO2016_A.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_A_select_id_1',data.GROUPEEURO2016_A.VOTER1EURO, 'groupe_A_select_voted_1');
 		afficherSelectReceptionVote('groupe_A_select_id_2',data.GROUPEEURO2016_A.VOTER2EURO, 'groupe_A_select_voted_2');
@@ -176,9 +185,11 @@ var remplirChoix = function(data){
 		afficherSelectReceptionVote('groupe_F_select_id_1',data.GROUPEEURO2016_F.VOTER1EURO, 'groupe_F_select_voted_1');
 		afficherSelectReceptionVote('groupe_F_select_id_2',data.GROUPEEURO2016_F.VOTER2EURO, 'groupe_F_select_voted_2');
 	}
-	afficher('SELECT_VOTER1EURO');
-	afficher('SELECT_VOTER2EURO');
-	afficher('SELECT_VOTER3EURO');
+	//vote du jour
+	if(data && data.MATCHDUJOUR_){
+		console.log(data.MATCHDUJOUR_.VOTER1EURO)
+	}
+
 };
 
 var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
@@ -247,6 +258,40 @@ var compterMeilleurVoteVainqueurEuro2016 = function(mesVotes, autresVotesObj){
 		document.getElementById('progress_bar_id_vainqueur_euro_2016').innerHTML = arrPaysEuro[parseInt(objVotesGlobaux.votePremier)]+" avec "+objVotesGlobaux.pourcentage+" % des votes !";
 	}
 	console.log(objVotesGlobaux);
+};
+
+//on rempli le match du jour
+var remplirMatchDuJour = function(data){
+	if(data && data.listeMatchDuJour){
+		Object.keys(data.listeMatchDuJour).forEach(function(key) {
+			if(data.listeMatchDuJour[key].affichage){
+				data.pays1 = data.listeMatchDuJour[key].pays1;
+				data.pays2 = data.listeMatchDuJour[key].pays2;
+				data._id = data.listeMatchDuJour[key]._id;				
+			}
+		});
+		var img1 = '<img src="../images/flags/'+data.pays1+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		var img2 = '<img src="../images/flags/'+data.pays2+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		document.getElementById('matchDuJourPays1').innerHTML = img1+arrPaysEuro[data.pays1];
+		document.getElementById('matchDuJourNul').innerHTML = "NUL";
+		document.getElementById('matchDuJourPays2').innerHTML = img2 + arrPaysEuro[data.pays2];		
+		//boutons
+		document.getElementById('btn_matchDuJour_id_1').innerHTML = '<button type="" id="btn_voter_match_du_jour_1" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays1+',\'btn_matchDuJour_id_1\',\''+data._id+'\')">Votez !</button>';
+		document.getElementById('btn_matchDuJour_id_nul').innerHTML = '<button type="" id="btn_voter_match_du_jour_nul" class="btn btn-default" onclick="ftcVoterMatchDuJour(-1,\'btn_matchDuJour_id_nul\',\''+data._id+'\')">Votez !</button>';
+		document.getElementById('btn_matchDuJour_id_2').innerHTML = '<button type="" id="btn_voter_match_du_jour_2" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays2+', \'btn_matchDuJour_id_2\',\''+data._id+'\')">Votez !</button>';
+		if(data.mesVotes && data.mesVotes['MATCHDUJOUR_'+data._id]){
+			if(data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO == -1){
+				document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Vous avez voté pour le match nul';
+			}else{
+				document.getElementById('votre_choix_match_du_jour_id').innerHTML = 'Vous avez voté pour la '+arrPaysEuro[data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO];
+			}			
+		}
+	}
+};
+
+var ftcVoterMatchDuJour = function(index,id, _id_match){
+	document.getElementById(id).innerHTML = '<img src="../images/ajax-loader-mid.gif" style="height:auto; width:auto;">';
+	obj.post({action:'VOTERMATCHDUJOUR', pays1:index, _id:_id_match},obj.log_callback);
 };
 
 var afficherMasquer = function(afficherEl, masquerEl){
