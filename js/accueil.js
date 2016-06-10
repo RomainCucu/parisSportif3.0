@@ -401,7 +401,7 @@ var calculScoreChaquePersonne = function(mesVotes, autresVotes, listeMatchDuJour
 var afficherClassementScore = function(arr){
 	for(var i = arr.length-1; i>= 0; i--){
 		var avatar = '<img height=30 class="img-circle" src="../images/avatar/'+arr[i].avatar+'.png" </img>&nbsp';
-		document.getElementById('table_classement_score').innerHTML += "<tr ><td>"+avatar+arr[i].pseudo+"</td><td>"+arr[i].score+"</td></tr>"
+		document.getElementById('table_classement_score').innerHTML += "<tr ><td>"+avatar+arr[i].pseudo+"</td><td>"+arr[i].score+" points</td></tr>"
 	}
 };
 
