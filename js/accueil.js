@@ -84,7 +84,7 @@ obj.log_callback = function () {
 				obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
 				remplirMatchDuJour({mesVotes: r.mesVotesVainqueursEuro2016, listeMatchDuJour:r.listeMatchDuJour, autresVotes:r.autresVotesVainqueursEuro2016});
-				remplirSelectVainqueursMesVotes(r.mesVotesVainqueursEuro2016);
+				remplirSelectVainqueursMesVotes(r);
 				remplirTableauVoteVainqueurs(r.autresVotesVainqueursEuro2016, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
 				compterMeilleurVoteVainqueurEuro2016(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016);
 			}	
@@ -115,7 +115,7 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
   	afficher('voteVainqueursKOdoublon');
   	return false;
   }
-  remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
+  //remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
   afficherMasquer('voteVainqueursGIF','BTN_VOTER1EURO');
   obj.post({action:'VOTER1EURO', pays1:pays1, pays2:pays2, pays3:pays3}, obj.log_callback);
   return false;
@@ -132,15 +132,15 @@ $('#groupe_A_form_id, #groupe_B_form_id, #groupe_C_form_id, #groupe_D_form_id, #
 	if(pays1 == pays2){
   	afficher('groupe_'+groupe+'_submit_KO_doublon');
 		return false;
-	  }
-	  //remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
+	  }	  
 	afficherMasquer('groupe_'+groupe+'_gif_submit','groupe_'+groupe+'_btn_id');
 	obj.post({action:'VOTERGROUPEEURO', groupe: groupe, pays1:pays1, pays2:pays2}, obj.log_callback);
 	return false;
 });
 
 
-var remplirSelectVainqueursMesVotes = function(data){
+var remplirSelectVainqueursMesVotes = function(r){
+	var data = r.mesVotesVainqueursEuro2016;
 	for (var i in arrPaysEuro){
 		document.getElementById('SELECT_VOTER1EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
   		document.getElementById('SELECT_VOTER2EURO').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
@@ -148,7 +148,9 @@ var remplirSelectVainqueursMesVotes = function(data){
 	}
 	//vainqueur EURO 2016
 	if(data && data.VAINQUEURSEURO2016){//vainqueur 3 premiers euros
-		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.VAINQUEURSEURO2016.VOTER1EURO, data.VAINQUEURSEURO2016.VOTER2EURO, data.VAINQUEURSEURO2016.VOTER3EURO);
+		//*********************** */
+		remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), data.avatar, data.VAINQUEURSEURO2016.VOTER1EURO, data.VAINQUEURSEURO2016.VOTER2EURO, data.VAINQUEURSEURO2016.VOTER3EURO);
+		//*********************** */
 		if(data.VAINQUEURSEURO2016.VOTER1EURO){
 			afficherSelectReceptionVote('SELECT_VOTER1EURO',data.VAINQUEURSEURO2016.VOTER1EURO, 'SELECT_VOTER1EURO_VOTED');
 		}if(data.VAINQUEURSEURO2016.VOTER2EURO){
@@ -197,26 +199,28 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
 	var i = 0;
 	Object.keys(autresVotesObj).forEach(function(key) {
 		var pseudo = key;
-    		var vote1 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)];
-    		var vote2 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)];
-    		var vote3 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)];
-    		var img1 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
-    		var img2 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
-    		var img3 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
-    		if(i%2 == 0){
-    			str += '<tr class="success"><td>'+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'
-    		}else{
-    			str += '<tr class="info"><td>'+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'	
-    		}
-    		i++;
+		var avatar = src='<img height=30 class="img-circle" src="../images/avatar/'+autresVotesObj[key].avatar+'.png" </img>&nbsp';
+		var vote1 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)];
+		var vote2 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)];
+		var vote3 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)];
+		var img1 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		var img2 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER2EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		var img3 = '<img src="../images/flags/'+parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER3EURO)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
+		if(i%2 == 0){
+			str += '<tr class="success"><td>'+avatar+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'
+		}else{
+			str += '<tr class="info"><td>'+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'	
+		}
+		i++;
 	});
 	document.getElementById(""+documentID).innerHTML = "";
 	document.getElementById(""+documentID).innerHTML += str;
 };
 
-var remplirSaLigneVoteVainqueur = function(pseudo, pays1, pays2, pays3){
+var remplirSaLigneVoteVainqueur = function(pseudo, avatar, pays1, pays2, pays3){
 	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML = '';
-	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+pseudo.toUpperCase()+"</td>";
+	document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td><img height=30 class='img-circle' src='../images/avatar/"+avatar+".png'</img>&nbsp"+pseudo.toUpperCase()+"</td>";
+
 	if(pays1){
 		var img1 = '<img src="../images/flags/'+parseInt(pays1)+'.png" alt="Smiley face" height="20" width="30">&nbsp';
 		document.getElementById('ligneMesVotesVainqueursEuro').innerHTML += "<td>"+img1+arrPaysEuro[parseInt(pays1)]+"</td>";

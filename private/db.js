@@ -243,6 +243,7 @@ exports.voterVainqueurEuro = function(res, c, b){
 			}else if (results[0]){//on update le champ
 				var update = { $set : {} };
 				update.$set['' + results[0].pseudo +'.'+b.destinationVote] = b.stockVote;
+				update.$set['' + results[0].pseudo +'.avatar'] = results[0].gender+'/'+results[0].avatar;
 				collection.update({pseudo:"parisVainqueursEuro2016"},
 				update,
 				{upsert: false}, function(err, doc){
