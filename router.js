@@ -155,9 +155,8 @@ cb_cookie:
 				b.destinationVote = 'GROUPEEURO2016_'+b.groupe;
 				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2};
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
-			}else if(b.action == "RECUPERERINFOS"){
-				var objDb = {};
-				db.getInfosViaCookieForRooter(this.req.headers.cookie, this, "RECUPERERINFOS", objDb);				
+			}else if(b.action == "RECUPERERINFOS"){				
+				db.getInfosViaCookieForRooter(this.req.headers.cookie, this, "RECUPERERINFOS");				
 			}else if(b.action == "VOTERMATCHDUJOUR"){				
 				b.destinationVote = 'MATCHDUJOUR_'+b._id;
 				b.stockVote = {VOTER1EURO:parseInt(b.pays1)};
@@ -171,7 +170,20 @@ cb_cookie:
 		}			
 	},
 
-RECUPERERINFOS : function(objDb){	
+RECUPERERINFOS : function(r1,r2){
+	var objDb = {};
+	var pseudo = r1.pseudo;//on recupere le pseudo dans la premier table					
+	if(r2[pseudo]){//on recupere les infos de vote relative au pseudo
+		objDb.mesVotesVainqueursEuro2016 = r2[pseudo];
+	}if(r2['listeMatchDuJour']){//on recupere la liste des match du jour
+		objDb.listeMatchDuJour = r2['listeMatchDuJour'];
+	}
+	//on fait le menage dans autres votes vainqueur
+	objDb.autresVotesVainqueursEuro2016 = r2;
+	delete objDb.autresVotesVainqueursEuro2016[pseudo];
+	delete objDb.autresVotesVainqueursEuro2016['_id'];
+	delete objDb.autresVotesVainqueursEuro2016['pseudo'];
+	delete objDb.autresVotesVainqueursEuro2016['listeMatchDuJour'];
 	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", mesVotesVainqueursEuro2016:objDb.mesVotesVainqueursEuro2016, autresVotesVainqueursEuro2016 :objDb.autresVotesVainqueursEuro2016, listeMatchDuJour:objDb.listeMatchDuJour }));
 },
 
