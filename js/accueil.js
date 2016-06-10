@@ -2,6 +2,8 @@ var obj = {};
 
 //variables globales
 var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
+var jours = ["Lundi","Mardi","Mercredi","Jeudi", "Vendredi","Samedi","Dimanche"];
+var mois = ["Janvier","Février", "Mars","Avril","Mai", "Juin", "Juillet", "Aout","Septembre","Octobre","Novembre","Décembre"];
 //tous les groupes
 var groupesEuro = ['A','B','C','D','E','F'];
 var groupeA = ["France", "Roumanie", "Albanie",   "Suisse"];
@@ -322,7 +324,12 @@ var remplirMatchDuJour = function(data){
 			if(data.listeMatchDuJour[key].affichage){
 				data.pays1 = data.listeMatchDuJour[key].pays1;
 				data.pays2 = data.listeMatchDuJour[key].pays2;
-				data._id = data.listeMatchDuJour[key]._id;				
+				data._id = data.listeMatchDuJour[key]._id;
+				data.isDisabled ="";
+				if(data.listeMatchDuJour[key].expireDate < new Date().getTime()){
+					data.isDisabled = "disabled";					
+					document.getElementById('id_expiration_match_jour').innerHTML = "Les votes sont clôturés !";
+				}
 			}
 		});
 		var img1 = '<img src="../images/flags/'+data.pays1+'.png" alt="Smiley face" height="20" width="30">&nbsp';
@@ -331,9 +338,9 @@ var remplirMatchDuJour = function(data){
 		document.getElementById('matchDuJourNul').innerHTML = "NUL";
 		document.getElementById('matchDuJourPays2').innerHTML = img2 + arrPaysEuro[data.pays2];		
 		//boutons
-		document.getElementById('btn_matchDuJour_id_1').innerHTML = '<button type="" id="btn_voter_match_du_jour_1" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays1+',\'btn_matchDuJour_id_1\',\''+data._id+'\')">Votez !</button>';
-		document.getElementById('btn_matchDuJour_id_nul').innerHTML = '<button type="" id="btn_voter_match_du_jour_nul" class="btn btn-default" onclick="ftcVoterMatchDuJour(-1,\'btn_matchDuJour_id_nul\',\''+data._id+'\')">Votez !</button>';
-		document.getElementById('btn_matchDuJour_id_2').innerHTML = '<button type="" id="btn_voter_match_du_jour_2" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays2+', \'btn_matchDuJour_id_2\',\''+data._id+'\')">Votez !</button>';
+		document.getElementById('btn_matchDuJour_id_1').innerHTML = '<button type="" id="btn_voter_match_du_jour_1" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays1+',\'btn_matchDuJour_id_1\',\''+data._id+'\')" '+data.isDisabled+'>Votez !</button>';
+		document.getElementById('btn_matchDuJour_id_nul').innerHTML = '<button type="" id="btn_voter_match_du_jour_nul" class="btn btn-default" onclick="ftcVoterMatchDuJour(-1,\'btn_matchDuJour_id_nul\',\''+data._id+'\')" '+data.isDisabled+'>Votez !</button>';
+		document.getElementById('btn_matchDuJour_id_2').innerHTML = '<button type="" id="btn_voter_match_du_jour_2" class="btn btn-default" onclick="ftcVoterMatchDuJour('+data.pays2+', \'btn_matchDuJour_id_2\',\''+data._id+'\')" '+data.isDisabled+'>Votez !</button>';
 		//si on a voté, on affiche son vote
 		if(data.mesVotes && data.mesVotes['MATCHDUJOUR_'+data._id]){
 			if(data.mesVotes["MATCHDUJOUR_"+data._id].VOTER1EURO == -1){
