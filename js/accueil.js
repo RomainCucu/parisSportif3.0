@@ -340,7 +340,8 @@ var remplirMatchDuJour = function(data){
 };
 
 var ftcVoterMatchDuJour = function(index,id, _id_match){
-	document.getElementById(id).innerHTML = '<img src="../images/ajax-loader-mid.gif" style="height:auto; width:auto;">';
+	//document.getElementById(id).innerHTML = '<img src="../images/ajax-loader-mid.gif" style="height:auto; width:auto;">';
+	document.getElementById('votre_choix_match_du_jour_id').innerHTML = '<img src="../images/ajax-loader-mid.gif" style="height:auto; width:auto;">';
 	obj.post({action:'VOTERMATCHDUJOUR', pays1:index, _id:_id_match},obj.log_callback);
 };
 
