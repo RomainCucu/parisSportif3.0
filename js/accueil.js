@@ -246,11 +246,13 @@ var compterMeilleurVoteVainqueurEuro2016 = function(mesVotes, autresVotesObj){
 	}
 	if(autresVotesObj){//si d'autres votes
 		Object.keys(autresVotesObj).forEach(function(key) {
-			if(objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO])
-				objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] += 1;
-			else
-				objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] = 1;
-			objVotesGlobaux.voteTotal += 1;//on ajoute une voix
+			if(objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016]){
+				if(objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO])
+					objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] += 1;
+				else
+					objVotesGlobaux[autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO] = 1;
+				objVotesGlobaux.voteTotal += 1;//on ajoute une voix
+			}
 		});
 	}
 	Object.keys(objVotesGlobaux).forEach(function(key) {
