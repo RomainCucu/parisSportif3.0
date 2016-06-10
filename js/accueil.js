@@ -198,6 +198,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
 	var str = "";
 	var i = 0;
 	Object.keys(autresVotesObj).forEach(function(key) {
+		if(autresVotesObj[key].VAINQUEURSEURO2016){
 		var pseudo = key;
 		var avatar = src='<img height=30 class="img-circle" src="../images/avatar/'+autresVotesObj[key].avatar+'.png" </img>&nbsp';
 		var vote1 = arrPaysEuro[parseInt(autresVotesObj[key].VAINQUEURSEURO2016.VOTER1EURO)];
@@ -212,6 +213,7 @@ var remplirTableauVoteVainqueurs = function (autresVotesObj, documentID){
 			str += '<tr class="info"><td>'+pseudo+'</td><td>'+img1+vote1+'</td><td>'+img2+vote2+'</td><td>'+img3+vote3+'</td></tr>'	
 		}
 		i++;
+		}		
 	});
 	document.getElementById(""+documentID).innerHTML = "";
 	document.getElementById(""+documentID).innerHTML += str;
