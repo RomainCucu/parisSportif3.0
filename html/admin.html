@@ -85,7 +85,11 @@
       b.pays1 = document.getElementById('id_pays1').value;
       b.pays2 = document.getElementById('id_pays2').value;
       b.points  = document.getElementById('id_points').value;
-      b.expireDate = new Date(document.getElementById('id_date').value).getTime();
+      var d = new Date(document.getElementById('id_date').value)
+      var offset = d.getTimezoneOffset();
+      d = d.getTime();
+      d = d + offset*60*1000;
+      b.expireDate = d;
       obj.post(b, obj.log_callback);
       return false;
   };
