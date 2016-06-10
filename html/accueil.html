@@ -65,15 +65,13 @@
   </div><!-- /.container-fluid -->
 </nav>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="panel panel-default">
                     <div class="panel-heading text-center">                                                
                         <h3 class="">Match du jour : <img alt="trophy" src="../images/trophy.png" ><em style="color:grey">20 Pts</em></h3>
                         <small id="id_expiration_match_jour" class="text-danger text-center"></small>
                     </div>
                     <div class="panel-body" style="max-height: 376px;overflow-y: scroll;">
-
-
                     <div class="table-responsive">
                       <table class="table">
                         <thead>
@@ -120,8 +118,28 @@
                       </div>
                 </div>
                 </div>                
-                <!-- /.col-lg-12 -->
-            </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center">                                                
+                            <h3 >Classement : <img alt="trophy" src="../images/trophy.png" ></h3>
+                            <small  class="text-danger text-center"> <em></em></small>
+                        </div>
+                        <div class="panel-body" style="max-height: 376px;overflow-y: scroll;">                           
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th >Pseudo:</th>
+                                    <th >Points:</th>                                    
+                                  </tr>
+                                </thead>
+                                <tbody id="table_classement_score">
+                                </tbody>
+                              </table>                            
+                        </div>
+                    </div>
+                </div>
+            </div><!-- row -->
 
             <hr>
             <div class="row"><!-- row chat -->                
@@ -142,13 +160,15 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <table id='' class="table table-bordered">
+                                    <table class="table table-bordered">
+                                        <thead>
                                         <tr>
                                             <th>Pseudo</th>
                                             <th>Vainqueur</th> 
                                             <th>Deuxième</th>
                                             <th>Troisième</th>
                                          </tr>
+                                         </thead>
                                             <tr id="ligneMesVotesVainqueursEuro" class="info">
                                           </tr>
                                           <tbody id="tableClassementVainqueursEuro" >

@@ -89,6 +89,7 @@ obj.log_callback = function () {
 				remplirSelectVainqueursMesVotes(r);
 				remplirTableauVoteVainqueurs(r, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
 				compterMeilleurVoteVainqueurEuro2016(r);
+				calculScoreChaquePersonne(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016, r.listeMatchDuJour);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
@@ -355,10 +356,53 @@ var remplirMatchDuJour = function(data){
 	}
 };
 
+//bouton voter pour le match du jour
 var ftcVoterMatchDuJour = function(index,id, _id_match){
 	//document.getElementById(id).innerHTML = '<img src="../images/ajax-loader-mid.gif" style="height:auto; width:auto;">';
 	document.getElementById('votre_choix_match_du_jour_id').innerHTML = '<img src="../images/ajax-loader-mid.gif" style="height:auto; width:auto;">';
 	obj.post({action:'VOTERMATCHDUJOUR', pays1:index, _id:_id_match},obj.log_callback);
+};
+
+//pour afficher les scores
+var calculScoreChaquePersonne = function(mesVotes, autresVotes, listeMatchDuJour){
+	var arrMatchId = new Array();
+	var arrMatchVainqueur = new Array();
+	var arrPseudo = new Array();
+
+	Object.keys(listeMatchDuJour).forEach(function(key) {
+		arrMatchId.push(listeMatchDuJour[key]._id);//on stocke les id des matchs
+		arrMatchVainqueur.push(listeMatchDuJour[key].vainqueur);
+	});
+	//tous les autres votes
+	Object.keys(autresVotes).forEach(function(key) {
+		var score = 0;
+		for(var i in arrMatchId){
+			if(autresVotes[key]['MATCHDUJOUR_'+arrMatchId[i]] && autresVotes[key]['MATCHDUJOUR_'+arrMatchId[i]].VOTER1EURO == arrMatchVainqueur[i]){				
+				score+=20;
+			}
+		}
+		arrPseudo.push({pseudo:key,score:score, avatar:autresVotes[key].avatar});				
+	});
+	//mes Votes
+	mesVotes = {[getParameterByName('pseudo').toUpperCase()]:mesVotes};
+	Object.keys(mesVotes).forEach(function(key) {
+		var score = 0;
+		for(var i in arrMatchId){
+			if(mesVotes[key]['MATCHDUJOUR_'+arrMatchId[i]] && mesVotes[key]['MATCHDUJOUR_'+arrMatchId[i]].VOTER1EURO == arrMatchVainqueur[i]){				
+				score+=20;			
+			}
+		}
+		arrPseudo.push({pseudo:key,score:score, avatar:mesVotes[key].avatar});					
+	});
+	arrPseudo.sort(function(a,b) {return (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0);} ); 
+	afficherClassementScore(arrPseudo);
+};
+
+var afficherClassementScore = function(arr){
+	for(var i = arr.length-1; i>= 0; i--){
+		var avatar = '<img height=30 class="img-circle" src="../images/avatar/'+arr[i].avatar+'.png" </img>&nbsp';
+		document.getElementById('table_classement_score').innerHTML += "<tr ><td>"+avatar+arr[i].pseudo+"</td><td>"+arr[i].score+"</td></tr>"
+	}
 };
 
 var afficherMasquer = function(afficherEl, masquerEl){
