@@ -90,7 +90,10 @@
       d = d.getTime();
       d = d + offset*60*1000;
       b.expireDate = d;
-      obj.post(b, obj.log_callback);
+      var r = confirm("Sûre ?");
+      if (r == true) {
+          obj.post(b, obj.log_callback);
+      }
       return false;
   };
   </script>

@@ -171,7 +171,7 @@ cb_cookie:
 			}else if(b.action == "RECUPERERINFOS"){				
 				db.getInfosViaCookieForRooter(this.req.headers.cookie, this, "RECUPERERINFOS");				
 			}else if(b.action == "VOTERMATCHDUJOUR"){				
-				b.destinationVote = 'MATCHDUJOUR_'+b._id;
+				b.destinationVote = 'MATCHDUJOUR_'+b._id_match;
 				b.stockVote = {VOTER1EURO:parseInt(b.pays1)};
 				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);		
 			}else{
