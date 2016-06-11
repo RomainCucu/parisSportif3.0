@@ -327,9 +327,10 @@ var remplirMatchDuJour = function(data){
 				data.pays2 = data.listeMatchDuJour[key].pays2;
 				data._id = data.listeMatchDuJour[key].id_match;
 				data.isDisabled ="";
+				document.getElementById('id_expiration_match_jour').style.display = "none";
 				if(data.listeMatchDuJour[key].expireDate < new Date().getTime()){
 					data.isDisabled = "disabled";					
-					document.getElementById('id_expiration_match_jour').innerHTML = "Les votes sont clôturés !";
+					document.getElementById('id_expiration_match_jour').style.display = "";
 				}
 				document.getElementById('id_points_match_jour').innerHTML = data.listeMatchDuJour[key].points + " points";
 			}
@@ -402,6 +403,7 @@ var calculScoreChaquePersonne = function(mesVotes, autresVotes, listeMatchDuJour
 };
 
 var afficherClassementScore = function(arr){
+	document.getElementById('table_classement_score').innerHTML = "";
 	for(var i = arr.length-1; i>= 0; i--){
 		var avatar = '<img height=30 class="img-circle" src="../images/avatar/'+arr[i].avatar+'.png" </img>&nbsp';
 		document.getElementById('table_classement_score').innerHTML += "<tr ><td>"+avatar+arr[i].pseudo+"</td><td>"+arr[i].score+" points</td></tr>"
