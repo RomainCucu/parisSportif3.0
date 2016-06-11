@@ -411,7 +411,7 @@ var calculScoreChaquePersonne = function(mesVotes, autresVotes, listeMatchDuJour
 		var score = 0;
 		for(var i in arrMatchId){
 			if(autresVotes[key]['MATCHDUJOUR_'+arrMatchId[i]] && autresVotes[key]['MATCHDUJOUR_'+arrMatchId[i]].VOTER1EURO == arrMatchVainqueur[i]){				
-				score+=arrMatchPoints[i];
+				score+=parseInt(arrMatchPoints[i]);
 			}
 		}
 		arrPseudo.push({pseudo:key,score:score, avatar:autresVotes[key].avatar});				
@@ -422,7 +422,7 @@ var calculScoreChaquePersonne = function(mesVotes, autresVotes, listeMatchDuJour
 		var score = 0;
 		for(var i in arrMatchId){
 			if(mesVotes[key]['MATCHDUJOUR_'+arrMatchId[i]] && mesVotes[key]['MATCHDUJOUR_'+arrMatchId[i]].VOTER1EURO == arrMatchVainqueur[i]){				
-				score+=arrMatchPoints[i];			
+				score+=parseInt(arrMatchPoints[i]);			
 			}
 		}
 		arrPseudo.push({pseudo:key,score:score, avatar:mesVotes[key].avatar});					

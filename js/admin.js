@@ -61,6 +61,7 @@
             +'<select type="text" class="form-control" id="select_'+listeMatch[key].id_match+'">'
             +'<option value="-20">choisir le vainqueur</option>'
             +'<option value="'+listeMatch[key].pays1+'">'+arrPaysEuro[listeMatch[key].pays1]+'</option>'
+            +'<option value="-1">nul</option>'
             +'<option value="'+listeMatch[key].pays2+'">'+arrPaysEuro[listeMatch[key].pays2]+'</option>'
             +'</select>'
             +'</div>'
