@@ -261,9 +261,9 @@ exports.voterVainqueurEuro = function(res, c, b){
 	    }
 	});
 };
-
-exports.addMatchDuJour = function(res, b){
-	var NOM_METHODE = "VOTER1EURO";	
+//admin :ajouter un match
+exports.adminAddMatchDuJour = function(res, b){
+	var NOM_METHODE = "ADMINADDMATCHDUJOUR";	
 		MongoClient.connect(ID_MONGO, function(err, db) {
 		    if(err){
 		    	throw err;
@@ -278,19 +278,78 @@ exports.addMatchDuJour = function(res, b){
 		    		function(err, doc){
 		    			if (err){
 							throw err;
-							res.end(JSON.stringify({data:'erreur'}));
+							res.end(JSON.stringify({ADMINADDMATCHDUJOUR:false}));
 						}
 						else if (doc){
 							res.writeHead(200, {"Content-Type": "'text/plain'"});					
-							res.end(JSON.stringify({data:'ok'}));
+							res.end(JSON.stringify({ADMINADDMATCHDUJOUR:true}));
 						}else{
-							res.end(JSON.stringify({data:'erreur'}));
+							res.end(JSON.stringify({ADMINADDMATCHDUJOUR:false}));
 						}
 		    		}
 		    	);
 		}
 	});
 };
+//admin : recup liste match
+exports.adminGetListMatchDuJour = function(res,b){
+	var NOM_METHODE = "ADMINGETDATA";	
+		MongoClient.connect(ID_MONGO, function(err, db) {
+		    if(err){
+		    	throw err;
+		    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
+		    }else{
+		    	var collection = db.collection(COLLECTIONNAME);
+		    	collection.find({pseudo:"parisVainqueursEuro2016"}).toArray(function(err, results){
+		    			if (err){
+							throw err;
+							res.end(JSON.stringify({listeMatch:false}));
+						}
+						else if (results[0].listeMatchDuJour){
+							res.writeHead(200, {"Content-Type": "'text/plain'"});					
+							res.end(JSON.stringify({listeMatch:results[0].listeMatchDuJour}));
+						}else{
+							res.end(JSON.stringify({listeMatch:false}));
+						}
+		    		}
+		    	);
+		}
+	});
+};
+
+//admin fonction pour mettre ajour les match
+exports.adminMajMatchJour = function (res, listeMatch){
+	var NOM_METHODE = "ADMINMAJMATCHJOUR";	
+		MongoClient.connect(ID_MONGO, function(err, db) {
+		    if(err){
+		    	throw err;
+		    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
+		    }else{
+		    	var collection = db.collection(COLLECTIONNAME);
+		    	collection.update({pseudo:"parisVainqueursEuro2016"},
+		    		{
+		    			$set:{listeMatchDuJour:listeMatch}
+		    		},
+		    		{upsert:false},
+		    		function(err, doc){
+		    			if (err){
+							throw err;
+							res.end(JSON.stringify({ADMINMAJMATCHJOUR:false}));
+						}
+						else if (doc){
+							res.writeHead(200, {"Content-Type": "'text/plain'"});					
+							res.end(JSON.stringify({ADMINMAJMATCHJOUR:true}));
+						}else{
+							res.end(JSON.stringify({ADMINMAJMATCHJOUR:false}));
+						}
+		    		}
+		    	);
+		}
+	});
+
+};
+
+
 
 //RCU 29/03/2016
 // ajout fonction pad pour que les cookies aient tous la même longueur

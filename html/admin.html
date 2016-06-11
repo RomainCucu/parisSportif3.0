@@ -51,54 +51,16 @@
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 
+  <form role="form" class="col-md-6" id="id_form_maj">
+  </form>
+
+</div>
+
     <script src="../dist/js/sb-admin-2-js/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../dist/js/bootstrap.min.js"></script>
-</div>
-   <script>
-  var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
-    for (var i in arrPaysEuro){
-      document.getElementById('id_pays1').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
-      document.getElementById('id_pays2').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";      
-  }
-  var obj = {};
-  obj.post = function (data, callback) {  
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/");
-    xhr.onreadystatechange = callback;
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify(data));
-  };
-
-  obj.log_callback = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var r = JSON.parse(this.responseText);   
-      alert(r.data);
-    }
-  };
-  document.getElementById('id_form').onsubmit = function(event){
-      var b = {};
-      b.action = "ADMINAZEQSD_ADD_MATCH_JOUR";
-      b.id_match = new Date().getTime();
-      b.affichage = true;
-      b.vainqueur = -20;
-      b.pays1 = document.getElementById('id_pays1').value;
-      b.pays2 = document.getElementById('id_pays2').value;
-      b.points  = document.getElementById('id_points').value;
-      var d = new Date(document.getElementById('id_date').value)
-      var offset = d.getTimezoneOffset();
-      d = d.getTime();
-      d = d + offset*60*1000;
-      b.expireDate = d;
-      var r = confirm("Sûre ?");
-      if (r == true) {
-          obj.post(b, obj.log_callback);
-      }
-      return false;
-  };
-  </script>
-
+    <script src="../js/admin.js"></script>
 </body>
 
 </html>

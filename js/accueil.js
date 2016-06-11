@@ -346,7 +346,7 @@ var remplirMatchDuJour = function(data){
 					if(data.listeMatchDuJour[key].vainqueur){
 						if(data.listeMatchDuJour[key].vainqueur == -1){
 							document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Match Nul";
-						}else{
+						}else if(data.listeMatchDuJour[key].vainqueur != -20){
 							document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Vainqueur : "+arrPaysEuro[data.listeMatchDuJour[key].vainqueur]
 						}
 					}

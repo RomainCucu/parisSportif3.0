@@ -135,7 +135,23 @@ go_post:
 				this.resp.end(JSON.stringify({etat:"signupKO",message:"key non trouvée"}));
 			}			
 		}else if (b.action == "ADMINAZEQSD_ADD_MATCH_JOUR"){
-			db.addMatchDuJour(this.resp, b);
+			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){
+				db.adminAddMatchDuJour(this.resp, b);
+			}else{
+				this.resp.end(JSON.stringify({message:"nocookie"}));
+			}
+		}else if (b.action == "ADMINGETDATA"){
+			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){				
+				db.adminGetListMatchDuJour(this.resp, b);
+			}else{
+				this.resp.end(JSON.stringify({message:"nocookie"}));
+			}
+		}else if (b.action == "ADMINMAJMATCH"){
+			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){				
+				db.adminMajMatchJour(this.resp, b.listeMatch);
+			}else{
+				this.resp.end(JSON.stringify({message:"nocookie"}));
+			}
 		}else {			
 			db.valid_cookie(this.req.headers.cookie, this, "cb_cookie");
 		}	
