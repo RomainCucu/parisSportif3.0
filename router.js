@@ -74,8 +74,7 @@ get_method:
 		this.pathname = this.pathname.splice(1, this.pathname.length - 1); this.filetype = this.pathname[this.pathname.length - 1].split(".");
 		this.filetype = this.filetype[this.filetype.length - 1];
 		this.filtype = this.filetype;
-		this.path = "." + u.path;
-		console.log(this.pathname)
+		this.path = "." + u.path;		
 		if (this.pathname[1] == "admin.html")//pour voir dans quel page on va
 		{
 			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){

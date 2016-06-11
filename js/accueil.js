@@ -75,13 +75,13 @@ obj.log_callback = function () {
 			if(r.suc_methode == "VOTER1EURO"){
 				if(r.data.groupe){
 					var groupe = r.data.groupe;
-					afficherMasquer('groupe_'+groupe+'_btn_id','groupe_'+groupe+'_gif_submit');
-					afficher('groupe_'+groupe+'_submit_OK');
+					hideShowElements('groupe_'+groupe+'_btn_id','groupe_'+groupe+'_gif_submit');
+					showElement('groupe_'+groupe+'_submit_OK');
 				}else if(r.data.action =="VOTERMATCHDUJOUR"){
 					
 				}else{
-					afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
-					afficher('voteVainqueursOK');
+					hideShowElements('BTN_VOTER1EURO','voteVainqueursGIF');
+					showElement('voteVainqueursOK');
 				}
 				obj.post({action:'RECUPERERINFOS'},obj.log_callback);
 			}else if(r.suc_methode == "RECUPERERINFOS"){
@@ -93,8 +93,8 @@ obj.log_callback = function () {
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
-				afficherMasquer('BTN_VOTER1EURO','voteVainqueursGIF');
-				afficher('voteVainqueursKO');
+				hideShowElements('BTN_VOTER1EURO','voteVainqueursGIF');
+				showElement('voteVainqueursKO');
 				console.log("error VOTER1EURO");
 			}else if(r.err_methode == "RECUPERERINFOS"){
 				remplirSelectVainqueursMesVotes({aze:1});
@@ -108,18 +108,18 @@ obj.log_callback = function () {
 };
 //submit des trois premiers de l'euro
 document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
-  masquerEl('voteVainqueursKOdoublon');
-  masquerEl('voteVainqueursKO');
-  masquerEl('voteVainqueursOK');
+  hideElement('voteVainqueursKOdoublon');
+  hideElement('voteVainqueursKO');
+  hideElement('voteVainqueursOK');
   var pays1 = document.getElementById('SELECT_VOTER1EURO').value;
   var pays2 = document.getElementById('SELECT_VOTER2EURO').value;
   var pays3 = document.getElementById('SELECT_VOTER3EURO').value;
   if(pays1 == pays2 || pays1== pays3 || pays2 == pays3){
-  	afficher('voteVainqueursKOdoublon');
+  	showElement('voteVainqueursKOdoublon');
   	return false;
   }
   //remplirSaLigneVoteVainqueur(getParameterByName('pseudo'), pays1, pays2, pays3);
-  afficherMasquer('voteVainqueursGIF','BTN_VOTER1EURO');
+  hideShowElements('voteVainqueursGIF','BTN_VOTER1EURO');
   obj.post({action:'VOTER1EURO', pays1:pays1, pays2:pays2, pays3:pays3}, obj.log_callback);
   return false;
 };
@@ -127,16 +127,16 @@ document.getElementById('FORM_VOTER1EURO').onsubmit = function(event){
 //submit pour les groupes
 $('#groupe_A_form_id, #groupe_B_form_id, #groupe_C_form_id, #groupe_D_form_id, #groupe_E_form_id, #groupe_F_form_id').on('submit', function(event){
 	var groupe = this.id.slice(7,8);
-	masquerEl('groupe_'+groupe+'_submit_KO_doublon');
-	masquerEl('groupe_'+groupe+'_submit_KO');
-	masquerEl('groupe_'+groupe+'_submit_OK');	
+	hideElement('groupe_'+groupe+'_submit_KO_doublon');
+	hideElement('groupe_'+groupe+'_submit_KO');
+	hideElement('groupe_'+groupe+'_submit_OK');	
 	var pays1 = document.getElementById('groupe_'+groupe+'_select_id_1').value;
 	var pays2 = document.getElementById('groupe_'+groupe+'_select_id_2').value;
 	if(pays1 == pays2){
-  	afficher('groupe_'+groupe+'_submit_KO_doublon');
+  	showElement('groupe_'+groupe+'_submit_KO_doublon');
 		return false;
 	  }	  
-	afficherMasquer('groupe_'+groupe+'_gif_submit','groupe_'+groupe+'_btn_id');
+	hideShowElements('groupe_'+groupe+'_gif_submit','groupe_'+groupe+'_btn_id');
 	obj.post({action:'VOTERGROUPEEURO', groupe: groupe, pays1:pays1, pays2:pays2}, obj.log_callback);
 	return false;
 });
@@ -162,9 +162,9 @@ var remplirSelectVainqueursMesVotes = function(r){
 			afficherSelectReceptionVote('SELECT_VOTER3EURO',data.VAINQUEURSEURO2016.VOTER3EURO, 'SELECT_VOTER3EURO_VOTED');
 		}
 	}
-	afficher('SELECT_VOTER1EURO');
-	afficher('SELECT_VOTER2EURO');
-	afficher('SELECT_VOTER3EURO');
+	showElement('SELECT_VOTER1EURO');
+	showElement('SELECT_VOTER2EURO');
+	showElement('SELECT_VOTER3EURO');
 	//vainqueursPoules
 	if(data && data.GROUPEEURO2016_A && data.GROUPEEURO2016_A.VOTER1EURO && data.GROUPEEURO2016_A.VOTER2EURO){
 		afficherSelectReceptionVote('groupe_A_select_id_1',data.GROUPEEURO2016_A.VOTER1EURO, 'groupe_A_select_voted_1');
@@ -410,26 +410,9 @@ var afficherClassementScore = function(arr){
 	}
 };
 
-var afficherMasquer = function(afficherEl, masquerEl){
-	document.getElementById(afficherEl).style.display = 'inline';
-	document.getElementById(masquerEl).style.display = 'none';
-};
-//affiche le display de l'id
-var afficher = function(afficherEl){
-	document.getElementById(afficherEl).style.display = 'inline';	
-};
-//mets display a none de l'id
-var masquerEl = function(el){
-	document.getElementById(el).style.display = 'none';	
-};
-//pour le log out
-var eraseCookie= function(){
-	document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-	document.location.href="../index.html";
-};
 // on met le valeur dans le select et on affiche 'vous avez voté'
 var afficherSelectReceptionVote = function(idSelect, value, spanPhraseVote){
-	afficher(spanPhraseVote);
+	showElement(spanPhraseVote);
 	document.getElementById(idSelect).value = value;
 };
 
