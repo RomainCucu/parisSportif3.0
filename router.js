@@ -202,7 +202,7 @@ RECUPERERINFOS : function(r1,r2){
 
 read_file:
 function () {	
-	if (!this.pathname[0] || this.pathname[0] == "nodejs") {
+	if (!this.pathname[0] || this.pathname[0] == "nodejs" || this.pathname[0] == "router.js" || this.pathname[0] == "server.js") {
 		//util.log("ALERT - Hack attempt, resquest on : " + util.inspect(this.pathname)
 		this.pathname = "./index.html";
 		this.path = "./index.html";
