@@ -199,13 +199,22 @@ cb_cookie:
 		}			
 	},
 
-RECUPERERINFOS : function(r1,r2){
+// r1 : document de la personne concernée
+// r2 : documenet de tous les votes
+// r3 : document de l'admin
+RECUPERERINFOS : function(r1,r2){	
+	var r3 = r2[0];
+	r2 = r2[1];
 	var objDb = {};
-	var pseudo = r1.pseudo;//on recupere le pseudo dans la premier table					
+	var pseudo = r1.pseudo;//on recupere le pseudo dans la premier table		
 	if(r2[pseudo]){//on recupere les infos de vote relative au pseudo
 		objDb.mesVotesVainqueursEuro2016 = r2[pseudo];
-	}if(r2['listeMatchDuJour']){//on recupere la liste des match du jour
+	}
+	if(r2['listeMatchDuJour']){//on recupere la liste des match du jour
 		objDb.listeMatchDuJour = r2['listeMatchDuJour'];
+	}
+	if(r3.message){
+		objDb.messageAdmin = r3.message;
 	}
 	//on fait le menage dans autres votes vainqueur
 	objDb.autresVotesVainqueursEuro2016 = r2;
@@ -213,7 +222,15 @@ RECUPERERINFOS : function(r1,r2){
 	delete objDb.autresVotesVainqueursEuro2016['_id'];
 	delete objDb.autresVotesVainqueursEuro2016['pseudo'];
 	delete objDb.autresVotesVainqueursEuro2016['listeMatchDuJour'];
-	this.resp.end(JSON.stringify({categorie:"SUCCESS",suc_methode:"RECUPERERINFOS", mesVotesVainqueursEuro2016:objDb.mesVotesVainqueursEuro2016, autresVotesVainqueursEuro2016 :objDb.autresVotesVainqueursEuro2016, listeMatchDuJour:objDb.listeMatchDuJour }));
+	delete objDb.autresVotesVainqueursEuro2016['COMPETITION'];
+	this.resp.end(JSON.stringify({
+		categorie:"SUCCESS",
+		suc_methode:"RECUPERERINFOS",
+		mesVotesVainqueursEuro2016:objDb.mesVotesVainqueursEuro2016,
+		autresVotesVainqueursEuro2016 :objDb.autresVotesVainqueursEuro2016,
+		listeMatchDuJour:objDb.listeMatchDuJour,
+		messageAdmin: objDb.messageAdmin
+	}));
 },
 
 read_file:

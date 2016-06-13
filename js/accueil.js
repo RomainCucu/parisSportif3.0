@@ -90,6 +90,7 @@ obj.log_callback = function () {
 				remplirTableauVoteVainqueurs(r, 'tableClassementVainqueursEuro');//vainqueurs EURO 2016				
 				compterMeilleurVoteVainqueurEuro2016(r);
 				calculScoreChaquePersonne(r.mesVotesVainqueursEuro2016, r.autresVotesVainqueursEuro2016, r.listeMatchDuJour);
+				showAdminMessage(r.messageAdmin[0], r.messageAdmin[1]);
 			}	
 		}else if(r.categorie == "ERROR"){
 			if(r.err_methode == "VOTER1EURO"){
@@ -306,6 +307,7 @@ var compteurMatchDuJour = function(mesVotes, autresVotesObj, _idMatch){
 		document.getElementById(_id2).style.display = "none";
 	}
 	if(objVotesGlobaux.paysVoted.length>0){
+		$('#id_nombre_vote_total').append(" (avec "+objVotesGlobaux.voteTotal+" votes)");
 		for(var i = 0; i <objVotesGlobaux.paysVoted.length ; i++ ){
 			var _id = 'progress_bar_id_vainqueur_match_du_jour_'+i+'_'+_idMatch2;
 			var _id2 = 'display_progress_'+i+'_'+_idMatch2;
@@ -316,8 +318,7 @@ var compteurMatchDuJour = function(mesVotes, autresVotesObj, _idMatch){
 			else
 				document.getElementById(_id).innerHTML = "Match nul avec "+objVotesGlobaux.pourcentage[i]+" % des votes !";
 		}
-	}
-	console.log(objVotesGlobaux);
+	}	
 };
 
 //on rempli le match du jour
@@ -326,10 +327,11 @@ var remplirMatchDuJour = function(data){
 	document.getElementById('row_match_jour').innerHTML = "";
 	if(data && data.listeMatchDuJour){
 		Object.keys(data.listeMatchDuJour).forEach(function(key) {
-			if(data.listeMatchDuJour[key].affichage){
+			//si afficher à true ou bien la date du match est égalet à la date du match
+			if(data.listeMatchDuJour[key].affichage || new Date(data.listeMatchDuJour[key].expireDate).getDay() == new Date().getDay()){
 				//on affiche le panel body
-				ref = ""+ data.listeMatchDuJour[key].id_match;
-				var str = '<div class="col-lg-6" ><div class="panel panel-default"><div class="panel-heading text-center"><h3 class="">Match du jour : <img alt="trophy" src="../images/trophy.png" ><em style="color:grey"><span id="id_points_match_jour_'+ref+'"></span></em></h3><small id="id_expiration_match_jour_'+ref+'" class="text-danger text-center" style="display:none;">Les votes sont clôturés !</small></div><div class="panel-body" style="max-height: 376px;overflow-y: scroll;"><div class="table-responsive"><table class="table"><thead><tr><th id="matchDuJourPays1_'+ref+'" class="text-center"></th><th id="matchDuJourNul_'+ref+'" class="text-center"></th><th id="matchDuJourPays2_'+ref+'" class="text-center"></th></tr></thead><tbody><tr><td class="text-center" id="btn_matchDuJour_id_1_'+ref+'"></td><td class="text-center" id="btn_matchDuJour_id_nul_'+ref+'"></td><td class="text-center" id="btn_matchDuJour_id_2_'+ref+'"></td></tr></tbody><tbody><tr><td colspan="3" id="votre_choix_match_du_jour_id_'+ref+'" class="text-center"></td></tr><tr><td colspan="3" class="text-center"><h3>Résultat de tous les votes:</h3><div class="progress" style="display:none;" id="display_progress_0_'+ref+'"><div id="progress_bar_id_vainqueur_match_du_jour_0_'+ref+'"class="progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">Pas de votes</div></div> <div class="progress" style="display:none;" id="display_progress_1_'+ref+'"><div id="progress_bar_id_vainqueur_match_du_jour_1_'+ref+'"class="progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">Pas de votes</div></div> <div class="progress" style="display:none;" id="display_progress_2_'+ref+'"><div id="progress_bar_id_vainqueur_match_du_jour_2_'+ref+'"class="progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">Pas de votes</div></div></td></tr></tbody></table></div></div></div></div>';
+				ref = ""+ data.listeMatchDuJour[key].id_match;				
+				var str = '<div class="col-lg-6" ><div class="panel panel-default"><div class="panel-heading text-center"><h3 class="">Match du jour : <img alt="trophy" src="../images/trophy.png" ><em style="color:grey"><span id="id_points_match_jour_'+ref+'"></span></em></h3><small id="id_expiration_match_jour_'+ref+'" class="text-danger text-center"></small></div><div class="panel-body" style="max-height: 376px;overflow-y: scroll;"><div class="table-responsive"><table class="table"><thead><tr><th id="matchDuJourPays1_'+ref+'" class="text-center"></th><th id="matchDuJourNul_'+ref+'" class="text-center"></th><th id="matchDuJourPays2_'+ref+'" class="text-center"></th></tr></thead><tbody><tr><td class="text-center" id="btn_matchDuJour_id_1_'+ref+'"></td><td class="text-center" id="btn_matchDuJour_id_nul_'+ref+'"></td><td class="text-center" id="btn_matchDuJour_id_2_'+ref+'"></td></tr></tbody><tbody><tr><td colspan="3" id="votre_choix_match_du_jour_id_'+ref+'" class="text-center"></td></tr><tr><td colspan="3" class="text-center"><h3>Résultat de tous les votes<span id="id_nombre_vote_total"></span>:</h3><div class="progress" style="display:none;" id="display_progress_0_'+ref+'"><div id="progress_bar_id_vainqueur_match_du_jour_0_'+ref+'"class="progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">Pas de votes</div></div> <div class="progress" style="display:none;" id="display_progress_1_'+ref+'"><div id="progress_bar_id_vainqueur_match_du_jour_1_'+ref+'"class="progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">Pas de votes</div></div> <div class="progress" style="display:none;" id="display_progress_2_'+ref+'"><div id="progress_bar_id_vainqueur_match_du_jour_2_'+ref+'"class="progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="     100" style="width: 0%;">Pas de votes</div></div></td></tr></tbody></table></div></div></div></div>';
 				$('#row_match_jour').prepend(str);
 				//fin on affiche le panel body
 
@@ -342,7 +344,7 @@ var remplirMatchDuJour = function(data){
 				//on compare la date du match avec la date du pc pour bloquer les votes
 				if(data.listeMatchDuJour[key].expireDate < new Date().getTime()){
 					data.isDisabled = "disabled";					
-					document.getElementById('id_expiration_match_jour_'+ref).style.display = "";
+					document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Les votes sont clôturés !";
 					if(data.listeMatchDuJour[key].vainqueur){
 						if(data.listeMatchDuJour[key].vainqueur == -1){
 							document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Match Nul";
@@ -352,7 +354,7 @@ var remplirMatchDuJour = function(data){
 					}
 				}else{
 					data.isDisabled ="";
-					document.getElementById('id_expiration_match_jour_'+ref).style.display = "none";
+					document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Heure de la rencontre : " + new Date(data.listeMatchDuJour[key].expireDate).toString("HH:mm");
 				}
 				//fin compare
 
@@ -447,5 +449,4 @@ var afficherSelectReceptionVote = function(idSelect, value, spanPhraseVote){
 
 //recupere les votes et autres
 obj.post({action:'RECUPERERINFOS'},obj.log_callback);
-
 

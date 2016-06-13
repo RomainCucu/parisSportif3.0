@@ -69,6 +69,10 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<div class="row"><!-- pour afficher le message de l'admin en haut-->
+    <div class="col-md-12" id="id_afficher_message_admin">
+    </div>
+</div><!-- row -->
             <div class="row">
                 <span id="row_match_jour">
                 </span>
@@ -243,6 +247,7 @@
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
     <script src="../js/commun/util.js"></script>
+    <script src="../js/commun/date.js"></script>
     <script>
         document.getElementById('imgAvatar').src = "../images/avatar/"+getParameterByName('gender')+"/"+getParameterByName('avatar')+".png";
        // document.getElementById('pseudo_id').innerHTML = getParameterByName('pseudo').toUpperCase();

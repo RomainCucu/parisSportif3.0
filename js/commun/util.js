@@ -31,3 +31,14 @@ var hideShowElements = function(elementId_1, elementId_2){
     document.getElementById(elementId_1).style.display = 'inline';
     document.getElementById(elementId_2).style.display = 'none';
 };
+
+//show administrator message at top of the page with text message and type of alert (warning, success...)
+var showAdminMessage = function(message, type){
+    var str = "";
+    type = ""+type;
+    str = '<div class="alert alert-'+type+' alert-dismissible" role="alert">'
+        +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+        +'<strong>Message de l\'admin :</strong></br>'+message
+        +'</div>';
+    document.getElementById('id_afficher_message_admin').innerHTML = str;
+}

@@ -200,13 +200,13 @@ exports.getInfosViaCookieForRooter = function(c, obj, fct){
 			if (err){		 	
 				obj[fct]("false 1");	 
 			}else if (results[0]){
-				var query =  { pseudo:'parisVainqueursEuro2016' };
+				var query =  { pseudo: { "$in": [ "ADMIN", "parisVainqueursEuro2016" ] }};
 				//query[''+results[0].pseudo+'.VAINQUEURSEURO2016'] = {'$exists' : true};
 				collection.find(query).toArray(function(err, results2) {
 				if (err){		 	
 					obj[fct]("false 2");	 
 				}else if (results2[0]){
-					obj[fct](results[0],results2[0]);
+					obj[fct](results[0],results2);
 				}else{		 	
 					obj[fct](query);	 
 				}

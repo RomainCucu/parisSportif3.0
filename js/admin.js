@@ -35,7 +35,7 @@
       var b = {};
       b.action = "ADMINAZEQSD_ADD_MATCH_JOUR";
       b.id_match = new Date().getTime();
-      b.affichage = true;
+      b.affichage = false;
       b.vainqueur = -20;
       b.pays1 = document.getElementById('id_pays1').value;
       b.pays2 = document.getElementById('id_pays2').value;
