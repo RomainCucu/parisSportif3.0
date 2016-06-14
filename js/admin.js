@@ -44,7 +44,7 @@
       var offset = d.getTimezoneOffset();
       d = d.getTime();
       d = d + offset*60*1000;
-      b.expireDate = d;
+      b.expireDate = document.getElementById('id_date').value;
       var r = confirm("Sûre ?");
       if (r == true) {
           obj.post(b, obj.log_callback);

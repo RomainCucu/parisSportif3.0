@@ -342,7 +342,7 @@ var remplirMatchDuJour = function(data){
 				//fin remplissage data
 
 				//on compare la date du match avec la date du pc pour bloquer les votes
-				if(data.listeMatchDuJour[key].expireDate < new Date().getTime()){
+				if(new Date(data.listeMatchDuJour[key].expireDate).getTime()+new Date(data.listeMatchDuJour[key].expireDate).getTimezoneOffset()*60000 < new Date().getTime()){
 					data.isDisabled = "disabled";					
 					document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Les votes sont clôturés !";
 					if(data.listeMatchDuJour[key].vainqueur){
@@ -354,7 +354,7 @@ var remplirMatchDuJour = function(data){
 					}
 				}else{
 					data.isDisabled ="";
-					document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Heure de la rencontre : " + new Date(data.listeMatchDuJour[key].expireDate).toString("HH:mm");
+					document.getElementById('id_expiration_match_jour_'+ref).innerHTML = "Date de la rencontre : " + (data.listeMatchDuJour[key].expireDate).toString().replace('T', ' à ');
 				}
 				//fin compare
 
