@@ -1,8 +1,3 @@
-  var arrPaysEuro = ["Albanie", "Allemagne", "Angleterre", "Autriche", "Belgique", "Croatie", "Espagne", "France", "Hongrie", "Irlande du Nord", "Islande", "Italie", "Pays de Galles", "Pologne", "Portugal", "République d'Irlande", "Rép. tchèque", "Roumanie", "Russie", "Slovaquie", "Suède", "Suisse", "Turquie", "Ukraine"];
-    for (var i in arrPaysEuro){
-      document.getElementById('id_pays1').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";
-      document.getElementById('id_pays2').innerHTML += "<option value="+i+">"+arrPaysEuro[i]+"</option>";      
-  }
   var obj = {};
   obj.post = function (data, callback) {  
     var xhr = new XMLHttpRequest();
@@ -15,25 +10,42 @@
   obj.log_callback = function () {
     if (this.readyState == 4 && this.status == 200) {
       var r = JSON.parse(this.responseText);
-      if(r.listeMatch){
-        afficherMatch(r.listeMatch);
-      }else if(r.ADMINADDMATCHDUJOUR){
-        alert('match ajouté');
-        obj.post({action:"ADMINGETDATA"},obj.log_callback);
-      }else if(r.ADMINMAJMATCHJOUR){
-        alert('MAJ ok');
-        obj.post({action:"ADMINGETDATA"},obj.log_callback);
+      if(r.categorie == "SUCCESS"){
+        if(r.suc_methode =="ADD_COMPETITION"){
+          obj.post({action:"GET_DATA",admin: true},obj.log_callback);
+        }else if(r.suc_methode == "MAJ_MATCH_JOUR"){
+          obj.post({action:"GET_DATA",admin: true},obj.log_callback);
+        }else if(r.suc_methode == "GET_DATA"){
+          if(r.data){
+            onGetData(r.data);
+          }          
+        }else if(r.suc_methode =="ADD_MATCH_JOUR"){
+          obj.post({action:"GET_DATA",admin: true},obj.log_callback);
+        }else if(r.suc_methode == "DEL_COMPETITION"){
+          obj.post({action:"GET_DATA",admin: true},obj.log_callback);
+        }else if(r.suc_methode == "ADD_TEAM"){
+          obj.post({action:"GET_DATA",admin: true},obj.log_callback);
+        }else if(r.suc_methode == "DEL_TEAM"){
+          obj.post({action:"GET_DATA",admin: true},obj.log_callback);
+        }
+
+      }else{
+        console.log('une erreur est surveneue : '+r.err_message);
+        alert("erreur");
       }
-      else{
-        alert('erreur');
-      }      
-    }
+    }   
   };
-  
+  /*****************************************************************************************
+  ******************************************************************************************
+  ********************************* SUBMIT *************************************************
+  ******************************************************************************************
+  ******************************************************************************************
+  *****************************************************************************************/
   //fonction pour ajouter un match
   document.getElementById('id_form').onsubmit = function(event){
       var b = {};
-      b.action = "ADMINAZEQSD_ADD_MATCH_JOUR";
+      b.action = "ADD_MATCH_JOUR";
+      b.admin = true;
       b.id_match = new Date().getTime();
       b.affichage = false;
       b.vainqueur = -20;
@@ -50,7 +62,105 @@
           obj.post(b, obj.log_callback);
       }
       return false;
-  };  
+  };
+  //ajouter une competition
+  document.getElementById('add_competition_form').onsubmit = function(event){
+      var b ={};
+      b.name = getElementValue('add_competition_select_name');
+      b.saison = getElementValue('add_competition_select_saison');
+      b.action = "ADD_COMPETITION";
+      b.admin = true;
+      b.id_competition = ""+(Math.floor((Math.random() * 100) + 1))*(new Date().getTime());
+      if(confirm("Valider ?")){
+        obj.post(b, obj.log_callback);
+      }
+      return false;
+  };
+  //supprimer une competition
+  document.getElementById('del_competition_form').onsubmit = function(event){
+      var b ={};
+      b.id_competition = ""+getElementValue('del_competition_select_name');      
+      b.action = "DEL_COMPETITION";
+      b.admin = true;
+      if(confirm("Valider ?")){
+        obj.post(b, obj.log_callback);
+      }
+      return false;
+  };
+
+  //ajouter une equipe
+  document.getElementById('add_team_form').onsubmit = function(event){
+      var b ={};
+      b.id_competition = ""+getElementValue('add_team_select_competition');      
+      b.action = "ADD_TEAM";
+      b.admin = true;
+      b.teams = new Array();
+      for(i in getElementValue('add_team_select_team').split(',')){
+        b.teams.push({name:getElementValue('add_team_select_team').split(',')[i].trim(),
+                      score:0});
+      }
+      if(confirm("Valider ?")){
+        obj.post(b, obj.log_callback);
+      }
+      return false;
+  };
+
+    //supprimer une equipe
+  document.getElementById('del_team_form').onsubmit = function(event){
+      var b ={};
+      b.id_competition = ""+getElementValue('del_team_select_competition');
+      b.team = ""+getElementValue('del_team_select_name');
+      b.action = "DEL_TEAM";
+      b.admin = true;
+      if(confirm("Valider ?")){
+        obj.post(b, obj.log_callback);
+      }
+      return false;
+  };
+
+/*****************************************************************************************
+******************************************************************************************
+********************************* Traitement page ****************************************
+******************************************************************************************
+******************************************************************************************
+*****************************************************************************************/
+//quand on recoit les données de la BDD
+  var onGetData = function(data){
+    //data est un tableau, d'objet de competition
+    fillSelectCompetition(data); 
+    fillSelectTeam(data);
+  }
+
+//pour remplir les select qui ont besoin de la competition
+var fillSelectCompetition = function(data){
+  document.getElementById('del_competition_select_name').innerHTML = "";
+  document.getElementById('add_team_select_competition').innerHTML = "";
+  document.getElementById('del_team_select_competition').innerHTML = "";
+  for(var i in data){
+    var text = data[i].name + " saison : "+data[i].saison;
+    document.getElementById('del_competition_select_name').innerHTML += '<option value="'+data[i].id_competition+'">'+text+'</option>';
+    document.getElementById('add_team_select_competition').innerHTML += '<option value="'+data[i].id_competition+'">'+text+'</option>';
+    document.getElementById('del_team_select_competition').innerHTML += '<option value="'+data[i].id_competition+'">'+text+'</option>';
+    document.getElementById('del_team_select_competition').onchange = function(){
+      fillSelectTeam(data);      
+    };
+  }
+};
+//les equipes pour une competition donnée
+var fillSelectTeam = function(data){
+  document.getElementById('del_team_select_name').innerHTML = "";  
+  var competitionChoisie = getElementValue('del_team_select_competition');
+  for(var i in data){
+    if(data[i].id_competition == competitionChoisie){
+      for(var j in data[i].teams){
+        var text = data[i].teams[j].name;
+        document.getElementById('del_team_select_name').innerHTML += '<option value="'+text+'">'+text+'</option>';
+      }      
+      return;
+    }    
+  }
+};
+
 
   //fonction pour afficher les matchs en bases
   var afficherMatch = function(listeMatch){
@@ -77,9 +187,9 @@
             listeMatch[key].vainqueur = document.getElementById('select_'+listeMatch[key].id_match+'').value;
             listeMatch[key].affichage = document.getElementById('checkbox'+listeMatch[key].id_match+'').checked;
         }
-        obj.post({action:"ADMINMAJMATCH", listeMatch:listeMatch},obj.log_callback);
+        obj.post({action:"MAJ_MATCH_JOUR", admin: true, listeMatch:listeMatch},obj.log_callback);
         return false;
     };   
   };
 
-  obj.post({action:"ADMINGETDATA"},obj.log_callback);
+  obj.post({action:"GET_DATA",admin: true},obj.log_callback);

@@ -77,7 +77,7 @@ get_method:
 		this.path = "." + u.path;		
 		if (this.pathname[1] == "admin.html")//pour voir dans quel page on va
 		{
-			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){
+			if(this.req.headers.cookie && this.req.headers.cookie.indexOf('adminazeqsd') != -1){
 				this.read_file();
 			}				
 			else{
@@ -124,6 +124,7 @@ go_post:
 		b = JSON.parse(b);
 		this.b = b;		
 		if(b.action == "signin") {
+			b.formLogin = b.formLogin.toUpperCase();
 			db.signin(b, this.resp);
 		}else if(b.action == "SIGNUP"){
 			if(b.uniqueKey && keySignUp.indexOf(b.uniqueKey) != -1){
@@ -134,23 +135,23 @@ go_post:
 			}else{
 				this.resp.end(JSON.stringify({etat:"signupKO",message:"key non trouvée"}));
 			}			
-		}else if (b.action == "ADMINAZEQSD_ADD_MATCH_JOUR"){
-			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){
+		}else if(b.admin){
+			if(this.req.headers.cookie.indexOf('adminazeqsd') == -1){
+				this.resp.end(JSON.stringify({message:"nocookie"}));
+			}else if(b.action == "ADD_MATCH_JOUR"){
 				db.adminAddMatchDuJour(this.resp, b);
-			}else{
-				this.resp.end(JSON.stringify({message:"nocookie"}));
-			}
-		}else if (b.action == "ADMINGETDATA"){
-			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){				
-				db.adminGetListMatchDuJour(this.resp, b);
-			}else{
-				this.resp.end(JSON.stringify({message:"nocookie"}));
-			}
-		}else if (b.action == "ADMINMAJMATCH"){
-			if(this.req.headers.cookie.indexOf('adminazeqsd') != -1){				
+			}else if(b.action == "GET_DATA"){
+				db.adminGetData(this.resp, b);
+			}else if(b.action == "MAJ_MATCH_JOUR"){
 				db.adminMajMatchJour(this.resp, b.listeMatch);
-			}else{
-				this.resp.end(JSON.stringify({message:"nocookie"}));
+			}else if(b.action == "ADD_COMPETITION"){
+				db.adminAddCompetition(this.resp, b);
+			}else if(b.action == "DEL_COMPETITION"){
+				db.adminDelCompetition(this.resp, b);
+			}else if(b.action == "ADD_TEAM"){
+				db.adminAddTeam(this.resp, b);
+			}else if(b.action == "DEL_TEAM"){
+				db.adminDelTeam(this.resp, b);
 			}
 		}else {			
 			db.valid_cookie(this.req.headers.cookie, this, "cb_cookie");
@@ -171,7 +172,7 @@ cb_cookie:
 				if(!verifPaysListeEURO(b.pays3)) b.pays3 = 1;
 				b.destinationVote = 'VAINQUEURSEURO2016';
 				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2, VOTER3EURO: b.pays3};
-				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
+				db.faireUnParis(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "VOTERGROUPEEURO"){
 				//on verifie que les pays existent
 				if(!verifPaysListeGroupeEURO(b.pays1)) b.pays1 = 1;
@@ -183,13 +184,13 @@ cb_cookie:
 				}
 				b.destinationVote = 'GROUPEEURO2016_'+b.groupe;
 				b.stockVote = {VOTER1EURO: b.pays1, VOTER2EURO: b.pays2};
-				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);
+				db.faireUnParis(this.resp, this.req.headers.cookie, b);
 			}else if(b.action == "RECUPERERINFOS"){				
 				db.getInfosViaCookieForRooter(this.req.headers.cookie, this, "RECUPERERINFOS");				
 			}else if(b.action == "VOTERMATCHDUJOUR"){				
 				b.destinationVote = 'MATCHDUJOUR_'+b._id_match;
 				b.stockVote = {VOTER1EURO:parseInt(b.pays1)};
-				db.voterVainqueurEuro(this.resp, this.req.headers.cookie, b);		
+				db.faireUnParis(this.resp, this.req.headers.cookie, b);		
 			}else{
 				util.log("INFO - Action not found : " + b.ac);
 				this.resp.end(JSON.stringify({message:"action not found"}));
@@ -294,11 +295,12 @@ var verificationFormulaireRegister = function(obj1,obj2){
 	obj1.BDyy = obj2.register_birthdate_year;
 	obj1.gender = obj2.gender;
 	obj1.avatar = obj2.avatar;
-	//date creation
+	//par défaut
+	obj1.score =0;
 	obj1.dateCreation = new Date().getTime();
 	obj1.dateDerniereConnexion = new Date().getTime();
 	obj1.cd_langue = "fr";//pour le moment, sinon à faire en fonction du navigateur
-	obj1.cd_profil = "user";
+	obj1.cd_profil = 0;//0 user, 1 admin
 	obj1.dateLock = -1;//date de blockage
 	obj1.flagLock = 0;//non bloque
 	obj1.nombreTentative = 0;//tentative MDP

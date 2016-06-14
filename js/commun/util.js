@@ -32,6 +32,16 @@ var hideShowElements = function(elementId_1, elementId_2){
     document.getElementById(elementId_2).style.display = 'none';
 };
 
+//return the value of given element id
+var getElementValue = function(elementId){
+    return document.getElementById(elementId).value;
+};
+
+//return the value of given element id
+var setElementValue = function(elementId, value){
+    document.getElementById(elementId).value = value;
+};
+
 //show administrator message at top of the page with text message and type of alert (warning, success...)
 var showAdminMessage = function(message, type){
     var str = "";

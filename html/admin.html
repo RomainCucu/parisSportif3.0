@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../images/Euro2016.ico">
 
-    <title>Accueil</title>
+    <title>Admin</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,85 @@
 </head>
 
 <body class="container-fluid">
-
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- ajout /suppression competition -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Ajout d'une compétition</h1>
+      <form role="form" id="add_competition_form">
+        <div class="form-group">
+          <label for="add_competition_select_name">Nom de la competition:</label>
+          <input type="text" class="form-control" id="add_competition_select_name" required>
+          </input>
+        </div>
+        <div class="form-group">
+          <label for="add_competition_select_saison">Saison:</label>
+          <input type="text" class="form-control" id="add_competition_select_saison" required>
+          </input>
+        </div>
+        <button type="submit" class="btn btn-default">Ajouter !</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h1>Suppression d'une compétition</h1>
+      <form role="form" id="del_competition_form">
+        <div class="form-group">
+          <label for="del_competition_select_name">Nom de la competition:</label>
+          <select type="text" class="form-control" id="del_competition_select_name" required>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-default">Supprimer !</button>
+      </form>
+    </div>
+  </div>
+  <hr>
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- ajout /suppression equipes -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Ajout des equipes: </h1>
+      <form role="form" id="add_team_form">
+        <div class="form-group">
+          <label for="add_team_select_competition">Nom de la competition:</label>
+          <select type="text" class="form-control" id="add_team_select_competition" required>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="add_team_select_team">Nom des équipes: <small>(séparés avec des virgules)</small></label>
+          <input type="text" class="form-control" id="add_team_select_team" required>
+          </input>
+        </div>
+        <button type="submit" class="btn btn-default">Ajouter !</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h1>Suppression d'une équipe:</h1>
+      <form role="form" id="del_team_form">
+        <div class="form-group">
+          <label for="del_team_select_competition">Nom de la competition:</label>
+          <select type="text" class="form-control" id="del_team_select_competition" required>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="del_team_select_name">Nom de l'équipe:</label>
+          <select type="text" class="form-control" id="del_team_select_name" required>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-default">Supprimer !</button>
+      </form>
+    </div>
+  </div>
+  <hr>
 
   <div class="row">
     <form role="form" class="col-md-6" id="id_form">
@@ -60,6 +138,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="../js/commun/util.js"></script>
     <script src="../js/admin.js"></script>
 </body>
 
