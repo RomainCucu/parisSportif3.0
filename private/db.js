@@ -274,37 +274,7 @@ exports.faireUnParis = function(res, c, b){
 *********************************************************************************************************************************
 */
 
-//admin :ajouter un match
-exports.adminAddMatchDuJour = function(res, b){
-	var NOM_METHODE = "ADD_MATCH_JOUR";	
-		MongoClient.connect(ID_MONGO, function(err, db) {
-		    if(err){
-		    	throw err;
-		    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
-		    }else{
-		    	var collection = db.collection(COLLECTIONNAME);
-		    	collection.update({pseudo:"parisVainqueursEuro2016"},
-		    		{
-		    			$push:{listeMatchDuJour:b}
-		    		},
-		    		{upsert:false},
-		    		function(err, doc){
-		    			if (err){
-							throw err;
-							res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:"erreur ajout match du jour"}));
-						}
-						else if (doc){
-							res.writeHead(200, {"Content-Type": "'text/plain'"});					
-							res.end(JSON.stringify({categorie:CATEGORIE_OK, suc_methode: NOM_METHODE, message:"ajout du match du jour ok"}));											
-						}else{
-							res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:"erreur ajout match du jour"}));
-						}
-		    		}
-		    	);
-		}
-	});
-};
-//admin : recup liste match
+//admin : recupere toutes les competitions et leurs données
 exports.adminGetData = function(res,b){
 	var NOM_METHODE = "GET_DATA";	
 		MongoClient.connect(ID_MONGO, function(err, db) {
@@ -330,37 +300,6 @@ exports.adminGetData = function(res,b){
 	});
 };
 
-//admin fonction pour mettre ajour les match
-exports.adminMajMatchJour = function (res, listeMatch){
-	var NOM_METHODE = "MAJ_MATCH_JOUR";	
-		MongoClient.connect(ID_MONGO, function(err, db) {
-		    if(err){
-		    	throw err;
-		    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
-		    }else{
-		    	var collection = db.collection(COLLECTIONNAME);
-		    	collection.update({pseudo:"parisVainqueursEuro2016"},
-		    		{
-		    			$set:{listeMatchDuJour:listeMatch}
-		    		},
-		    		{upsert:false},
-		    		function(err, doc){
-		    			if (err){
-							throw err;
-							res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:'erreur maj match'}));
-						}
-						else if (doc){
-							res.writeHead(200, {"Content-Type": "'text/plain'"});					
-							res.end(JSON.stringify({categorie:CATEGORIE_OK, suc_methode: NOM_METHODE, message:"maj des matchs ok"}));
-						}else{
-							res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:'erreur maj match'}));
-						}
-		    		}
-		    	);
-		}
-	});
-};
-
 //ajouter competition
 exports.adminAddCompetition = function(res, obj){
 		var NOM_METHODE = "ADD_COMPETITION";
@@ -376,7 +315,9 @@ exports.adminAddCompetition = function(res, obj){
 		    			$set:{
 		    				name: obj.name,
 		    				saison: obj.saison,
-		    				id_competition: obj.id_competition
+		    				id_competition: obj.id_competition,
+		    				sport:obj.sport,
+		    				journee:obj.journee
 		    			}
 		    		},
 		    		{upsert:true},
@@ -455,7 +396,7 @@ exports.adminDelTeam = function(res, obj){
 		    }else{
 		    	var collection = db.collection(COLLECTION_COMPETITION);
 		    	collection.update({id_competition:obj.id_competition},
-		    		{ $pull: { teams: { name:obj.team } } },
+		    		{ $pull: { teams: { id_team:obj.id_team } } },
 		    		function(err, doc){
 		    			if (err){
 							throw err;
@@ -463,6 +404,58 @@ exports.adminDelTeam = function(res, obj){
 						}
 						else{											
 							res.end(JSON.stringify({categorie:CATEGORIE_OK, suc_methode: NOM_METHODE, message:"suppression equipe ok"}));
+						}
+		    		}
+		    	);
+		}
+	});
+};
+
+//ajouter un match
+exports.adminAddMatch = function(res, obj){
+	var NOM_METHODE = "ADD_MATCH";
+		res.writeHead(200, {"Content-Type": "'text/plain'"});
+		MongoClient.connect(ID_MONGO, function(err, db) {
+		    if(err){
+		    	throw err;
+		    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
+		    }else{
+		    	var collection = db.collection(COLLECTION_COMPETITION);
+		    	collection.update({id_competition:obj.id_competition},
+		    		{ $push: { matchs: { $each: obj.matchs } } },
+		    		function(err, doc){
+		    			if (err){
+							throw err;
+							res.end(JSON.stringify({categorie:CATEGORIE_ERREUR, err_methode: NOM_METHODE, err_ligne: "2", err_message:"ajout match echec"}));
+						}
+						else{											
+							res.end(JSON.stringify({categorie:CATEGORIE_OK, suc_methode: NOM_METHODE, message:"ajout match ok"}));
+						}
+		    		}
+		    	);
+		}
+	});
+};
+
+//supprimer un match
+exports.adminDelMatch = function(res, obj){
+	var NOM_METHODE = "DEL_MATCH";
+		res.writeHead(200, {"Content-Type": "'text/plain'"});
+		MongoClient.connect(ID_MONGO, function(err, db) {
+		    if(err){
+		    	throw err;
+		    	res.end(JSON.stringify({categorie:CATEGORIE_ERREUR,err_methode: NOM_METHODE, err_ligne: "1", err_message:ERR_CONNECTION_BASE}));
+		    }else{
+		    	var collection = db.collection(COLLECTION_COMPETITION);
+		    	collection.update({id_competition:obj.id_competition},
+		    		{ $pull: { matchs: { id_match:obj.id_match } } },
+		    		function(err, doc){
+		    			if (err){
+							throw err;
+							res.end(JSON.stringify({categorie:CATEGORIE_ERREUR, err_methode: NOM_METHODE, err_ligne: "2", err_message:"suppression match echec"}));
+						}
+						else{											
+							res.end(JSON.stringify({categorie:CATEGORIE_OK, suc_methode: NOM_METHODE, message:"suppression match ok"}));
 						}
 		    		}
 		    	);

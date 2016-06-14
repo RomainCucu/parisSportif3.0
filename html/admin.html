@@ -47,6 +47,19 @@
           <input type="text" class="form-control" id="add_competition_select_saison" required>
           </input>
         </div>
+        <div class="form-group">
+          <label for="add_competition_select_journee">Nombre de journées <small>(saisir 0 si aucune):</small></label>
+          <input type="number" class="form-control" id="add_competition_select_journee" required>
+          </input>
+        </div>
+        <div class="form-group">
+          <label for="add_competition_select_sport">Sport:</label>
+          <select type="text" class="form-control" id="add_competition_select_sport" required>
+            <option value="football">Football</option>
+            <option value="basketball">Basket Ball</option>
+            <option value="tennis">Tennis</option>
+          </select>
+        </div>
         <button type="submit" class="btn btn-default">Ajouter !</button>
       </form>
     </div>
@@ -81,8 +94,8 @@
         </div>
         <div class="form-group">
           <label for="add_team_select_team">Nom des équipes: <small>(séparés avec des virgules)</small></label>
-          <input type="text" class="form-control" id="add_team_select_team" required>
-          </input>
+          <textarea type="text" class="form-control" id="add_team_select_team" required>
+          </textarea>
         </div>
         <button type="submit" class="btn btn-default">Ajouter !</button>
       </form>
@@ -105,39 +118,93 @@
     </div>
   </div>
   <hr>
-
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- ajout /suppression matchs -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
   <div class="row">
-    <form role="form" class="col-md-6" id="id_form">
-    <div class="form-group">
-      <label for="id_pays1">Pays 1</label>
-      <select type="text" class="form-control" id="id_pays1">
-      </select>
+    <div class="col-md-6">
+      <h1>Ajout d'un match: </h1>
+      <form role="form" id="add_match_form">
+        <div class="form-group">
+          <label for="add_match_select_competition">Nom de la competition:</label>
+          <select type="text" class="form-control" id="add_match_select_competition" required>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="add_match_select_team_1">Nom equipe 1:</label>
+          <select type="text" class="form-control" id="add_match_select_team_1" required>
+          </select>
+        </div>
+         <div class="form-group">
+          <label for="add_match_select_team_2">Nom equipe 2:</label>
+          <select type="text" class="form-control" id="add_match_select_team_2" required>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="add_match_select_time">Date du match:</label>
+          <input type="datetime-local" class="form-control" id="add_match_select_time" required>
+          </input>
+        </div>
+        <div class="form-group">
+          <label for="add_match_select_journee">Journée du match<small> (choisir 0 si pas de journée)</small>:</label>
+          <select type="number" class="form-control" id="add_match_select_journee" required>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-default">Ajouter !</button>
+      </form>
     </div>
-    <div class="form-group">
-      <label for="id_pays2">Pays 2</label>
-      <select type="text" class="form-control" id="id_pays2">
-      </select>
+    <div class="col-md-6">
+      <h1>Suppression d'un match:</h1>
+      <form role="form" id="del_match_form">
+        <div class="form-group">
+          <label for="del_match_select_competition">Nom de la competition:</label>
+          <select type="text" class="form-control" id="del_match_select_competition" required>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="del_match_select_name">Nom et date du match <small>(yyyy-MM-dd HH:mm)</small>:</label>
+          <select type="text" class="form-control" id="del_match_select_name" required>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-default">Supprimer !</button>
+      </form>
     </div>
-    <div class="form-group">
-      <label for="id_points">Nombre de points</label>
-      <input type="number" class="form-control" id="id_points" required>
-    </div>
-    <div class="form-group">
-      <label for="id_date">Date</label>
-      <input type="datetime-local" name="rdv" class="form-control" id="id_date" required>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-  </form>
-
-  <form role="form" class="col-md-6" id="id_form_maj">
-  </form>
-
-</div>
+  </div>
+  <hr>
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- modal chargement GiF animé -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Attendre le chargement !</h4>
+      </div>
+      <div class="modal-body text-center">
+        <img src="../images/ajax-loader-mid.gif" style="height:auto; width:auto; ">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>        
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
     <script src="../dist/js/sb-admin-2-js/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../dist/js/bootstrap.min.js"></script>
+
+    <script src="../js/commun/date.js"></script>
     <script src="../js/commun/util.js"></script>
     <script src="../js/admin.js"></script>
 </body>

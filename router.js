@@ -152,6 +152,10 @@ go_post:
 				db.adminAddTeam(this.resp, b);
 			}else if(b.action == "DEL_TEAM"){
 				db.adminDelTeam(this.resp, b);
+			}else if(b.action == "ADD_MATCH"){
+				db.adminAddMatch(this.resp, b);
+			}else if(b.action == "DEL_MATCH"){
+				db.adminDelMatch(this.resp, b);
 			}
 		}else {			
 			db.valid_cookie(this.req.headers.cookie, this, "cb_cookie");
